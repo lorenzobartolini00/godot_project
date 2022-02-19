@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://scripts/ammos/projectile_ammo.gd" type="Script" id=1]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource( 1 )
+name = "pistol_ammo"
+is_unique = true
+max_quantity = 10
+tipology = 1
+current_ammo = 5
+max_ammo = 5
+slots = 4
+recharge_per_slot = 5

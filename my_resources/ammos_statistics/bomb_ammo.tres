@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://scripts/ammos/area_ammo.gd" type="Script" id=1]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource( 1 )
+name = "explosive_barrel_ammo"
+is_unique = false
+max_quantity = 0
+tipology = 1
+current_ammo = 1
+max_ammo = 1

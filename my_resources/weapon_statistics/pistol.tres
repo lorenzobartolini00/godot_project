@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scripts/weapons/projectile_weapon.gd" type="Script" id=1]
+[ext_resource path="res://my_resources/ammos_statistics/pistol_ammo.tres" type="Resource" id=2]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource( 1 )
+name = "pistol"
+is_unique = true
+max_quantity = 0
+tipology = 0
+damage = 1
+ammo = ExtResource( 2 )
+reload_time = 1.0
+shoot_time = 0.5
+max_distance = 6.0
+can_shoot = true
