@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/collectable/collectable.gd" type="Script" id=1]
+[ext_resource path="res://my_resources/weapon_statistics/pistol.tres" type="Resource" id=2]
+
+[sub_resource type="CubeMesh" id=41]
+size = Vector3( 0.1, 0.3, 1.3 )
+
+[sub_resource type="SpatialMaterial" id=42]
+albedo_color = Color( 1, 0.141176, 0.662745, 1 )
+
+[sub_resource type="BoxShape" id=43]
+extents = Vector3( 0.14948, 0.339303, 1.01389 )
+
+[node name="Weapon" type="Area"]
+script = ExtResource( 1 )
+item = ExtResource( 2 )
+quantity = 1
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 41 )
+material/0 = SubResource( 42 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 43 )
