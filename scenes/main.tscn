@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://nodes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://nodes/statistics_UI.tscn" type="PackedScene" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://my_resources/weapon_statistics/shot_gun.tres" type="Resource" id=17]
 [ext_resource path="res://my_resources/ammos_statistics/shotgun_ammo.tres" type="Resource" id=18]
 [ext_resource path="res://my_resources/ammos_statistics/minigun_ammo.tres" type="Resource" id=19]
+[ext_resource path="res://icon.png" type="Texture" id=20]
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 10, 10 )
@@ -137,6 +138,31 @@ resource_local_to_scene = true
 script = ExtResource( 3 )
 current_gameplay_state = 0
 
+[sub_resource type="Resource" id=56]
+resource_local_to_scene = true
+script = ExtResource( 12 )
+name = "pistol_ammo"
+is_unique = false
+max_quantity = 6
+tipology = 1
+current_ammo = 8
+max_ammo = 8
+
+[sub_resource type="Resource" id=57]
+resource_local_to_scene = true
+script = ExtResource( 13 )
+name = "pistol"
+avatar = ExtResource( 20 )
+is_unique = true
+max_quantity = 0
+tipology = 0
+damage = 1
+ammo = SubResource( 56 )
+reload_time = 1.0
+shoot_time = 0.5
+max_distance = 6.0
+is_shoot_timer_timeout = true
+
 [node name="Main" type="Spatial"]
 script = ExtResource( 6 )
 _initial_weapon = ExtResource( 11 )
@@ -197,6 +223,7 @@ _runtime_data = SubResource( 33 )
 
 [node name="Pistol" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, 0 )
+item = SubResource( 57 )
 
 [node name="Shotgun" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, 3 )

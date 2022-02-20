@@ -6,7 +6,7 @@
 script = ExtResource( 1 )
 name = "minigun_ammo"
 is_unique = false
-max_quantity = 20
+max_quantity = 15
 tipology = 1
 current_ammo = 50
-max_ammo = 300
+max_ammo = 50
