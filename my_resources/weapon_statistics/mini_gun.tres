@@ -1,12 +1,14 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://scripts/weapons/projectile_weapon.gd" type="Script" id=1]
 [ext_resource path="res://my_resources/ammos_statistics/minigun_ammo.tres" type="Resource" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource( 1 )
 name = "minigun"
+avatar = ExtResource( 3 )
 is_unique = true
 max_quantity = 0
 tipology = 0

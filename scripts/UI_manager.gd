@@ -6,6 +6,9 @@ export(NodePath) onready var _weapon_label = get_node(_weapon_label) as Label
 export(NodePath) onready var _warning_label = get_node(_warning_label) as Label
 
 export(NodePath) onready var _warning_animation_player = get_node(_warning_animation_player) as AnimationPlayer
+export(NodePath) onready var _weapon_grid_container = get_node(_weapon_grid_container) as GridContainer
+
+onready var item_UI = preload("res://nodes/item_UI.tscn")
 
 
 func _ready():
@@ -15,6 +18,8 @@ func _ready():
 	GameEvents.connect("life_changed", self, "_on_life_changed")
 	GameEvents.connect("ammo_changed", self, "_on_ammo_changed")
 	GameEvents.connect("weapon_changed", self, "_on_weapon_changed")
+	
+	GameEvents.connect("show_weapon_list", self, "_on_show_weapon_list")
 	
 
 
@@ -37,6 +42,15 @@ func _on_weapon_changed(_weapon: Weapon, character: Character):
 			set_weapon_text(String(_weapon.name))
 		else:
 			set_weapon_text(String("No weapon"))
+
+
+func _on_show_weapon_list(_weapon_list: Array) -> void:
+	for _weapon_item in _weapon_list:
+		var _weapon = _weapon_item.item_reference as Weapon
+		
+		var _item_UI = item_UI.instance() as ItemUI
+		_item_UI.setup(_weapon.get_avatar(), _weapon.name)
+		_weapon_grid_container.add_child(_item_UI)
 
 
 func _on_warning(_text: String) -> void:

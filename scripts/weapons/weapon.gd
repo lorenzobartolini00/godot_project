@@ -7,6 +7,8 @@ export(int) var damage
 export(Resource) var ammo = ammo as Ammo
 
 
+
+
 func set_ammo(_ammo: Ammo) -> void:
 	ammo = _ammo
 

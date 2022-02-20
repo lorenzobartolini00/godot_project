@@ -64,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/inventory_system/item.gd"
 }, {
+"base": "MarginContainer",
+"class": "ItemUI",
+"language": "GDScript",
+"path": "res://scripts/item_UI.gd"
+}, {
 "base": "Node",
 "class": "Manager",
 "language": "GDScript",
@@ -131,6 +136,7 @@ _global_script_class_icons={
 "Exploadable": "",
 "Inventory": "",
 "Item": "",
+"ItemUI": "",
 "Manager": "",
 "Player": "",
 "ProjectileAmmo": "",
