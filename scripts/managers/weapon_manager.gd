@@ -9,7 +9,7 @@ var current_weapon_index: int
 
 func change_weapon(shift: int) ->void:
 	var _current_weapon: Weapon = character.get_current_weapon()
-	var _weapon_list: Array = get_weapon_list()
+	var _weapon_list: Array = _get_weapon_list()
 	
 	var _current_weapon_index: int
 	
@@ -25,7 +25,7 @@ func change_weapon(shift: int) ->void:
 	GameEvents.emit_signal("weapon_changed", character.get_current_weapon(), character)
 
 
-func get_weapon_list() -> Array:
+func _get_weapon_list() -> Array:
 	var _weapon_list: Array
 	
 	var player = character
@@ -38,11 +38,13 @@ func get_weapon_list() -> Array:
 	return _weapon_list
 
 
-func drop_weapon() -> void:
-	_change_current_weapon(null)
+#func drop_weapon() -> void:
+#	character.set_current_weapon(null)
+#	GameEvents.emit_signal("ammo_changed", null, character)
+#	GameEvents.emit_signal("weapon_changed", null, character)
 
 
 func _change_current_weapon(_new_current_weapon: Weapon):
 	character.set_current_weapon(_new_current_weapon)
-	GameEvents.emit_signal("ammo_changed", null, character)
-	GameEvents.emit_signal("weapon_changed", null, character)
+	
+	character.ammo_manager.set_ammo()

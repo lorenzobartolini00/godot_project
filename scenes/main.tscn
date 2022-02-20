@@ -51,7 +51,7 @@ ammo = SubResource( 44 )
 reload_time = 3.0
 shoot_time = 2.0
 max_distance = 2.0
-can_shoot = true
+is_shoot_timer_timeout = true
 
 [sub_resource type="Resource" id=46]
 resource_local_to_scene = true
@@ -102,7 +102,7 @@ ammo = SubResource( 47 )
 reload_time = 1.0
 shoot_time = 0.5
 max_distance = 6.0
-can_shoot = true
+is_shoot_timer_timeout = true
 
 [sub_resource type="Resource" id=50]
 resource_local_to_scene = true
@@ -148,7 +148,7 @@ ammo = SubResource( 52 )
 reload_time = 3.0
 shoot_time = 2.0
 max_distance = 2.0
-can_shoot = true
+is_shoot_timer_timeout = true
 
 [sub_resource type="Resource" id=54]
 resource_local_to_scene = true
@@ -266,4 +266,16 @@ mesh = SubResource( 41 )
 material/0 = SubResource( 42 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Ammo"]
+shape = SubResource( 43 )
+
+[node name="Ammo2" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0 )
+script = ExtResource( 15 )
+item = ExtResource( 18 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ammo2"]
+mesh = SubResource( 41 )
+material/0 = SubResource( 42 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Ammo2"]
 shape = SubResource( 43 )

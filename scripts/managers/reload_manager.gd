@@ -12,29 +12,32 @@ func _ready():
 	_reload_timer.connect("timeout", self, "_on_reload_timer_timeout")
 
 
-func can_reload() -> bool:
+func _can_reload() -> bool:
+	var _is_left_in_stock = true
+	if character is Player:
+	 _is_left_in_stock = character.ammo_manager.is_left_in_stock()
+	var is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 	
-	return character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
+	return is_freewalk_state and _is_left_in_stock
 
 
 func need_reload():
-	
 	if character.get_current_weapon():
 		if character.get_current_weapon().get_ammo():
 			return character.get_current_weapon().get_ammo().current_ammo == 0
 
 
 func reload() -> void:
-	var _current_weapon = character.get_current_weapon()
-	if _current_weapon:
-		character.get_runtime_data().save_current_state()
-		GameEvents.emit_signal("reload", character)
-		print(character.name + " is reloading...")
-		
-		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.RELOADING
-		
-		_reload_timer.wait_time = character.get_current_weapon().reload_time
-		_reload_timer.start()
+	if _can_reload():
+		var _current_weapon = character.get_current_weapon()
+		if _current_weapon:
+			GameEvents.emit_signal("reload", character)
+			print(character.name + " is reloading...")
+			
+			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.RELOADING
+			
+			_reload_timer.wait_time = character.get_current_weapon().reload_time
+			_reload_timer.start()
 
 
 func _on_reload_timer_timeout():
@@ -44,7 +47,8 @@ func _on_reload_timer_timeout():
 		
 		if _ammo:
 			_ammo.current_ammo = _ammo.max_ammo
+			character.ammo_manager.consume_ammo()
 			GameEvents.emit_signal("ammo_changed", _ammo, character)
 		
-			character.get_runtime_data().load_last_state()
+			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
 			print(character.name + " finished reloading")

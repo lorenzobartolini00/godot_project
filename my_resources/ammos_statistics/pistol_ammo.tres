@@ -6,7 +6,7 @@
 resource_local_to_scene = true
 script = ExtResource( 1 )
 name = "pistol_ammo"
-is_unique = true
+is_unique = false
 max_quantity = 10
 tipology = 1
 current_ammo = 5

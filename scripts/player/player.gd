@@ -24,12 +24,12 @@ func _physics_process(delta):
 func _input(event) -> void:
 	aim(event)
 		
-	if shoot_manager.can_shoot() and Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot"):
 		shoot_manager.shoot(shooting_raycast)
-	elif reload_manager.can_reload() and Input.is_action_just_pressed("reload"):
+	elif Input.is_action_just_pressed("reload"):
 		reload_manager.reload()
-	elif Input.is_action_just_pressed("drop_weapon"):
-		weapon_manager.drop_weapon()
+#	elif Input.is_action_just_pressed("drop_weapon"):
+#		weapon_manager.drop_weapon()
 	
 	if Input.is_action_just_pressed("change_weapon"):
 		weapon_manager.change_weapon(1)

@@ -34,6 +34,7 @@ func add_item(item: Item):
 			continue
 		
 		inventory_item.quantity = min(inventory_item.quantity + 1, _max_quantity)
+		
 		_already_here = true
 	
 	if not _already_here:
@@ -41,13 +42,22 @@ func add_item(item: Item):
 			item_reference = item,
 			quantity = 1
 		}
+		print("Found new item: %s" % new_item.item_reference.name)
 		
 		page.append(new_item)
 	
 	GameEvents.emit_signal("inventory_changed", self)
 
 
+#Debug function
 func show_inventory() -> void:
+	var index_page: int = 0
 	for page in _items:
+		match index_page:
+			Enums.ItemTipology.WEAPON:
+				print("Weapons:")
+			Enums.ItemTipology.AMMO:
+				print("Ammos:")
+		
 		for item in page:
-			print(item.item_reference.name)
+			print("item: %s, quantity: %s" % [item.item_reference.name, String(item.quantity)])

@@ -15,4 +15,4 @@ ammo = ExtResource( 2 )
 reload_time = 1.0
 shoot_time = 0.5
 max_distance = 6.0
-can_shoot = true
+is_shoot_timer_timeout = true

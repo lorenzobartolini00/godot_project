@@ -22,7 +22,7 @@ func _on_hit(area_hit: Shootable, weapon: Weapon) -> void:
 		var _life: int = character.get_current_life()
 		character.set_current_life(_life - weapon.damage)
 		
-		print(character.name + " has take damage. Life:" + String(character.get_current_life()))
+		print(character.name + " has take damage. Weapon: %s, Life: %s" % [String(character.get_current_weapon().name), String(character.get_current_life())])
 		GameEvents.emit_signal("life_changed", character.get_current_life(), character)
 		
 		if character.get_current_life() <= 0 and character.get_is_alive():
