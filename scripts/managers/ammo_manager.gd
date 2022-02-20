@@ -16,7 +16,7 @@ func set_ammo():
 			continue
 		
 		_new_ammo = _ammo.item_reference
-		print("found_ammo. Current_ammo: %s" % _new_ammo.current_ammo)
+#		print("found_ammo. Current_ammo: %s" % _new_ammo.current_ammo)
 	
 	character.get_current_weapon().set_ammo(_new_ammo)
 	
@@ -51,6 +51,10 @@ func consume_ammo() -> void:
 			continue
 		
 		_ammo.quantity = max(_ammo.quantity - 1, 0)
+		
+		if character.is_in_group("player"):
+			GameEvents.emit_inventory_changed(character.inventory)
+		
 		GameEvents.emit_signal("ammo_changed", character.get_current_weapon().get_ammo(), character)
 
 

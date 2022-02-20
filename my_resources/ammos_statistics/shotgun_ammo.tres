@@ -6,9 +6,7 @@
 script = ExtResource( 1 )
 name = "shotgun_ammo"
 is_unique = false
-max_quantity = 0
+max_quantity = 10
 tipology = 1
-current_ammo = 5
-max_ammo = 25
-slots = 5
-recharge_per_slot = 5
+current_ammo = 2
+max_ammo = 2

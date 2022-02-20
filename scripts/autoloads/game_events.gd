@@ -17,3 +17,6 @@ signal show_weapon_list(weapon_list)
 signal inventory_changed(inventory)
 
 signal died
+
+func emit_inventory_changed(inventory: Inventory) -> void:
+	call_deferred("emit_signal", "inventory_changed", inventory)

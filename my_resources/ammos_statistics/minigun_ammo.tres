@@ -10,5 +10,3 @@ max_quantity = 20
 tipology = 1
 current_ammo = 50
 max_ammo = 300
-slots = 6
-recharge_per_slot = 50

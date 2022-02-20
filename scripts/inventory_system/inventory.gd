@@ -47,8 +47,7 @@ func add_item(item: Item, quantity: int):
 		
 		page.append(new_item)
 	
-	GameEvents.emit_signal("inventory_changed", self)
-
+	GameEvents.emit_inventory_changed(self)
 
 
 #Debug function
