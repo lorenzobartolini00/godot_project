@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/foamBulletA.glb-6517c42be6787695bcced99a013ade61.scn"
+path="res://.import/foamBulletA.glb-b60550517a857cce4e9a4a6a5a11a972.scn"
 
 [deps]
 
-source_file="res://assets/kenney_blasterkit/Models/GLTF format/foamBulletA.glb"
-dest_files=[ "res://.import/foamBulletA.glb-6517c42be6787695bcced99a013ade61.scn" ]
+source_file="res://assets/kenney_blasterkit/foamBulletA.glb"
+dest_files=[ "res://.import/foamBulletA.glb-b60550517a857cce4e9a4a6a5a11a972.scn" ]
 
 [params]
 

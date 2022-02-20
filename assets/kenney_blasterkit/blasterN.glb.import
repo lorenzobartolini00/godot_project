@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/blasterN.glb-09e3f3d5d08b4fc68d3807971d08da71.scn"
+path="res://.import/blasterN.glb-00e740beff872bfcfc72bb3be2b3cd12.scn"
 
 [deps]
 
-source_file="res://assets/kenney_blasterkit/Models/GLTF format/blasterN.glb"
-dest_files=[ "res://.import/blasterN.glb-09e3f3d5d08b4fc68d3807971d08da71.scn" ]
+source_file="res://assets/kenney_blasterkit/blasterN.glb"
+dest_files=[ "res://.import/blasterN.glb-00e740beff872bfcfc72bb3be2b3cd12.scn" ]
 
 [params]
 

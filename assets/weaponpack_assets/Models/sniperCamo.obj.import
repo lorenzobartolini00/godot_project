@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/sniperCamo.obj-2164a4162ff459a935a77163ab511e18.mesh"
+
+[deps]
+
+files=[ "res://.import/sniperCamo.obj-2164a4162ff459a935a77163ab511e18.mesh" ]
+
+source_file="res://assets/weaponpack_assets/Models/sniperCamo.obj"
+dest_files=[ "res://.import/sniperCamo.obj-2164a4162ff459a935a77163ab511e18.mesh", "res://.import/sniperCamo.obj-2164a4162ff459a935a77163ab511e18.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286
