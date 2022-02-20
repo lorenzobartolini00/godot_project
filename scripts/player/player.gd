@@ -15,10 +15,11 @@ export(Resource) var inventory = inventory as Inventory
 
 func _ready() -> void:
 	self._move_speed = statistics.speed
-#	GameEvents.emit_signal("collected", self.get_current_weapon(), 1)
 	
 	GameEvents.connect("collected", self, "_on_collected")
 	GameEvents.connect("found_new_item", self, "_on_new_item_found")
+	
+	GameEvents.emit_signal("collected", self.get_current_weapon(), 1)
 
 func _physics_process(delta):
 	movement(delta)
@@ -51,7 +52,7 @@ func _on_new_item_found(_new_item: Item):
 		#Aggiungo nell'inventario lo slot vuoto per le munizioni
 		inventory.add_item(_new_item.get_ammo(), 0)
 		
-		#Seleziono la nuova arma raccolto come quella corrente
+		#Seleziono la nuova arma raccolta come quella corrente
 		weapon_manager.change_current_weapon(_new_item)
 
 
