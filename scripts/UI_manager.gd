@@ -3,9 +3,14 @@ extends Control
 export(NodePath) onready var _ammo_label = get_node(_ammo_label) as Label
 export(NodePath) onready var _life_label = get_node(_life_label) as Label
 export(NodePath) onready var _weapon_label = get_node(_weapon_label) as Label
+export(NodePath) onready var _warning_label = get_node(_warning_label) as Label
+
+export(NodePath) onready var _warning_animation_player = get_node(_warning_animation_player) as AnimationPlayer
+
 
 func _ready():
 	GameEvents.connect("reload", self, "_on_reloading")
+	GameEvents.connect("warning", self, "_on_warning")
 	
 	GameEvents.connect("life_changed", self, "_on_life_changed")
 	GameEvents.connect("ammo_changed", self, "_on_ammo_changed")
@@ -32,6 +37,12 @@ func _on_weapon_changed(_weapon: Weapon, character: Character):
 			set_weapon_text(String(_weapon.name))
 		else:
 			set_weapon_text(String("No weapon"))
+
+
+func _on_warning(_text: String) -> void:
+	_warning_label.text = _text
+	if not _warning_animation_player.is_playing():
+		_warning_animation_player.play("warning")
 
 
 func _on_reloading(character: Character):

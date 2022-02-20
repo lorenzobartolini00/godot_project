@@ -7,7 +7,7 @@ var weapon_list: Array
 var current_weapon_index: int
 
 
-func change_weapon(shift: int) ->void:
+func shift_current_weapon(shift: int) ->void:
 	var _current_weapon: Weapon = character.get_current_weapon()
 	var _weapon_list: Array = _get_weapon_list()
 	
@@ -21,8 +21,8 @@ func change_weapon(shift: int) ->void:
 	
 	var next_index: int = (_current_weapon_index + shift) % _weapon_list.size()
 	
-	_change_current_weapon(_weapon_list[next_index].item_reference)
-	GameEvents.emit_signal("weapon_changed", character.get_current_weapon(), character)
+	change_current_weapon(_weapon_list[next_index].item_reference)
+	
 
 
 func _get_weapon_list() -> Array:
@@ -44,7 +44,8 @@ func _get_weapon_list() -> Array:
 #	GameEvents.emit_signal("weapon_changed", null, character)
 
 
-func _change_current_weapon(_new_current_weapon: Weapon):
+func change_current_weapon(_new_current_weapon: Weapon):
 	character.set_current_weapon(_new_current_weapon)
+	GameEvents.emit_signal("weapon_changed", character.get_current_weapon(), character)
 	
 	character.ammo_manager.set_ammo()

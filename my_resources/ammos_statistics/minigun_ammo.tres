@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://scripts/ammos/projectile_ammo.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "minigun_ammo"
+is_unique = false
+max_quantity = 20
+tipology = 1
+current_ammo = 50
+max_ammo = 300
+slots = 6
+recharge_per_slot = 50

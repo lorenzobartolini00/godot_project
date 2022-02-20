@@ -13,7 +13,7 @@ func get_items() -> Array:
 	return _items
 
 
-func add_item(item: Item):
+func add_item(item: Item, quantity: int):
 	var _max_quantity = item.max_quantity if not item.is_unique else 1
 	var _already_here: bool = false
 	
@@ -33,25 +33,28 @@ func add_item(item: Item):
 		if inventory_item.item_reference.name != item.name:
 			continue
 		
-		inventory_item.quantity = min(inventory_item.quantity + 1, _max_quantity)
+		inventory_item.quantity = min(inventory_item.quantity + quantity, _max_quantity)
 		
 		_already_here = true
 	
 	if not _already_here:
 		var new_item = {
 			item_reference = item,
-			quantity = 1
+			quantity = min(quantity, _max_quantity)
 		}
 		print("Found new item: %s" % new_item.item_reference.name)
+		GameEvents.emit_signal("found_new_item", new_item.item_reference)
 		
 		page.append(new_item)
 	
 	GameEvents.emit_signal("inventory_changed", self)
 
 
+
 #Debug function
 func show_inventory() -> void:
 	var index_page: int = 0
+	
 	for page in _items:
 		match index_page:
 			Enums.ItemTipology.WEAPON:
@@ -61,3 +64,5 @@ func show_inventory() -> void:
 		
 		for item in page:
 			print("item: %s, quantity: %s" % [item.item_reference.name, String(item.quantity)])
+		
+		index_page += 1

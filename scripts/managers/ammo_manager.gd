@@ -57,11 +57,11 @@ func consume_ammo() -> void:
 func _get_ammo_list() -> Array:
 	var _ammo_list: Array
 	
-	var player = character
-	if player:
-		var inventory: Inventory = player.get_inventory()
+	if character.is_in_group("player"):
+		var inventory: Inventory = character.get_inventory()
 		
 		var _items: Array = inventory.get_items()
+		
 		_ammo_list = _items[Enums.ItemTipology.AMMO]
 		
 	return _ammo_list

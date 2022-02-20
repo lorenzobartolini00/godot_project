@@ -15,16 +15,15 @@ export(Resource) var inventory = inventory as Inventory
 
 func _ready() -> void:
 	self._move_speed = statistics.speed
+#	GameEvents.emit_signal("collected", self.get_current_weapon(), 1)
+	
 	GameEvents.connect("collected", self, "_on_collected")
+	GameEvents.connect("found_new_item", self, "_on_new_item_found")
 
 func _physics_process(delta):
 	movement(delta)
-
-
-func _input(event) -> void:
-	aim(event)
-		
-	if Input.is_action_just_pressed("shoot"):
+	
+	if Input.is_action_pressed("shoot"):
 		shoot_manager.shoot(shooting_raycast)
 	elif Input.is_action_just_pressed("reload"):
 		reload_manager.reload()
@@ -32,16 +31,28 @@ func _input(event) -> void:
 #		weapon_manager.drop_weapon()
 	
 	if Input.is_action_just_pressed("change_weapon"):
-		weapon_manager.change_weapon(1)
-		
-		
+		weapon_manager.shift_current_weapon(1)
+	
+
+
+func _input(event) -> void:
+	aim(event)
 	
 	if Input.is_action_just_pressed("show_inventory"):
 		inventory.show_inventory()
 
 
-func _on_collected(_item: Item):
-	inventory.add_item(_item)
+func _on_collected(_item: Item, _quantity: int):
+	inventory.add_item(_item, _quantity)
+
+
+func _on_new_item_found(_new_item: Item):
+	if _new_item is Weapon:
+		#Aggiungo nell'inventario lo slot vuoto per le munizioni
+		inventory.add_item(_new_item.get_ammo(), 0)
+		
+		#Seleziono la nuova arma raccolto come quella corrente
+		weapon_manager.change_current_weapon(_new_item)
 
 
 func get_inventory() -> Inventory:

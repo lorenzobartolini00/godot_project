@@ -14,8 +14,13 @@ func _ready():
 
 func _can_reload() -> bool:
 	var _is_left_in_stock = true
-	if character is Player:
-	 _is_left_in_stock = character.ammo_manager.is_left_in_stock()
+	
+	if character.is_in_group("player"):
+		_is_left_in_stock = character.ammo_manager.is_left_in_stock()
+	
+		if not _is_left_in_stock and need_reload():
+			GameEvents.emit_signal("warning", "No ammo")
+			
 	var is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 	
 	return is_freewalk_state and _is_left_in_stock
