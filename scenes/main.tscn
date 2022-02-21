@@ -97,7 +97,6 @@ current_gameplay_state = 0
 [sub_resource type="Resource" id=55]
 resource_local_to_scene = true
 script = ExtResource( 14 )
-_items = [  ]
 
 [sub_resource type="Resource" id=52]
 resource_local_to_scene = true

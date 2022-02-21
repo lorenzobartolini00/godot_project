@@ -3,7 +3,6 @@ extends Node
 
 class_name UIComponent
 
-
 onready var ui: UI = get_parent()
 
 var _current_weapon: Weapon

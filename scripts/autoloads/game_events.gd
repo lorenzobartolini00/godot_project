@@ -9,14 +9,14 @@ signal found_new_item(new_item)
 signal reload
 signal warning(text)
 signal life_changed(new_life, character)
-signal weapon_changed(new_weapon, character)
+signal current_weapon_changed(new_current_weapon, character)
 signal ammo_changed(new_ammo, character)
 
 signal show_weapon_list(weapon_list)
 
-signal inventory_changed(inventory)
+signal inventory_changed(inventory, item_changed)
 
 signal died
 
-func emit_inventory_changed(inventory: Inventory) -> void:
-	call_deferred("emit_signal", "inventory_changed", inventory)
+func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> void:
+	call_deferred("emit_signal", "inventory_changed", inventory, _item_changed)

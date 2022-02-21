@@ -59,11 +59,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/inventory_system/inventory.gd"
 }, {
-"base": "UIComponent",
-"class": "InventoryUI",
-"language": "GDScript",
-"path": "res://scripts/UI/UI_inventory.gd"
-}, {
 "base": "Resource",
 "class": "Item",
 "language": "GDScript",
@@ -72,7 +67,7 @@ _global_script_classes=[ {
 "base": "MarginContainer",
 "class": "ItemUI",
 "language": "GDScript",
-"path": "res://scripts/UI/UI_item.gd"
+"path": "res://scripts/UI/items/item_UI.gd"
 }, {
 "base": "Node",
 "class": "Manager",
@@ -122,17 +117,22 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "UI",
 "language": "GDScript",
-"path": "res://scripts/UI/UI_manager.gd"
+"path": "res://scripts/UI/UI.gd"
 }, {
 "base": "Node",
 "class": "UIComponent",
 "language": "GDScript",
-"path": "res://scripts/UI/UI_component.gd"
+"path": "res://scripts/UI/component_UI.gd"
 }, {
 "base": "Item",
 "class": "Weapon",
 "language": "GDScript",
 "path": "res://scripts/weapons/weapon.gd"
+}, {
+"base": "ItemUI",
+"class": "WeaponItemUI",
+"language": "GDScript",
+"path": "res://scripts/UI/items/weapon_item_UI.gd"
 }, {
 "base": "Manager",
 "class": "WeaponManager",
@@ -150,7 +150,6 @@ _global_script_class_icons={
 "Enemy": "",
 "Exploadable": "",
 "Inventory": "",
-"InventoryUI": "",
 "Item": "",
 "ItemUI": "",
 "Manager": "",
@@ -165,6 +164,7 @@ _global_script_class_icons={
 "UI": "",
 "UIComponent": "",
 "Weapon": "",
+"WeaponItemUI": "",
 "WeaponManager": ""
 }
 

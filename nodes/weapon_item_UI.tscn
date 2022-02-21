@@ -1,19 +1,19 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://fonts/poetsen_one/PoetsenOne-Regular.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://scripts/UI/items/item_UI.gd" type="Script" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://scripts/UI/items/weapon_item_UI.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://fonts/poetsen_one/PoetsenOne-Regular.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFont" id=1]
-font_data = ExtResource( 1 )
+font_data = ExtResource( 3 )
 
-[node name="ItemUI" type="MarginContainer"]
+[node name="WeaponItemUI" type="MarginContainer"]
 anchor_right = 0.234
 anchor_bottom = 0.283
 margin_right = 4.47998
 margin_bottom = 0.23999
 rect_min_size = Vector2( 200, 128 )
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -30,7 +30,7 @@ rect_min_size = Vector2( 300, 128 )
 margin_right = 304.0
 margin_bottom = 150.0
 rect_min_size = Vector2( 0, 150 )
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]

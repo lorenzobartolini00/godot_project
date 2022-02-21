@@ -46,6 +46,6 @@ func _get_weapon_list() -> Array:
 
 func change_current_weapon(_new_current_weapon: Weapon):
 	character.set_current_weapon(_new_current_weapon)
-	GameEvents.emit_signal("weapon_changed", character.get_current_weapon(), character)
+	GameEvents.emit_signal("current_weapon_changed", character.get_current_weapon(), character)
 	
 	character.ammo_manager.set_ammo()

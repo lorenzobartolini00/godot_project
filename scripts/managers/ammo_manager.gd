@@ -53,7 +53,7 @@ func consume_ammo() -> void:
 		_ammo.quantity = max(_ammo.quantity - 1, 0)
 		
 		if character.is_in_group("player"):
-			GameEvents.emit_inventory_changed(character.inventory)
+			GameEvents.emit_inventory_changed(character.inventory, _ammo)
 		
 		GameEvents.emit_signal("ammo_changed", character.get_current_weapon().get_ammo(), character)
 

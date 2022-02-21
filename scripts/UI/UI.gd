@@ -10,7 +10,7 @@ export(NodePath) onready var _warning_label = get_node(_warning_label) as Label
 export(NodePath) onready var _warning_animation_player = get_node(_warning_animation_player) as AnimationPlayer
 export(NodePath) onready var _weapon_grid_container = get_node(_weapon_grid_container) as GridContainer
 
-onready var item_UI = preload("res://nodes/item_UI.tscn")
+onready var _weapon_item_UI = preload("res://nodes/weapon_item_UI.tscn")
 
 
 func _ready():
@@ -19,11 +19,10 @@ func _ready():
 	
 	GameEvents.connect("life_changed", self, "_on_life_changed")
 	GameEvents.connect("ammo_changed", self, "_on_ammo_changed")
-	GameEvents.connect("weapon_changed", self, "_on_weapon_changed")
-	
+	GameEvents.connect("current_weapon_changed", self, "_on_weapon_changed")
+	GameEvents.connect("found_new_item", self, "_on_found_new_item")
 	
 	_warning_label.visible = false
-
 
 
 func _on_life_changed(_new_life: int, character: Character):
@@ -55,9 +54,6 @@ func _on_weapon_changed(_weapon: Weapon, character: Character):
 			set_weapon_text(String("No weapon"))
 
 
-
-
-
 func _on_warning(_text: String) -> void:
 	if _warning_label.visible == false:
 		_warning_label.visible = true
@@ -70,6 +66,14 @@ func _on_warning(_text: String) -> void:
 func _on_reloading(character: Character):
 	if character is Player:
 		set_ammo_text("Reloading...")
+
+
+func _on_found_new_item(_item: Item) ->void:
+	if _item is Weapon:
+		var _weapon_item_UI = self.ui._weapon_item_UI.instance() as WeaponItemUI
+		self.ui._weapon_grid_container.add_child(_weapon_item_UI)
+		
+		_weapon_item_UI.initial_setup(_item)
 
 
 func set_ammo_text(_text: String) -> void:

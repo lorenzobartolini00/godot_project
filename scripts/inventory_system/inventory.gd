@@ -17,6 +17,8 @@ func add_item(item: Item, quantity: int):
 	var _max_quantity = item.max_quantity if not item.is_unique else 1
 	var _already_here: bool = false
 	
+	var _element_changed: Dictionary
+	
 	var number_of_pages: int = _items.size() - 1
 	
 	while item.tipology > number_of_pages:
@@ -35,6 +37,8 @@ func add_item(item: Item, quantity: int):
 		
 		inventory_item.quantity = min(inventory_item.quantity + quantity, _max_quantity)
 		
+		_element_changed = inventory_item
+		
 		_already_here = true
 	
 	if not _already_here:
@@ -42,12 +46,14 @@ func add_item(item: Item, quantity: int):
 			item_reference = item,
 			quantity = min(quantity, _max_quantity)
 		}
+		_element_changed = new_item
+		
 		print("Found new item: %s" % new_item.item_reference.name)
 		GameEvents.emit_signal("found_new_item", new_item.item_reference)
 		
 		page.append(new_item)
 	
-	GameEvents.emit_inventory_changed(self)
+	GameEvents.emit_inventory_changed(self, _element_changed)
 
 
 #Debug function
