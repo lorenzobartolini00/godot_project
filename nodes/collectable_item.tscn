@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/collectable/collectable.gd" type="Script" id=1]
+[ext_resource path="res://assets/weaponpack_assets/Models/pistol.obj" type="ArrayMesh" id=3]
+
+[sub_resource type="BoxShape" id=43]
+extents = Vector3( 0.14948, 0.339303, 1.01389 )
+
+[node name="Weapon" type="Area"]
+script = ExtResource( 1 )
+quantity = 1
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 3 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+material/10 = null
+material/11 = null
+material/12 = null
+material/13 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 43 )

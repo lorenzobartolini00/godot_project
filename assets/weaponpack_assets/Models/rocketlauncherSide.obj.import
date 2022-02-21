@@ -14,7 +14,7 @@ dest_files=[ "res://.import/rocketlauncherSide.obj-7b4436f70de83e6c4fb6d8332237f
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 10, 10, 10 )
+scale_mesh=Vector3( 5, 5, 5 )
 offset_mesh=Vector3( 0, 0, 0 )
 octahedral_compression=true
 optimize_mesh_flags=4286

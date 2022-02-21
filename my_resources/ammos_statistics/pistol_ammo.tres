@@ -1,11 +1,15 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://scripts/ammos/projectile_ammo.gd" type="Script" id=1]
+[ext_resource path="res://assets/weaponpack_assets/Models/ammo_pistol.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://assets/weaponpack_assets/Sprites/Render/ammo_pistol.png" type="Texture" id=3]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource( 1 )
 name = "pistol_ammo"
+avatar = ExtResource( 3 )
+mesh = ExtResource( 2 )
 is_unique = false
 max_quantity = 6
 tipology = 1

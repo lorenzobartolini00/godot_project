@@ -1,14 +1,16 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=5 format=2]
 
 [ext_resource path="res://scripts/weapons/projectile_weapon.gd" type="Script" id=1]
 [ext_resource path="res://my_resources/ammos_statistics/shotgun_ammo.tres" type="Resource" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://assets/weaponpack_assets/Models/shotgun.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://assets/weaponpack_assets/Sprites/Render/shotgun.png" type="Texture" id=4]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource( 1 )
 name = "shotgun"
-avatar = ExtResource( 3 )
+avatar = ExtResource( 4 )
+mesh = ExtResource( 3 )
 is_unique = true
 max_quantity = 0
 tipology = 0

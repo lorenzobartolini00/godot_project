@@ -14,7 +14,7 @@ dest_files=[ "res://.import/knife_smooth.obj-233a9bc3b2ab246620ce3111314cbff8.me
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
+scale_mesh=Vector3( 5, 5, 5 )
 offset_mesh=Vector3( 0, 0, 0 )
 octahedral_compression=true
 optimize_mesh_flags=4286
