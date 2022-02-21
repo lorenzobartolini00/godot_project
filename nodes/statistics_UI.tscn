@@ -78,6 +78,7 @@ _weapon_label = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContai
 _warning_label = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/WeaponBackground/VBoxContainer/Warning")
 _warning_animation_player = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/WeaponBackground/VBoxContainer/Warning/WarningAnimation")
 _weapon_grid_container = NodePath("MarginContainer/HBoxContainer/WeaponList")
+_current_weapon_container = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CurrentWeaponContainer")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -123,6 +124,7 @@ custom_constants/separation = 40
 alignment = 1
 
 [node name="WeaponBackground" type="ColorRect" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+visible = false
 margin_left = 40.0
 margin_right = 296.0
 margin_bottom = 128.0
@@ -179,8 +181,9 @@ anims/RESET = SubResource( 10 )
 anims/warning = SubResource( 11 )
 
 [node name="LifeBackgrouund" type="ColorRect" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 336.0
-margin_right = 592.0
+visible = false
+margin_left = 188.0
+margin_right = 444.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 256, 128 )
 color = Color( 0, 0.882353, 1, 0.207843 )
@@ -199,6 +202,11 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CurrentWeaponContainer" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 316.0
+margin_right = 316.0
+margin_bottom = 128.0
 
 [node name="WeaponList" type="GridContainer" parent="MarginContainer/HBoxContainer"]
 margin_left = 940.0
