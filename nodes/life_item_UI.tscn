@@ -1,0 +1,77 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/UI/items/life_item_UI.gd" type="Script" id=1]
+[ext_resource path="res://fonts/poetsen_one/PoetsenOne-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/weaponpack_assets/Sprites/Render/machinegun.png" type="Texture" id=3]
+[ext_resource path="res://my_resources/life_statistics/simple_life.tres" type="Resource" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[node name="LifeItem" type="MarginContainer"]
+anchor_right = 0.234
+anchor_bottom = 0.139
+margin_right = 0.47998
+margin_bottom = -0.0800095
+rect_min_size = Vector2( 300, 100 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+local_item = ExtResource( 4 )
+life_avatar = NodePath("ColorRect/HBoxContainer/VBoxContainer/LifeAvatar")
+name_label = NodePath("ColorRect/HBoxContainer/VBoxContainer/HBoxContainer/Name")
+description_label = NodePath("ColorRect/HBoxContainer/VBoxContainer/HBoxContainer/Life")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 300.0
+margin_bottom = 100.0
+color = Color( 0, 0.882353, 1, 0.207843 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect"]
+margin_right = 300.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 200, 100 )
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer"]
+margin_right = 300.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 150, 100 )
+custom_constants/separation = 0
+
+[node name="LifeAvatar" type="TextureRect" parent="ColorRect/HBoxContainer/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 300, 50 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/HBoxContainer/VBoxContainer"]
+margin_top = 50.0
+margin_right = 300.0
+margin_bottom = 100.0
+custom_constants/separation = 0
+
+[node name="Name" type="Label" parent="ColorRect/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 150.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 150, 50 )
+custom_fonts/font = SubResource( 1 )
+text = "Placeholder"
+align = 1
+valign = 1
+
+[node name="Life" type="Label" parent="ColorRect/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 150.0
+margin_right = 300.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 150, 50 )
+custom_fonts/font = SubResource( 1 )
+text = "Placeholder"
+align = 1
+valign = 1

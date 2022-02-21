@@ -20,6 +20,7 @@ func _ready() -> void:
 	GameEvents.connect("found_new_item", self, "_on_new_item_found")
 	
 	GameEvents.emit_signal("collected", self.get_current_weapon(), 1, self)
+	GameEvents.emit_signal("life_changed", self.get_life(), self)
 
 func _physics_process(delta):
 	movement(delta)

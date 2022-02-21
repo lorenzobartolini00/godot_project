@@ -42,12 +42,20 @@ func get_current_weapon_mesh() -> Mesh:
 	return _current_weapon_mesh
 
 
-func set_current_life(_life: int) -> void:
-	statistics.current_life = _life
+func set_life(_life: Life) -> void:
+	statistics.life = _life
+
+
+func get_life() -> Life:
+	return statistics.life
+
+
+func set_current_life(_new_life: int) -> void:
+	get_life().set_current_life(_new_life)
 
 
 func get_current_life() -> int:
-	return statistics.current_life
+	return get_life().get_current_life()
 
 
 func set_is_alive(_is_alive: bool) -> void:

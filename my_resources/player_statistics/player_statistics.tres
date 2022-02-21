@@ -1,14 +1,14 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://scripts/statistics/statistics.gd" type="Script" id=1]
 [ext_resource path="res://my_resources/weapon_statistics/pistol.tres" type="Resource" id=2]
+[ext_resource path="res://my_resources/life_statistics/simple_life.tres" type="Resource" id=3]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource( 1 )
 _name = ""
-current_life = 50
-max_life = 20
+life = ExtResource( 3 )
 is_alive = true
 speed = 5.0
 current_weapon = ExtResource( 2 )

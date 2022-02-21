@@ -1,12 +1,12 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://scripts/statistics/statistics.gd" type="Script" id=1]
+[ext_resource path="res://my_resources/life_statistics/simple_life.tres" type="Resource" id=2]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource( 1 )
 _name = ""
-current_life = 5
-max_life = 5
+life = ExtResource( 2 )
 is_alive = true
 speed = 0.0

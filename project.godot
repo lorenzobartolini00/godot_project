@@ -69,6 +69,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/UI/items/item_UI.gd"
 }, {
+"base": "Item",
+"class": "Life",
+"language": "GDScript",
+"path": "res://scripts/life/life.gd"
+}, {
+"base": "ItemUI",
+"class": "LifeItemUI",
+"language": "GDScript",
+"path": "res://scripts/UI/items/life_item_UI.gd"
+}, {
 "base": "Node",
 "class": "Manager",
 "language": "GDScript",
@@ -152,6 +162,8 @@ _global_script_class_icons={
 "Inventory": "",
 "Item": "",
 "ItemUI": "",
+"Life": "",
+"LifeItemUI": "",
 "Manager": "",
 "Player": "",
 "ProjectileAmmo": "",

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://scripts/life/life.gd" type="Script" id=2]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource( 2 )
+name = "life"
+avatar = ExtResource( 1 )
+is_unique = true
+max_quantity = 0
+tipology = 2
+current_life = 20
+max_life = 20
