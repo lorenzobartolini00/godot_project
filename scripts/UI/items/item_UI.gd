@@ -4,7 +4,9 @@ class_name ItemUI
 
 var local_item: Item
 
-export(NodePath) onready var avatar = get_node(avatar) as TextureRect
+export(NodePath) onready var weapon_avatar = get_node(weapon_avatar) as TextureRect
+export(NodePath) onready var ammo_avatar = get_node(ammo_avatar) as TextureRect
+
 export(NodePath) onready var name_label = get_node(name_label) as Label
 export(NodePath) onready var description_label = get_node(description_label) as Label
 
@@ -15,7 +17,7 @@ func _ready():
 
 func initial_setup(_item: Item):
 	local_item = _item
-	avatar.texture = _item.get_avatar()
+	weapon_avatar.texture = _item.get_avatar()
 	name_label.text = _item.name
 
 
