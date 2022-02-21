@@ -52,7 +52,10 @@ func _on_reload_timer_timeout():
 		
 		if _ammo:
 			_ammo.current_ammo = _ammo.max_ammo
-			character.ammo_manager.consume_ammo()
+			
+			if character.is_in_group("player"):
+				character.ammo_manager.consume_ammo()
+			
 			GameEvents.emit_signal("ammo_changed", _ammo, character)
 		
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK

@@ -7,7 +7,7 @@ export(NodePath) onready var shooting_raycast = get_node(shooting_raycast) as Ra
 
 export(NodePath) onready var shoot_manager = get_node(shoot_manager) as ShootManager
 export(NodePath) onready var reload_manager = get_node(reload_manager) as ReloadManager
-export(NodePath) onready var weapon_manager = get_node(weapon_manager) as WeaponManager
+#export(NodePath) onready var weapon_manager = get_node(weapon_manager) as WeaponManager
 export(NodePath) onready var ammo_manager = get_node(ammo_manager) as AmmoManager
 
 
@@ -16,10 +16,10 @@ export(Resource) var inventory = inventory as Inventory
 func _ready() -> void:
 	self._move_speed = statistics.speed
 	
-	GameEvents.connect("collected", self, "_on_collected")
+#	GameEvents.connect("collected", self, "_on_collected")
 	GameEvents.connect("found_new_item", self, "_on_new_item_found")
 	
-	GameEvents.emit_signal("collected", self.get_current_weapon(), 1)
+	GameEvents.emit_signal("collected", self.get_current_weapon(), 1, self)
 
 func _physics_process(delta):
 	movement(delta)
@@ -43,9 +43,10 @@ func _input(event) -> void:
 		GameEvents.emit_signal("show_weapon_list", inventory.get_items()[Enums.ItemTipology.WEAPON])
 		inventory.show_inventory()
 
-
-func _on_collected(_item: Item, _quantity: int):
-	inventory.add_item(_item, _quantity)
+#Overrride
+func _on_collected(_item: Item, _quantity: int, character):
+	if character == self:
+		inventory.add_item(_item, _quantity)
 
 
 func _on_new_item_found(_new_item: Item):

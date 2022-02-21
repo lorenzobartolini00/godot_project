@@ -14,7 +14,7 @@ dest_files=[ "res://.import/uziLong.obj-7d0f353a3294cc9740a80481a909cc7e.mesh", 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 5, 5, 5 )
+scale_mesh=Vector3( 10, 10, 10 )
 offset_mesh=Vector3( 0, 0, 0 )
 octahedral_compression=true
 optimize_mesh_flags=4286

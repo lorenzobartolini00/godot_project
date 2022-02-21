@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://nodes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://nodes/statistics_UI.tscn" type="PackedScene" id=2]
@@ -19,7 +19,12 @@
 [ext_resource path="res://my_resources/weapon_statistics/shot_gun.tres" type="Resource" id=17]
 [ext_resource path="res://my_resources/ammos_statistics/shotgun_ammo.tres" type="Resource" id=18]
 [ext_resource path="res://my_resources/ammos_statistics/minigun_ammo.tres" type="Resource" id=19]
-[ext_resource path="res://my_resources/weapon_statistics/pistol.tres" type="Resource" id=20]
+[ext_resource path="res://assets/weaponpack_assets/Sprites/Render/pistol.png" type="Texture" id=20]
+[ext_resource path="res://assets/weaponpack_assets/Models/pistol.obj" type="ArrayMesh" id=21]
+[ext_resource path="res://assets/weaponpack_assets/Sprites/Render/ammo_pistol.png" type="Texture" id=22]
+[ext_resource path="res://assets/weaponpack_assets/Models/ammo_pistol.obj" type="ArrayMesh" id=23]
+[ext_resource path="res://assets/weaponpack_assets/Sprites/Render/shotgun.png" type="Texture" id=24]
+[ext_resource path="res://assets/weaponpack_assets/Models/shotgun.obj" type="ArrayMesh" id=25]
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 10, 10 )
@@ -30,31 +35,23 @@ albedo_color = Color( 0, 0.45098, 0.537255, 1 )
 [sub_resource type="ConcavePolygonShape" id=3]
 data = PoolVector3Array( 5, 0, 5, -5, 0, 5, 5, 0, -5, -5, 0, 5, -5, 0, -5, 5, 0, -5 )
 
-[sub_resource type="Resource" id=44]
-resource_local_to_scene = true
-script = ExtResource( 12 )
-name = ""
-is_unique = true
-max_quantity = 0
-tipology = 0
-current_ammo = 5
-max_ammo = 5
-
-[sub_resource type="Resource" id=45]
+[sub_resource type="Resource" id=58]
 resource_local_to_scene = true
 script = ExtResource( 13 )
 name = "shotgun"
+avatar = ExtResource( 24 )
+mesh = ExtResource( 25 )
 is_unique = true
 max_quantity = 0
 tipology = 0
 damage = 5
-ammo = SubResource( 44 )
+ammo = ExtResource( 18 )
 reload_time = 3.0
 shoot_time = 2.0
 max_distance = 2.0
 is_shoot_timer_timeout = true
 
-[sub_resource type="Resource" id=46]
+[sub_resource type="Resource" id=59]
 resource_local_to_scene = true
 script = ExtResource( 9 )
 _name = ""
@@ -62,7 +59,7 @@ current_life = 10
 max_life = 10
 is_alive = true
 speed = 3.0
-current_weapon = SubResource( 45 )
+current_weapon = SubResource( 58 )
 
 [sub_resource type="Resource" id=29]
 resource_local_to_scene = true
@@ -99,31 +96,23 @@ resource_local_to_scene = true
 script = ExtResource( 14 )
 _items = [  ]
 
-[sub_resource type="Resource" id=52]
-resource_local_to_scene = true
-script = ExtResource( 12 )
-name = ""
-is_unique = true
-max_quantity = 0
-tipology = 0
-current_ammo = 5
-max_ammo = 5
-
-[sub_resource type="Resource" id=53]
+[sub_resource type="Resource" id=60]
 resource_local_to_scene = true
 script = ExtResource( 13 )
 name = "shotgun"
+avatar = ExtResource( 24 )
+mesh = ExtResource( 25 )
 is_unique = true
 max_quantity = 0
 tipology = 0
 damage = 5
-ammo = SubResource( 52 )
+ammo = ExtResource( 18 )
 reload_time = 3.0
 shoot_time = 2.0
 max_distance = 2.0
 is_shoot_timer_timeout = true
 
-[sub_resource type="Resource" id=54]
+[sub_resource type="Resource" id=61]
 resource_local_to_scene = true
 script = ExtResource( 9 )
 _name = ""
@@ -131,12 +120,40 @@ current_life = 10
 max_life = 10
 is_alive = true
 speed = 3.0
-current_weapon = SubResource( 53 )
+current_weapon = SubResource( 60 )
 
 [sub_resource type="Resource" id=33]
 resource_local_to_scene = true
 script = ExtResource( 3 )
 current_gameplay_state = 0
+
+[sub_resource type="Resource" id=56]
+resource_local_to_scene = true
+script = ExtResource( 12 )
+name = "pistol_ammo"
+avatar = ExtResource( 22 )
+mesh = ExtResource( 23 )
+is_unique = false
+max_quantity = 6
+tipology = 1
+current_ammo = 8
+max_ammo = 8
+
+[sub_resource type="Resource" id=57]
+resource_local_to_scene = true
+script = ExtResource( 13 )
+name = "pistol"
+avatar = ExtResource( 20 )
+mesh = ExtResource( 21 )
+is_unique = true
+max_quantity = 0
+tipology = 0
+damage = 1
+ammo = SubResource( 56 )
+reload_time = 1.0
+shoot_time = 0.5
+max_distance = 6.0
+is_shoot_timer_timeout = true
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 6 )
@@ -174,7 +191,7 @@ __meta__ = {
 
 [node name="Enemy" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3, 0.672682, -4 )
-statistics = SubResource( 46 )
+statistics = SubResource( 59 )
 _runtime_data = SubResource( 29 )
 
 [node name="ExplosiveBarrel" parent="." instance=ExtResource( 7 )]
@@ -193,12 +210,12 @@ inventory = SubResource( 55 )
 
 [node name="Enemy2" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2, 0.672682, -4 )
-statistics = SubResource( 54 )
+statistics = SubResource( 61 )
 _runtime_data = SubResource( 33 )
 
 [node name="Pistol" parent="." instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, 0 )
-item = ExtResource( 20 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, 0 )
+item = SubResource( 57 )
 
 [node name="Shotgun" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, 3 )

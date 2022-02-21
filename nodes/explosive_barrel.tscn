@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/interfaces/shootable.gd" type="Script" id=1]
 [ext_resource path="res://scripts/interfaces/exploadable.gd" type="Script" id=2]
 [ext_resource path="res://my_resources/enemy_statistics/explosive_barrel.tres" type="Resource" id=3]
+[ext_resource path="res://scripts/managers/weapon_manager.gd" type="Script" id=4]
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.5
@@ -25,6 +26,8 @@ height = 1.49613
 [node name="ExplosiveBarrel" type="KinematicBody"]
 script = ExtResource( 2 )
 statistics = ExtResource( 3 )
+_current_weapon_mesh = NodePath("WeaponMesh")
+weapon_manager = NodePath("WeaponManager")
 _explosion_area = NodePath("ExplosionArea")
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
@@ -48,3 +51,8 @@ collision_mask = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="ExplosionArea"]
 shape = SubResource( 5 )
+
+[node name="WeaponMesh" type="MeshInstance" parent="."]
+
+[node name="WeaponManager" type="Node" parent="."]
+script = ExtResource( 4 )

@@ -4,11 +4,21 @@ class_name Character
 
 export(Resource) var statistics = statistics as Statistics
 export(Resource) var _runtime_data = _runtime_data as RuntimeData
+export(NodePath) onready var _current_weapon_mesh = get_node(_current_weapon_mesh) as MeshInstance
 
+export(NodePath) onready var weapon_manager = get_node(weapon_manager) as WeaponManager
 
 func _ready():
 	_runtime_data.setup_local_to_scene()
 	GameEvents.connect("died", self, "_on_died")
+	GameEvents.connect("collected", self, "_on_collected")
+	
+#	GameEvents.emit_signal("collected", self.get_current_weapon(), 1, self)
+
+
+func _on_collected(_item: Item, _quantity: int, character):
+	if character == self:
+		weapon_manager.change_current_weapon(_item)
 
 
 func _on_died(character) -> void:
@@ -22,6 +32,14 @@ func set_current_weapon(_current_weapon: Weapon) -> void:
 
 func get_current_weapon() -> Weapon:
 	return statistics.current_weapon
+	
+
+func set_current_weapon_mesh(_mesh: Mesh) -> void:
+	_current_weapon_mesh.mesh = _mesh
+
+
+func get_current_weapon_mesh() -> Mesh:
+	return _current_weapon_mesh
 
 
 func set_current_life(_life: int) -> void:
