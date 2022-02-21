@@ -11,4 +11,5 @@ _name = ""
 life = ExtResource( 3 )
 is_alive = true
 speed = 3.0
+reload_time = 0.0
 current_weapon = ExtResource( 2 )

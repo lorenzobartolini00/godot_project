@@ -8,20 +8,23 @@ var current_weapon_index: int
 
 
 func shift_current_weapon(shift: int) ->void:
-	var _current_weapon: Weapon = character.get_current_weapon()
-	var _weapon_list: Array = _get_weapon_list()
+	var is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 	
-	var _current_weapon_index: int
-	
-	for _weapon in _weapon_list:
-		if _weapon.item_reference.name != _current_weapon.name:
-			_current_weapon_index += 1
-		else:
-			break
-	
-	var next_index: int = (_current_weapon_index + shift) % _weapon_list.size()
-	
-	change_current_weapon(_weapon_list[next_index].item_reference)
+	if is_freewalk_state:
+		var _current_weapon: Weapon = character.get_current_weapon()
+		var _weapon_list: Array = _get_weapon_list()
+		
+		var _current_weapon_index: int
+		
+		for _weapon in _weapon_list:
+			if _weapon.item_reference.name != _current_weapon.name:
+				_current_weapon_index += 1
+			else:
+				break
+		
+		var next_index: int = (_current_weapon_index + shift) % _weapon_list.size()
+		
+		change_current_weapon(_weapon_list[next_index].item_reference)
 	
 
 
