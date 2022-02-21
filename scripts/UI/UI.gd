@@ -10,7 +10,7 @@ export(NodePath) onready var _warning_label = get_node(_warning_label) as Label
 export(NodePath) onready var _warning_animation_player = get_node(_warning_animation_player) as AnimationPlayer
 export(NodePath) onready var _weapon_grid_container = get_node(_weapon_grid_container) as GridContainer
 
-onready var _weapon_item_UI = preload("res://nodes/weapon_item_UI.tscn")
+onready var weapon_item_UI = preload("res://nodes/weapon_item_UI.tscn")
 
 
 func _ready():
@@ -70,8 +70,8 @@ func _on_reloading(character: Character):
 
 func _on_found_new_item(_item: Item) ->void:
 	if _item is Weapon:
-		var _weapon_item_UI = self.ui._weapon_item_UI.instance() as WeaponItemUI
-		self.ui._weapon_grid_container.add_child(_weapon_item_UI)
+		var _weapon_item_UI = weapon_item_UI.instance() as WeaponItemUI
+		_weapon_grid_container.add_child(_weapon_item_UI)
 		
 		_weapon_item_UI.initial_setup(_item)
 
