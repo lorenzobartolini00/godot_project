@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://fonts/poetsen_one/PoetsenOne-Regular.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://scripts/item_UI.gd" type="Script" id=2]
+[ext_resource path="res://scripts/UI/UI_item.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
