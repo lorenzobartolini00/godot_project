@@ -17,7 +17,7 @@ var movement_vector: Vector3
 
 
 func movement(delta) -> void:
-	var direction_vector: Vector3
+	var direction_vector = Vector3()
 	var y_movement: float
 	
 	if Input.is_action_pressed("move_forward"):

@@ -8,7 +8,7 @@ export(int) var quantity
 
 onready var _set: bool = false
 
-func _process(delta):
+func _process(_delta):
 	if not _set:
 		_set = true
 		get_node("MeshInstance").mesh = item.mesh

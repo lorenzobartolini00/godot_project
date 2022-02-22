@@ -5,11 +5,11 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	set_pause()
 
 
-func _input(event):
+func _input(_event):
 	set_mouse_mode()
 
 func set_mouse_mode() -> void:

@@ -28,7 +28,7 @@ func _can_shoot() -> bool:
 
 func shoot(shooting_raycast: RayCast) -> void:
 	if _can_shoot():
-		print(character.name + " has shot")
+#		print(character.name + " has shot")
 		
 		character.get_current_weapon().get_ammo().current_ammo -= 1
 		GameEvents.emit_signal("ammo_changed", character.get_current_weapon().get_ammo(), character)

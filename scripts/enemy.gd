@@ -12,7 +12,7 @@ func _ready():
 	
 	GameEvents.emit_signal("collected", self.get_current_weapon(), 1, self)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	_movement()
 	_aim()
 	

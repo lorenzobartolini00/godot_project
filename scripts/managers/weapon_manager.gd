@@ -14,7 +14,7 @@ func shift_current_weapon(shift: int) ->void:
 		var _current_weapon: Weapon = character.get_current_weapon()
 		var _weapon_list: Array = _get_weapon_list()
 		
-		var _current_weapon_index: int
+		var _current_weapon_index: int = 0
 		
 		for _weapon in _weapon_list:
 			if _weapon.item_reference.name != _current_weapon.name:

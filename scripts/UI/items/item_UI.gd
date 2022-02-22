@@ -13,5 +13,5 @@ func initial_setup(_item: Item):
 	pass
 
 
-func _on_inventory_changed(inventory: Inventory, _item_changed: Dictionary):
+func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 	pass

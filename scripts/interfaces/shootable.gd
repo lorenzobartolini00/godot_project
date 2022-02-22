@@ -2,11 +2,11 @@ extends Area
 
 class_name Shootable
 
-onready var character = get_parent()
+onready var character = get_parent() as Character
 
 
 func _get_configuration_warning() -> String:
-	character = get_parent()
+	character = get_parent() as Character
 	if not character:
 		return "Must be placed as a direct child of a Character Node!"
 	else:
@@ -19,14 +19,17 @@ func _ready():
 
 func _on_hit(area_hit: Shootable, weapon: Weapon) -> void:
 	if area_hit == self:
-		var _current_life: int = character.get_current_life()
-		character.set_current_life(_current_life - weapon.damage)
+		character.life_manager.register_damage(weapon.damage)
 		
-		print(character.name + " has take damage. Weapon: %s, Life: %s" % [String(character.get_current_weapon().name), String(character.get_current_life())])
+#		var _current_life: int = character.get_current_life()
+#		character.set_current_life(_current_life - weapon.damage)
 		
-		GameEvents.emit_signal("life_changed", character.get_life(), character)
 		
-		if character.get_current_life() <= 0 and character.get_is_alive():
-			character.statistics.is_alive = false
-			GameEvents.emit_signal("died", character)
+#		print(character.name + " has take damage. Weapon: %s, Life: %s" % [String(character.get_current_weapon().name), String(character.get_current_life())])
+#
+#		GameEvents.emit_signal("life_changed", character.get_life(), character)
+#
+#		if character.get_current_life() <= 0 and character.get_is_alive():
+#			character.statistics.is_alive = false
+#			GameEvents.emit_signal("died", character)
 

@@ -7,6 +7,7 @@ export(Resource) var _runtime_data = _runtime_data as RuntimeData
 export(NodePath) onready var _current_weapon_mesh = get_node(_current_weapon_mesh) as MeshInstance
 
 export(NodePath) onready var weapon_manager = get_node(weapon_manager) as WeaponManager
+export(NodePath) onready var life_manager = get_node(life_manager) as LifeManager
 
 func _ready():
 	_runtime_data.setup_local_to_scene()

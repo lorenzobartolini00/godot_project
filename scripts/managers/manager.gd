@@ -5,8 +5,8 @@ class_name Manager
 
 onready var character = get_parent()
 
-var _current_weapon: Weapon
-var _ammo: Ammo
+#var _current_weapon: Weapon
+#var _ammo: Ammo
 
 func _get_configuration_warning() -> String:
 	character = get_parent()
