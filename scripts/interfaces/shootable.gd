@@ -19,5 +19,5 @@ func _ready():
 
 func _on_hit(area_hit: Shootable, weapon: Weapon) -> void:
 	if area_hit == self:
-		character.life_manager.register_damage(weapon.damage)
+		character.life_manager.set_life(-weapon.damage)
 

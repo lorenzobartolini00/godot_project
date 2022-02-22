@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://nodes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://nodes/statistics_UI.tscn" type="PackedScene" id=2]
@@ -23,10 +23,16 @@
 [ext_resource path="res://assets/weaponpack_assets/Models/pistol.obj" type="ArrayMesh" id=21]
 [ext_resource path="res://assets/weaponpack_assets/Sprites/Render/ammo_pistol.png" type="Texture" id=22]
 [ext_resource path="res://assets/weaponpack_assets/Models/ammo_pistol.obj" type="ArrayMesh" id=23]
+[ext_resource path="res://assets/weaponpack_assets/Sprites/Render/shotgun.png" type="Texture" id=24]
+[ext_resource path="res://assets/weaponpack_assets/Sprites/Render/ammo_shotgun.png" type="Texture" id=25]
 [ext_resource path="res://scripts/weapons/area_weapon.gd" type="Script" id=26]
 [ext_resource path="res://scripts/ammos/area_ammo.gd" type="Script" id=27]
 [ext_resource path="res://scripts/life/life.gd" type="Script" id=28]
 [ext_resource path="res://my_resources/life_statistics/simple_life.tres" type="Resource" id=29]
+[ext_resource path="res://assets/weaponpack_assets/Models/ammo_shotgun.obj" type="ArrayMesh" id=30]
+[ext_resource path="res://assets/weaponpack_assets/Models/shotgun.obj" type="ArrayMesh" id=31]
+[ext_resource path="res://my_resources/life_statistics/life_slot.tres" type="Resource" id=32]
+[ext_resource path="res://assets/kenney_blasterkit/targetA_Mesh targetA.mesh" type="ArrayMesh" id=33]
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 10, 10 )
@@ -36,6 +42,62 @@ albedo_color = Color( 0, 0.45098, 0.537255, 1 )
 
 [sub_resource type="ConcavePolygonShape" id=3]
 data = PoolVector3Array( 5, 0, 5, -5, 0, 5, 5, 0, -5, -5, 0, 5, -5, 0, -5, 5, 0, -5 )
+
+[sub_resource type="Resource" id=80]
+resource_local_to_scene = true
+script = ExtResource( 12 )
+name = "shotgun_ammo"
+avatar = ExtResource( 25 )
+mesh = ExtResource( 30 )
+is_unique = false
+max_quantity = 10
+tipology = 1
+current_ammo = 4
+max_ammo = 4
+ammo_per_shot = 2
+
+[sub_resource type="Resource" id=81]
+resource_local_to_scene = true
+script = ExtResource( 13 )
+name = "shotgun"
+avatar = ExtResource( 24 )
+mesh = ExtResource( 31 )
+is_unique = true
+max_quantity = 0
+tipology = 0
+damage = 5
+ammo = SubResource( 80 )
+reload_time = 3.0
+shoot_time = 2.0
+max_distance = 2.0
+is_shoot_timer_timeout = true
+
+[sub_resource type="Resource" id=82]
+resource_local_to_scene = true
+script = ExtResource( 28 )
+name = "life"
+avatar = ExtResource( 8 )
+mesh = ExtResource( 33 )
+is_unique = false
+max_quantity = 5
+tipology = 2
+current_life = 20
+max_life = 20
+
+[sub_resource type="Resource" id=83]
+resource_local_to_scene = true
+script = ExtResource( 9 )
+_name = ""
+life = SubResource( 82 )
+is_alive = true
+speed = 3.0
+reload_time = 0.0
+current_weapon = SubResource( 81 )
+
+[sub_resource type="Resource" id=84]
+resource_local_to_scene = true
+script = ExtResource( 3 )
+current_gameplay_state = 0
 
 [sub_resource type="Resource" id=70]
 resource_local_to_scene = true
@@ -99,6 +161,62 @@ current_gameplay_state = 0
 resource_local_to_scene = true
 script = ExtResource( 14 )
 _items = [  ]
+
+[sub_resource type="Resource" id=85]
+resource_local_to_scene = true
+script = ExtResource( 12 )
+name = "shotgun_ammo"
+avatar = ExtResource( 25 )
+mesh = ExtResource( 30 )
+is_unique = false
+max_quantity = 10
+tipology = 1
+current_ammo = 4
+max_ammo = 4
+ammo_per_shot = 2
+
+[sub_resource type="Resource" id=86]
+resource_local_to_scene = true
+script = ExtResource( 13 )
+name = "shotgun"
+avatar = ExtResource( 24 )
+mesh = ExtResource( 31 )
+is_unique = true
+max_quantity = 0
+tipology = 0
+damage = 5
+ammo = SubResource( 85 )
+reload_time = 3.0
+shoot_time = 2.0
+max_distance = 2.0
+is_shoot_timer_timeout = true
+
+[sub_resource type="Resource" id=87]
+resource_local_to_scene = true
+script = ExtResource( 28 )
+name = "life"
+avatar = ExtResource( 8 )
+mesh = ExtResource( 33 )
+is_unique = false
+max_quantity = 5
+tipology = 2
+current_life = 20
+max_life = 20
+
+[sub_resource type="Resource" id=88]
+resource_local_to_scene = true
+script = ExtResource( 9 )
+_name = ""
+life = SubResource( 87 )
+is_alive = true
+speed = 3.0
+reload_time = 0.0
+current_weapon = SubResource( 86 )
+
+[sub_resource type="Resource" id=89]
+resource_local_to_scene = true
+script = ExtResource( 3 )
+current_gameplay_state = 0
 
 [sub_resource type="Resource" id=78]
 resource_local_to_scene = true
@@ -165,6 +283,8 @@ __meta__ = {
 
 [node name="Enemy" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3, 0.672682, -4 )
+statistics = SubResource( 83 )
+_runtime_data = SubResource( 84 )
 
 [node name="ExplosiveBarrel" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3 )
@@ -182,6 +302,8 @@ inventory = SubResource( 55 )
 
 [node name="Enemy2" parent="." instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2, 0.672682, -4 )
+statistics = SubResource( 88 )
+_runtime_data = SubResource( 89 )
 
 [node name="Pistol" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, 0 )
@@ -204,6 +326,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 0 )
 item = ExtResource( 16 )
 quantity = 4
 
-[node name="CollectableItem" parent="." instance=ExtResource( 15 )]
+[node name="Life" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0 )
 item = ExtResource( 29 )
+
+[node name="Life2" parent="." instance=ExtResource( 15 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -2 )
+item = ExtResource( 32 )

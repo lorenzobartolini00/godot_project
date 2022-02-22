@@ -57,6 +57,8 @@ func _on_new_item_found(_new_item: Item):
 		
 		#Seleziono la nuova arma raccolta come quella corrente
 		weapon_manager.change_current_weapon(_new_item)
+	
+	
 
 
 func get_inventory() -> Inventory:

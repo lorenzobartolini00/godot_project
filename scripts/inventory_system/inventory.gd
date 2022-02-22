@@ -130,6 +130,8 @@ func show_inventory() -> void:
 				print("Weapons:")
 			Enums.ItemTipology.AMMO:
 				print("Ammos:")
+			Enums.ItemTipology.LIFE:
+				print("Life:")
 		
 		for item in page:
 			print("item: %s, quantity: %s" % [item.item_reference.name, String(item.quantity)])

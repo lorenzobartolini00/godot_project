@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://scripts/life/life_slot.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/kenney_blasterkit/targetB_Mesh targetB.mesh" type="ArrayMesh" id=3]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource( 1 )
+name = "life slot"
+avatar = ExtResource( 2 )
+mesh = ExtResource( 3 )
+is_unique = false
+max_quantity = 5
+tipology = 2
