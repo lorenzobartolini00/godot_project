@@ -5,3 +5,4 @@
 [resource]
 resource_local_to_scene = true
 script = ExtResource( 1 )
+_items = [  ]

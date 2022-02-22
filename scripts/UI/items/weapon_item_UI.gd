@@ -25,41 +25,44 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 		if _item.name == self.local_item.get_ammo().name:
 			var _ammo_in_stock: int = _item_changed.quantity
 			
-			_update_ammo_statistics(_item, _ammo_in_stock)
+			_update_UI(_item, _ammo_in_stock)
 
 
 func _on_ammo_changed(_ammo: Ammo, character: Character):
 	if character is Player:
 		if _ammo:
 			if _ammo.name == self.local_item.get_ammo().name:
-				var _ammo_in_stock: int = _get_ammo_in_stock(_ammo, character)
-				_update_ammo_statistics(_ammo, _ammo_in_stock)
+				var inventory: Inventory = character.get_inventory()
+				
+				var _ammo_in_stock: int = inventory.get_item_quantity(_ammo)
+				
+				_update_UI(_ammo, _ammo_in_stock)
 		else:
 			self.description_label.text = String("0")+"/"+String("0")
 			pass
 
 
-func _update_ammo_statistics(_ammo: Ammo, _ammo_in_stock: int) -> void:
+func _update_UI(_ammo: Ammo, _ammo_in_stock: int) -> void:
 	var _current_ammo: String = String(_ammo.current_ammo)
 	var _remaining_ammo: String = String(_ammo.max_ammo * _ammo_in_stock)
 	
 	var _new_description_text: String = _current_ammo\
 		+ "/"\
 		+ _remaining_ammo
-				
+	
 	self.description_label.text = _new_description_text
 	self.ammo_avatar.texture = _ammo.get_avatar()
 
 
-func _get_ammo_in_stock(_ammo: Ammo, _character: Character) -> int:
-	if _character is Player:
-	
-		var _ammo_list = _character.get_inventory().get_items()[Enums.ItemTipology.AMMO]
-
-		for _ammo_item in _ammo_list:
-			if _ammo_item.item_reference.name != _ammo.name:
-				continue
-
-			return _ammo_item.quantity
-	
-	return 0
+#func _get_ammo_in_stock(_ammo: Ammo, _character: Character) -> int:
+#	if _character is Player:
+#
+#		var _ammo_list = _character.get_inventory().get_items()[Enums.ItemTipology.AMMO]
+#
+#		for _ammo_item in _ammo_list:
+#			if _ammo_item.item_reference.name != _ammo.name:
+#				continue
+#
+#			return _ammo_item.quantity
+#
+#	return 0

@@ -56,6 +56,56 @@ func add_item(item: Item, quantity: int):
 	GameEvents.emit_inventory_changed(self, _element_changed)
 
 
+func get_item_quantity(_item: Item) -> int:
+	var _items: Array = get_items()
+	var _item_list: Array
+	var _tipology: int = _item.tipology
+	
+	if _items.size() > _tipology:
+		_item_list = _items[_tipology]
+		
+		if not _item_list.empty():
+			for _dictionary_item in _item_list:
+				if _dictionary_item.item_reference.name != _item.name:
+					continue
+					
+				return _dictionary_item.quantity
+	
+	return 0
+
+
+func set_item_quantity(_item: Item, _quantity: int) -> void:
+	var _items: Array = get_items()
+	var _item_list: Array
+	var _tipology: int = _item.tipology
+	
+	if _items.size() > _tipology:
+		_item_list = _items[_tipology]
+		
+		if not _item_list.empty():
+			for _dictionary_item in _item_list:
+				if _dictionary_item.item_reference.name != _item.name:
+					continue
+					
+				_dictionary_item.quantity = _quantity
+
+
+func get_item(_item_name: String, _tipology: int) -> Item:
+	var _items: Array = get_items()
+	var _item_list: Array
+	
+	if _items.size() > _tipology:
+		_item_list = _items[_tipology]
+		
+		if not _item_list.empty():
+			for _dictionary_item in _item_list:
+				if _dictionary_item.item_reference != _item_name:
+					continue
+					
+				return _dictionary_item.item_reference
+	
+	return null
+
 #Debug function
 func show_inventory() -> void:
 	var index_page: int = 0
