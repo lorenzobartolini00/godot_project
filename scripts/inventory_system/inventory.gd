@@ -88,6 +88,8 @@ func set_item_quantity(_item: Item, _quantity: int) -> void:
 					continue
 					
 				_dictionary_item.quantity = _quantity
+	
+				GameEvents.emit_inventory_changed(self, _dictionary_item)
 
 
 func get_item(_item_name: String, _tipology: int) -> Item:
@@ -99,12 +101,17 @@ func get_item(_item_name: String, _tipology: int) -> Item:
 		
 		if not _item_list.empty():
 			for _dictionary_item in _item_list:
-				if _dictionary_item.item_reference != _item_name:
+				if _dictionary_item.item_reference.name != _item_name:
 					continue
 					
 				return _dictionary_item.item_reference
 	
 	return null
+
+
+func is_item_in_stock(_item: Item) -> bool:
+	return get_item_quantity(_item) > 0
+
 
 #Debug function
 func show_inventory() -> void:

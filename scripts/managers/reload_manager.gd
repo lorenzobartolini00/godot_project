@@ -16,7 +16,9 @@ func _can_reload() -> bool:
 	var _is_left_in_stock = true
 	
 	if character.is_in_group("player"):
-		_is_left_in_stock = character.ammo_manager.is_left_in_stock()
+		var inventory: Inventory = character.get_inventory()
+		var _ammo: Ammo = character.get_current_weapon().get_ammo()
+		_is_left_in_stock = inventory.is_item_in_stock(_ammo)
 	
 		if not _is_left_in_stock and need_reload():
 			GameEvents.emit_signal("warning", "No ammo")
@@ -37,7 +39,7 @@ func reload() -> void:
 		var _current_weapon = character.get_current_weapon()
 		if _current_weapon:
 			GameEvents.emit_signal("reload", character)
-			print(character.name + " is reloading...")
+#			print(character.name + " is reloading...")
 			
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.RELOADING
 			
@@ -54,9 +56,9 @@ func _on_reload_timer_timeout():
 			_ammo.current_ammo = _ammo.max_ammo
 			
 			if character.is_in_group("player"):
-				character.ammo_manager.consume_ammo()
+				character.ammo_manager.consume_ammo_in_stock(1)
 			
 			GameEvents.emit_signal("ammo_changed", _ammo, character)
 		
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
-			print(character.name + " finished reloading")
+#			print(character.name + " finished reloading")

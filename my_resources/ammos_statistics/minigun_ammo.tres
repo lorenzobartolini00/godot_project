@@ -15,3 +15,4 @@ max_quantity = 15
 tipology = 1
 current_ammo = 50
 max_ammo = 50
+ammo_per_shot = 1
