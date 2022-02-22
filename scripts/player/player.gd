@@ -8,7 +8,7 @@ export(NodePath) onready var shooting_raycast = get_node(shooting_raycast) as Ra
 export(NodePath) onready var shoot_manager = get_node(shoot_manager) as ShootManager
 export(NodePath) onready var reload_manager = get_node(reload_manager) as ReloadManager
 #export(NodePath) onready var weapon_manager = get_node(weapon_manager) as WeaponManager
-export(NodePath) onready var ammo_manager = get_node(ammo_manager) as AmmoManager
+#export(NodePath) onready var ammo_manager = get_node(ammo_manager) as AmmoManager
 
 
 export(Resource) var inventory = inventory as Inventory

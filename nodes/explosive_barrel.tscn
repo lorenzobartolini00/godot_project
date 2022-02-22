@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/interfaces/shootable.gd" type="Script" id=1]
 [ext_resource path="res://scripts/interfaces/exploadable.gd" type="Script" id=2]
 [ext_resource path="res://my_resources/enemy_statistics/explosive_barrel.tres" type="Resource" id=3]
 [ext_resource path="res://scripts/managers/weapon_manager.gd" type="Script" id=4]
 [ext_resource path="res://scripts/managers/life_manager.gd" type="Script" id=5]
+[ext_resource path="res://scripts/managers/ammo_manager.gd" type="Script" id=6]
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.5
@@ -28,8 +29,9 @@ height = 1.49613
 script = ExtResource( 2 )
 statistics = ExtResource( 3 )
 _current_weapon_mesh = NodePath("WeaponMesh")
-weapon_manager = NodePath("WeaponManager")
-life_manager = NodePath("LifeManager")
+weapon_manager = NodePath("Weapon")
+ammo_manager = NodePath("Ammo")
+life_manager = NodePath("Life")
 _explosion_area = NodePath("ExplosionArea")
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
@@ -56,8 +58,11 @@ shape = SubResource( 5 )
 
 [node name="WeaponMesh" type="MeshInstance" parent="."]
 
-[node name="WeaponManager" type="Node" parent="."]
+[node name="Weapon" type="Node" parent="."]
 script = ExtResource( 4 )
 
-[node name="LifeManager" type="Node" parent="."]
+[node name="Life" type="Node" parent="."]
 script = ExtResource( 5 )
+
+[node name="Ammo" type="Node" parent="."]
+script = ExtResource( 6 )

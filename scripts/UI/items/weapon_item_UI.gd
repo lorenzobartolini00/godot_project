@@ -9,7 +9,7 @@ export(NodePath) onready var name_label = get_node(name_label) as Label
 export(NodePath) onready var description_label = get_node(description_label) as Label
 
 func _ready():
-	GameEvents.connect("ammo_changed", self, "_on_ammo_changed")
+	GameEvents.connect("current_ammo_changed", self, "_on_current_ammo_changed")
 
 func initial_setup(_weapon_item: Item):
 	if _weapon_item is Weapon:
@@ -28,7 +28,7 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 			_update_UI(_item, _ammo_in_stock)
 
 
-func _on_ammo_changed(_ammo: Ammo, character: Character):
+func _on_current_ammo_changed(_ammo: Ammo, character: Character):
 	if character is Player:
 		if _ammo:
 			if _ammo.name == self.local_item.get_ammo().name:
@@ -52,17 +52,3 @@ func _update_UI(_ammo: Ammo, _ammo_in_stock: int) -> void:
 	
 	self.description_label.text = _new_description_text
 	self.ammo_avatar.texture = _ammo.get_avatar()
-
-
-#func _get_ammo_in_stock(_ammo: Ammo, _character: Character) -> int:
-#	if _character is Player:
-#
-#		var _ammo_list = _character.get_inventory().get_items()[Enums.ItemTipology.AMMO]
-#
-#		for _ammo_item in _ammo_list:
-#			if _ammo_item.item_reference.name != _ammo.name:
-#				continue
-#
-#			return _ammo_item.quantity
-#
-#	return 0

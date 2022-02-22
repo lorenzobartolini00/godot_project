@@ -27,12 +27,12 @@ statistics = ExtResource( 5 )
 _runtime_data = ExtResource( 1 )
 _current_weapon_mesh = NodePath("Camera/WeaponMesh")
 weapon_manager = NodePath("Weapon")
-life_manager = NodePath("LifeManager")
+ammo_manager = NodePath("Ammo")
+life_manager = NodePath("Life")
 damage_area = NodePath("DamageArea")
 shooting_raycast = NodePath("Camera/ShootRayCast")
 shoot_manager = NodePath("Shoot")
 reload_manager = NodePath("Reload")
-ammo_manager = NodePath("Ammo")
 inventory = ExtResource( 9 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
@@ -98,5 +98,5 @@ script = ExtResource( 8 )
 [node name="Weapon" type="Node" parent="."]
 script = ExtResource( 7 )
 
-[node name="LifeManager" type="Node" parent="."]
+[node name="Life" type="Node" parent="."]
 script = ExtResource( 11 )

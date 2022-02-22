@@ -109,6 +109,13 @@ func get_item(_item_name: String, _tipology: int) -> Item:
 	return null
 
 
+func get_item_list(_tipology: int) -> Array:
+	if _tipology < _items.size():
+		return _items[_tipology]
+	
+	return []
+
+
 func is_item_in_stock(_item: Item) -> bool:
 	return get_item_quantity(_item) > 0
 
