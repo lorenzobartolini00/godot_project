@@ -1,35 +1,3 @@
-[remap]
-
-importer="texture"
-type="StreamTexture"
-path="res://.import/uzi.png-9cda593dabc4500f37bd7fb753940b10.stex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://assets/weaponpack_assets/Sprites/Silhouette/uzi.png"
-dest_files=[ "res://.import/uzi.png-9cda593dabc4500f37bd7fb753940b10.stex" ]
-
-[params]
-
-compress/mode=0
-compress/lossy_quality=0.7
-compress/hdr_mode=0
-compress/bptc_ldr=0
-compress/normal_map=0
-flags/repeat=0
-flags/filter=true
-flags/mipmaps=false
-flags/anisotropic=false
-flags/srgb=2
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/HDR_as_SRGB=false
-process/invert_color=false
-process/normal_map_invert_y=false
-stream=false
-size_limit=0
-detect_3d=true
-svg/scale=1.0
+version https://git-lfs.github.com/spec/v1
+oid sha256:43ef7dfd769435f85d4112c6ae7a0e419aa4996b89469a643352dc62446e0287
+size 715

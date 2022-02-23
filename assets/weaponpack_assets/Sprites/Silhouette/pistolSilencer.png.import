@@ -1,35 +1,3 @@
-[remap]
-
-importer="texture"
-type="StreamTexture"
-path="res://.import/pistolSilencer.png-1b5696bd0e121ae190f0361b5f97cb23.stex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://assets/weaponpack_assets/Sprites/Silhouette/pistolSilencer.png"
-dest_files=[ "res://.import/pistolSilencer.png-1b5696bd0e121ae190f0361b5f97cb23.stex" ]
-
-[params]
-
-compress/mode=0
-compress/lossy_quality=0.7
-compress/hdr_mode=0
-compress/bptc_ldr=0
-compress/normal_map=0
-flags/repeat=0
-flags/filter=true
-flags/mipmaps=false
-flags/anisotropic=false
-flags/srgb=2
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/HDR_as_SRGB=false
-process/invert_color=false
-process/normal_map_invert_y=false
-stream=false
-size_limit=0
-detect_3d=true
-svg/scale=1.0
+version https://git-lfs.github.com/spec/v1
+oid sha256:1aacd33a44a92d5a022ab322b0e4b97d0688631640f80eb3cca7d494e0f13d33
+size 748

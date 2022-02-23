@@ -1,35 +1,3 @@
-[remap]
-
-importer="texture"
-type="StreamTexture"
-path="res://.import/rocketlauncher.png-d712d4d2099993fca8790258022f9a31.stex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://assets/weaponpack_assets/Sprites/Silhouette/rocketlauncher.png"
-dest_files=[ "res://.import/rocketlauncher.png-d712d4d2099993fca8790258022f9a31.stex" ]
-
-[params]
-
-compress/mode=0
-compress/lossy_quality=0.7
-compress/hdr_mode=0
-compress/bptc_ldr=0
-compress/normal_map=0
-flags/repeat=0
-flags/filter=true
-flags/mipmaps=false
-flags/anisotropic=false
-flags/srgb=2
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/HDR_as_SRGB=false
-process/invert_color=false
-process/normal_map_invert_y=false
-stream=false
-size_limit=0
-detect_3d=true
-svg/scale=1.0
+version https://git-lfs.github.com/spec/v1
+oid sha256:afee498087ff540922f0be779f2dad83f721b02c1c0a0b201d66b4ebaa4431bc
+size 748

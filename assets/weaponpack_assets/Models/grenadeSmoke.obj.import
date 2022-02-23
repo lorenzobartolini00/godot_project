@@ -1,20 +1,3 @@
-[remap]
-
-importer="wavefront_obj"
-type="Mesh"
-path="res://.import/grenadeSmoke.obj-0bccd63c12b79716a69d8a5c6f01b273.mesh"
-
-[deps]
-
-files=[ "res://.import/grenadeSmoke.obj-0bccd63c12b79716a69d8a5c6f01b273.mesh" ]
-
-source_file="res://assets/weaponpack_assets/Models/grenadeSmoke.obj"
-dest_files=[ "res://.import/grenadeSmoke.obj-0bccd63c12b79716a69d8a5c6f01b273.mesh", "res://.import/grenadeSmoke.obj-0bccd63c12b79716a69d8a5c6f01b273.mesh" ]
-
-[params]
-
-generate_tangents=true
-scale_mesh=Vector3( 10, 10, 10 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+version https://git-lfs.github.com/spec/v1
+oid sha256:af9f562562b406ac8d44a851315d21b4d37b8dcfbd6576a20f3031f32bdbd843
+size 591

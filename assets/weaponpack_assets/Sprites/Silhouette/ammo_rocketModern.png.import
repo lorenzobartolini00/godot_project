@@ -1,35 +1,3 @@
-[remap]
-
-importer="texture"
-type="StreamTexture"
-path="res://.import/ammo_rocketModern.png-f4d90848c5e6e6cbe844000fe4e1fca2.stex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://assets/weaponpack_assets/Sprites/Silhouette/ammo_rocketModern.png"
-dest_files=[ "res://.import/ammo_rocketModern.png-f4d90848c5e6e6cbe844000fe4e1fca2.stex" ]
-
-[params]
-
-compress/mode=0
-compress/lossy_quality=0.7
-compress/hdr_mode=0
-compress/bptc_ldr=0
-compress/normal_map=0
-flags/repeat=0
-flags/filter=true
-flags/mipmaps=false
-flags/anisotropic=false
-flags/srgb=2
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/HDR_as_SRGB=false
-process/invert_color=false
-process/normal_map_invert_y=false
-stream=false
-size_limit=0
-detect_3d=true
-svg/scale=1.0
+version https://git-lfs.github.com/spec/v1
+oid sha256:1f24810428e303f3d5d4eecc5423222dfc364402435dafee797b49cbbe8fd0f7
+size 757

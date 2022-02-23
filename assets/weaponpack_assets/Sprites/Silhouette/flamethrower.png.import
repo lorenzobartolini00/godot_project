@@ -1,35 +1,3 @@
-[remap]
-
-importer="texture"
-type="StreamTexture"
-path="res://.import/flamethrower.png-a0adf413dd1e1205c3b791cdc3e38323.stex"
-metadata={
-"vram_texture": false
-}
-
-[deps]
-
-source_file="res://assets/weaponpack_assets/Sprites/Silhouette/flamethrower.png"
-dest_files=[ "res://.import/flamethrower.png-a0adf413dd1e1205c3b791cdc3e38323.stex" ]
-
-[params]
-
-compress/mode=0
-compress/lossy_quality=0.7
-compress/hdr_mode=0
-compress/bptc_ldr=0
-compress/normal_map=0
-flags/repeat=0
-flags/filter=true
-flags/mipmaps=false
-flags/anisotropic=false
-flags/srgb=2
-process/fix_alpha_border=true
-process/premult_alpha=false
-process/HDR_as_SRGB=false
-process/invert_color=false
-process/normal_map_invert_y=false
-stream=false
-size_limit=0
-detect_3d=true
-svg/scale=1.0
+version https://git-lfs.github.com/spec/v1
+oid sha256:517cfa31662df538d779255f66a621136150d0030aed122a897a4d2c01f56c90
+size 742

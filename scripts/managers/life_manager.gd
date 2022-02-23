@@ -30,6 +30,7 @@ func set_life(_value: int) -> void:
 			var _partial_value: int = _total_life + _value
 			if _partial_value >= 0 and _partial_value <= _max_total_life:
 				_current_life = _partial_value % _max_life
+				
 				var _remaining_quantity: int = _partial_value - _current_life
 				
 				_quantity = 0

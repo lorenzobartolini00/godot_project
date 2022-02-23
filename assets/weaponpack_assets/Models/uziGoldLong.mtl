@@ -1,14 +1,3 @@
-#
-## Alias OBJ Material File
-# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
-
-newmtl Gray8
-Ka 0.000000 0.000000 0.000000
-Kd 0.266667 0.266667 0.266667
-Ks 0.330000 0.330000 0.330000
-
-newmtl Gold
-Ka 0.000000 0.000000 0.000000
-Kd 0.803922 0.698039 0.094118
-Ks 0.330000 0.330000 0.330000
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:2c9a53623d976430d07935ddb0eb04eff89d07fde9610c26481acba05a8f309c
+size 318

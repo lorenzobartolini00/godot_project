@@ -1,20 +1,3 @@
-[remap]
-
-importer="wavefront_obj"
-type="Mesh"
-path="res://.import/uziGoldLong.obj-3f372ab96d45ce42f2557fd57cbb8f17.mesh"
-
-[deps]
-
-files=[ "res://.import/uziGoldLong.obj-3f372ab96d45ce42f2557fd57cbb8f17.mesh" ]
-
-source_file="res://assets/weaponpack_assets/Models/uziGoldLong.obj"
-dest_files=[ "res://.import/uziGoldLong.obj-3f372ab96d45ce42f2557fd57cbb8f17.mesh", "res://.import/uziGoldLong.obj-3f372ab96d45ce42f2557fd57cbb8f17.mesh" ]
-
-[params]
-
-generate_tangents=true
-scale_mesh=Vector3( 10, 10, 10 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+version https://git-lfs.github.com/spec/v1
+oid sha256:804ffc43884b073e4c2668b06e426592d9d19ed9e0df1edcd26137e9a077ae18
+size 586
