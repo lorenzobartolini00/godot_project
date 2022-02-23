@@ -48,6 +48,7 @@ func add_item(item: Item, quantity: int):
 		}
 		_element_changed = new_item
 		
+		
 		print("Found new item: %s" % new_item.item_reference.name)
 		GameEvents.emit_signal("found_new_item", new_item.item_reference)
 		
@@ -66,10 +67,8 @@ func get_item_quantity(_item: Item) -> int:
 		
 		if not _item_list.empty():
 			for _dictionary_item in _item_list:
-				if _dictionary_item.item_reference.name != _item.name:
-					continue
-					
-				return _dictionary_item.quantity
+				if _dictionary_item.item_reference.name == _item.name:
+					return _dictionary_item.quantity
 	
 	return 0
 

@@ -2,23 +2,51 @@ extends ItemUI
 
 class_name LifeItemUI
 
-export(NodePath) onready var life_avatar = get_node(life_avatar) as TextureRect
+export(NodePath) onready var texture_progress = get_node(texture_progress) as TextureProgress
 
-export(NodePath) onready var name_label = get_node(name_label) as Label
-export(NodePath) onready var description_label = get_node(description_label) as Label
 
 func _ready():
-	GameEvents.connect("life_changed", self, "_on_life_changed")
+	GameEvents.connect("current_life_changed", self, "_on_current_life_changed")
 
 
 func initial_setup(_life: Item):
 	if _life is Life:
 		local_item = _life
-		life_avatar.texture = _life.get_avatar()
-		name_label.text = _life.name
-		description_label.text = String(_life.get_current_life())
+		texture_progress.max_value = _life.max_life
+		texture_progress.value = _life.current_life
 
 
-func _on_life_changed(_life: Life, character: Character):
-	if character is Player:
-		description_label.text = String(_life.get_current_life())
+func _on_current_life_changed(_life: Life, character: Character):
+	_update_UI(_life, character)
+
+
+func _update_UI(_life: Life, character: Character):
+	if character.is_in_group("player"):
+		var _current_index: int = 0
+		for i in range(get_parent().get_children().size()):
+			
+			if self == get_parent().get_child(i):
+				
+				_current_index = i
+				break
+		
+		var _inventory: Inventory = character.get_inventory()
+		var _life_quantity = _inventory.get_item_quantity(_life)
+		
+		var _current_life_index: int = 0
+		while _current_life_index < _life_quantity:
+			_current_life_index += 1
+		
+		if _current_index < _current_life_index:
+			texture_progress.value = _life.max_life
+		
+		elif _current_index > _current_life_index:
+			texture_progress.value = 0
+		
+		elif _current_index == _current_life_index:
+			texture_progress.value = _life.current_life
+		
+		texture_progress.max_value = _life.max_life
+		
+#		print("Battery number %s has %s points" % [String(_current_index), String(_life.current_life)])
+

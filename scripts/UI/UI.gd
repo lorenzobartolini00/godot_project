@@ -18,20 +18,20 @@ func _ready():
 	GameEvents.connect("reload", self, "_on_reloading")
 	GameEvents.connect("warning", self, "_on_warning")
 	
-	GameEvents.connect("life_changed", self, "_on_life_changed")
+	GameEvents.connect("inventory_changed", self, "_on_inventory_changed")
 	GameEvents.connect("current_weapon_changed", self, "_on_current_weapon_changed")
 	GameEvents.connect("found_new_item", self, "_on_found_new_item")
 	
 	_warning_label.visible = false
 
 
-func _on_life_changed(_life: Life, character: Character):
-	if character is Player:
-		if _current_life_container.get_child_count() == 0:
-			var _life_item_UI = life_item_UI.instance() as LifeItemUI
-			_current_life_container.add_child(_life_item_UI)
-
-			_life_item_UI.initial_setup(_life)
+#func _on_current_life_changed(_life: Life, character: Character):
+#	if character is Player:
+#		if _current_life_container.get_child_count() == 0:
+#			var _life_item_UI = life_item_UI.instance() as LifeItemUI
+#			_current_life_container.add_child(_life_item_UI)
+#
+#			_life_item_UI.initial_setup(_life)
 
 
 func _on_current_weapon_changed(_weapon: Weapon, character: Character):
@@ -71,3 +71,19 @@ func _on_found_new_item(_item: Item) ->void:
 		_weapon_grid_container.add_child(_weapon_item_UI)
 		
 		_weapon_item_UI.initial_setup(_item)
+	
+#	if _item is Life:
+#		if _current_life_container.get_child_count() == 0:
+#			var _life_item_UI = life_item_UI.instance() as LifeItemUI
+#			_current_life_container.add_child(_life_item_UI)
+#
+#			_life_item_UI.initial_setup(_item)
+
+
+func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
+	var _item: Item = _item_changed.item_reference
+	if _item is LifeSlot:
+		var _life_item_UI = life_item_UI.instance() as LifeItemUI
+		_current_life_container.add_child(_life_item_UI)
+	
+	

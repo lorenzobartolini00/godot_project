@@ -13,14 +13,17 @@ export(NodePath) onready var reload_manager = get_node(reload_manager) as Reload
 
 export(Resource) var inventory = inventory as Inventory
 
+onready var _life_slot = preload("res://my_resources/life_statistics/life_slot.tres") as LifeSlot
+
 func _ready() -> void:
 	self._move_speed = statistics.speed
 	
 #	GameEvents.connect("collected", self, "_on_collected")
 	GameEvents.connect("found_new_item", self, "_on_new_item_found")
+	_initialize_inventory()
 	
-	GameEvents.emit_signal("collected", self.get_current_weapon(), 1, self)
-	GameEvents.emit_signal("life_changed", self.get_life(), self)
+	
+	GameEvents.emit_signal("current_life_changed", self.get_life(), self)
 
 func _physics_process(delta):
 	movement(delta)
@@ -43,11 +46,19 @@ func _input(event) -> void:
 	if Input.is_action_just_pressed("show_inventory"):
 		GameEvents.emit_signal("show_weapon_list", inventory.get_items()[Enums.ItemTipology.WEAPON])
 		inventory.show_inventory()
+		GameEvents.emit_signal("current_life_changed", self.get_life(), self)
+		print(get_life().get_current_life())
 
 #Overrride
 func _on_collected(_item: Item, _quantity: int, character):
 	if character == self:
 		inventory.add_item(_item, _quantity)
+		
+		if _item is Life:
+			GameEvents.emit_signal("current_life_changed", get_life(), self)
+		
+		if _item is LifeSlot:
+			life_manager.call_deferred("max_life")
 
 
 func _on_new_item_found(_new_item: Item):
@@ -57,8 +68,12 @@ func _on_new_item_found(_new_item: Item):
 		
 		#Seleziono la nuova arma raccolta come quella corrente
 		weapon_manager.change_current_weapon(_new_item)
-	
-	
+
+
+func _initialize_inventory():
+	GameEvents.emit_signal("collected", self.get_current_weapon(), 1, self)
+	GameEvents.emit_signal("collected", _life_slot, 0, self)
+	GameEvents.emit_signal("collected", self.get_life(), 0, self)
 
 
 func get_inventory() -> Inventory:

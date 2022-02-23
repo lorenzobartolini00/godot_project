@@ -8,7 +8,7 @@ signal found_new_item(new_item)
 
 signal reload
 signal warning(text)
-signal life_changed(new_life, character)
+signal current_life_changed(new_life, character)
 signal current_weapon_changed(new_current_weapon, character)
 signal current_ammo_changed(new_current_ammo, character)
 
