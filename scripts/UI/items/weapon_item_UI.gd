@@ -18,13 +18,13 @@ func initial_setup(_weapon_item: Item):
 		self.name_label.text = _weapon_item.name
 
 
-func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
+func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary, is_new: bool):
 	var _item = _item_changed.item_reference as Item
-	
+
 	if _item is Ammo:
 		if _item.name == self.local_item.get_ammo().name:
 			var _ammo_in_stock: int = _item_changed.quantity
-			
+
 			_update_UI(_item, _ammo_in_stock)
 
 

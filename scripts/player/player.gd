@@ -10,6 +10,7 @@ export(NodePath) onready var reload_manager = get_node(reload_manager) as Reload
 #export(NodePath) onready var weapon_manager = get_node(weapon_manager) as WeaponManager
 #export(NodePath) onready var ammo_manager = get_node(ammo_manager) as AmmoManager
 
+export(NodePath) onready var inventory_manager = get_node(inventory_manager) as InventoryManager
 
 export(Resource) var inventory = inventory as Inventory
 
@@ -17,11 +18,7 @@ onready var _life_slot = preload("res://my_resources/life_statistics/life_slot.t
 
 func _ready() -> void:
 	self._move_speed = statistics.speed
-	
-#	GameEvents.connect("collected", self, "_on_collected")
-	GameEvents.connect("found_new_item", self, "_on_new_item_found")
-	_initialize_inventory()
-	
+	inventory_manager.initialize_inventory()
 	
 	GameEvents.emit_signal("current_life_changed", self.get_life(), self)
 
@@ -38,43 +35,37 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("change_weapon"):
 		weapon_manager.shift_current_weapon(1)
 	
+	var _collecting_area: Area = get_node("CollectingArea")
+	var areas = _collecting_area.get_overlapping_areas()
+	for area in areas:
+		if area is Collectable:
+			GameEvents.emit_signal("collected", area ,area.get_item(), area.get_quantity(), self)
+			print(area.get_item().name + " collected")
+	
 
 
 func _input(event) -> void:
 	aim(event)
 	
 	if Input.is_action_just_pressed("show_inventory"):
-		GameEvents.emit_signal("show_weapon_list", inventory.get_items()[Enums.ItemTipology.WEAPON])
+#		GameEvents.emit_signal("show_weapon_list", inventory.get_items()[Enums.ItemTipology.WEAPON])
 		inventory.show_inventory()
 		GameEvents.emit_signal("current_life_changed", self.get_life(), self)
 		print(get_life().get_current_life())
 
-#Overrride
-func _on_collected(_item: Item, _quantity: int, character):
-	if character == self:
-		inventory.add_item(_item, _quantity)
-		
-		if _item is Life:
-			GameEvents.emit_signal("current_life_changed", get_life(), self)
-		
-		if _item is LifeSlot:
-			life_manager.call_deferred("max_life")
-
-
-func _on_new_item_found(_new_item: Item):
-	if _new_item is Weapon:
-		#Aggiungo nell'inventario lo slot vuoto per le munizioni
-		inventory.add_item(_new_item.get_ammo(), 0)
-		
-		#Seleziono la nuova arma raccolta come quella corrente
-		weapon_manager.change_current_weapon(_new_item)
-
-
-func _initialize_inventory():
-	GameEvents.emit_signal("collected", self.get_current_weapon(), 1, self)
-	GameEvents.emit_signal("collected", _life_slot, 0, self)
-	GameEvents.emit_signal("collected", self.get_life(), 0, self)
+#
+#
+#func _initialize_inventory():
+#	GameEvents.emit_signal("add_item_to_inventory", _life_slot, 0)
+#	inventory.add_item(self.get_life(), 0)
+#	inventory.add_item(self.get_current_weapon(), 1)
 
 
 func get_inventory() -> Inventory:
 	return inventory
+
+
+func _on_CollectingArea_body_entered(body):
+	if body is Collectable:
+		GameEvents.emit_signal("collected", body.get_item(), body.get_quantity(), self)
+		print(body.get_item().name + " collected")

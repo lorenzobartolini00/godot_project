@@ -15,7 +15,7 @@ func get_items() -> Array:
 
 func add_item(item: Item, quantity: int):
 	var _max_quantity = item.max_quantity if not item.is_unique else 1
-	var _already_here: bool = false
+	var _is_new: bool = true
 	
 	var _element_changed: Dictionary
 	
@@ -39,9 +39,9 @@ func add_item(item: Item, quantity: int):
 		
 		_element_changed = inventory_item
 		
-		_already_here = true
+		_is_new = false
 	
-	if not _already_here:
+	if _is_new:
 		var new_item = {
 			item_reference = item,
 			quantity = min(quantity, _max_quantity)
@@ -50,11 +50,10 @@ func add_item(item: Item, quantity: int):
 		
 		
 		print("Found new item: %s" % new_item.item_reference.name)
-		GameEvents.emit_signal("found_new_item", new_item.item_reference)
 		
 		page.append(new_item)
 	
-	GameEvents.emit_inventory_changed(self, _element_changed)
+	GameEvents.emit_inventory_changed(self, _element_changed, _is_new)
 
 
 func get_item_quantity(_item: Item) -> int:
@@ -88,7 +87,7 @@ func set_item_quantity(_item: Item, _quantity: int) -> void:
 					
 				_dictionary_item.quantity = _quantity
 	
-				GameEvents.emit_inventory_changed(self, _dictionary_item)
+				GameEvents.emit_inventory_changed(self, _dictionary_item, false)
 
 
 func get_item(_item_name: String, _tipology: int) -> Item:

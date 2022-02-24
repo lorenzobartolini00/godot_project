@@ -6,6 +6,14 @@ class_name WeaponManager
 var weapon_list: Array
 var current_weapon_index: int
 
+func _ready():
+	GameEvents.connect("change_current_weapon", self, "_on_change_current_weapon")
+
+
+func _on_change_current_weapon(_new_weapon: Weapon, _character):
+	if _character == character:
+		change_current_weapon(_new_weapon)
+
 
 func shift_current_weapon(shift: int) ->void:
 	if character.is_in_group("player"):
@@ -42,12 +50,6 @@ func _get_weapon_list() -> Array:
 		_weapon_list = _items[Enums.ItemTipology.WEAPON]
 		
 	return _weapon_list
-
-
-#func drop_weapon() -> void:
-#	character.set_current_weapon(null)
-#	GameEvents.emit_signal("ammo_changed", null, character)
-#	GameEvents.emit_signal("weapon_changed", null, character)
 
 
 func change_current_weapon(_new_current_weapon: Weapon):

@@ -5,6 +5,7 @@ class_name AmmoManager
 
 func set_ammo_for_weapon(_weapon: Weapon):
 	if character.is_in_group("player"):
+		
 		var _weapon_name: String = _weapon.name
 		var inventory: Inventory = character.get_inventory()
 		
@@ -28,7 +29,7 @@ func consume_current_ammo() -> void:
 
 
 func consume_ammo_in_stock(_quantity: int) -> void:
-	if character.is_in_froup("player"):
+	if character.is_in_group("player"):
 		var inventory: Inventory = character.get_inventory()
 		var _ammo: Ammo = character.get_current_weapon().get_ammo()
 		var _current_quantity: int = inventory.get_item_quantity(_ammo)

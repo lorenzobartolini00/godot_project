@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Item",
+"base": "Stockable",
 "class": "Ammo",
 "language": "GDScript",
 "path": "res://scripts/ammos/ammo.gd"
@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/inventory_system/inventory.gd"
 }, {
+"base": "Manager",
+"class": "InventoryManager",
+"language": "GDScript",
+"path": "res://scripts/managers/inventory_manager.gd"
+}, {
 "base": "Resource",
 "class": "Item",
 "language": "GDScript",
@@ -69,7 +74,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/UI/items/item_UI.gd"
 }, {
-"base": "Item",
+"base": "Usable",
 "class": "Life",
 "language": "GDScript",
 "path": "res://scripts/life/life.gd"
@@ -84,7 +89,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/managers/life_manager.gd"
 }, {
-"base": "Item",
+"base": "Usable",
 "class": "LifeSlot",
 "language": "GDScript",
 "path": "res://scripts/life/life_slot.gd"
@@ -134,6 +139,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/statistics/statistics.gd"
 }, {
+"base": "Item",
+"class": "Stockable",
+"language": "GDScript",
+"path": "res://scripts/inventory_system/stockable.gd"
+}, {
 "base": "Control",
 "class": "UI",
 "language": "GDScript",
@@ -144,7 +154,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/UI/component_UI.gd"
 }, {
-"base": "Item",
+"base": "Stockable",
+"class": "Usable",
+"language": "GDScript",
+"path": "res://scripts/inventory_system/usable.gd"
+}, {
+"base": "Usable",
 "class": "Weapon",
 "language": "GDScript",
 "path": "res://scripts/weapons/weapon.gd"
@@ -170,6 +185,7 @@ _global_script_class_icons={
 "Enemy": "",
 "Exploadable": "",
 "Inventory": "",
+"InventoryManager": "",
 "Item": "",
 "ItemUI": "",
 "Life": "",
@@ -185,8 +201,10 @@ _global_script_class_icons={
 "ShootManager": "",
 "Shootable": "",
 "Statistics": "",
+"Stockable": "",
 "UI": "",
 "UIComponent": "",
+"Usable": "",
 "Weapon": "",
 "WeaponItemUI": "",
 "WeaponManager": ""

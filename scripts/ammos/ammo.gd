@@ -1,4 +1,4 @@
-extends Item
+extends Stockable
 
 class_name Ammo
 

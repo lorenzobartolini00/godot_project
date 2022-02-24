@@ -28,11 +28,9 @@ func _can_shoot() -> bool:
 
 func shoot(shooting_raycast: RayCast) -> void:
 	if _can_shoot():
-#		print(character.name + " has shot")
+		print(character.name + " has shot")
 		
 		character.ammo_manager.consume_current_ammo()
-	
-#		GameEvents.emit_signal("ammo_changed", character.get_current_weapon().get_ammo(), character)
 		
 		#Setta can_shoot a false finchè non è passato un tempo pari a shoot_time
 		_set_shoot_timer()

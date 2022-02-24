@@ -9,8 +9,8 @@ export(NodePath) onready var reload_manager = get_node(reload_manager) as Reload
 
 
 func _ready():
-	
-	GameEvents.emit_signal("collected", self.get_current_weapon(), 1, self)
+	GameEvents.emit_signal("change_current_weapon", self.get_current_weapon(), self)
+
 
 func _physics_process(_delta):
 	_movement()
@@ -20,11 +20,6 @@ func _physics_process(_delta):
 	
 	if reload_manager.need_reload():
 		reload_manager.reload()
-
-
-func _on_collected(_item: Item, _quantity: int, character):
-	if character == self:
-		weapon_manager.change_current_weapon(_item)
 
 
 #Override

@@ -39,7 +39,7 @@ func reload() -> void:
 		var _current_weapon = character.get_current_weapon()
 		if _current_weapon:
 			GameEvents.emit_signal("reload", character)
-#			print(character.name + " is reloading...")
+			print(character.name + " is reloading...")
 			
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.RELOADING
 			
@@ -60,4 +60,4 @@ func _on_reload_timer_timeout():
 			
 		
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
-#			print(character.name + " finished reloading")
+			print(character.name + " finished reloading")

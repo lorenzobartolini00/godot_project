@@ -13,14 +13,6 @@ export(NodePath) onready var life_manager = get_node(life_manager) as LifeManage
 func _ready():
 	_runtime_data.setup_local_to_scene()
 	GameEvents.connect("died", self, "_on_died")
-	GameEvents.connect("collected", self, "_on_collected")
-	
-#	GameEvents.emit_signal("collected", self.get_current_weapon(), 1, self)
-
-
-func _on_collected(_item: Item, _quantity: int, character):
-	if character == self:
-		weapon_manager.change_current_weapon(_item)
 
 
 func _on_died(character) -> void:
