@@ -44,9 +44,7 @@ func _input(event) -> void:
 	aim(event)
 	
 	if Input.is_action_just_pressed("show_inventory"):
-#		GameEvents.emit_signal("show_weapon_list", inventory.get_items()[Enums.ItemTipology.WEAPON])
 		inventory.show_inventory()
-		GameEvents.emit_signal("current_life_changed", self.get_life(), self)
 		print(get_life().get_current_life())
 
 

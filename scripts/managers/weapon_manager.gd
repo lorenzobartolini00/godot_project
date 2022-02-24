@@ -12,7 +12,8 @@ func _ready():
 
 func _on_change_current_weapon(_new_weapon: Weapon, _character):
 	if _character == character:
-		change_current_weapon(_new_weapon)
+		#La chiamata alla funzione è rimandata per permettere all'inventario di aggiornarsi
+		call_deferred("change_current_weapon", _new_weapon)
 
 
 func shift_current_weapon(shift: int) ->void:

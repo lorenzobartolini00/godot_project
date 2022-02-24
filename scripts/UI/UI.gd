@@ -30,14 +30,16 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 
 func _on_current_weapon_changed(_weapon: Weapon, character: Character):
 	if character is Player:
-		if _current_weapon_container.get_child_count() != 0:
-			var _previous_weapon_item: WeaponItemUI = _current_weapon_container.get_child(0)
-			_current_weapon_container.remove_child(_previous_weapon_item)
+		var _weapon_item_UI_list: Array = _weapon_grid_container.get_children()
+		var _last_weapon_item_UI: WeaponItemUI
 		
-		var _weapon_item_UI = weapon_item_UI.instance() as WeaponItemUI
-		_current_weapon_container.add_child(_weapon_item_UI)
-		
-		_weapon_item_UI.setup(_weapon, character.inventory)
+		for _weapon_item_UI in _weapon_item_UI_list:
+			_last_weapon_item_UI = _weapon_grid_container.get_child(_weapon_item_UI_list.size() - 1)
+			_weapon_grid_container.remove_child(_weapon_item_UI)
+			_weapon_grid_container.add_child_below_node(_last_weapon_item_UI, _weapon_item_UI)
+			
+			if _weapon_grid_container.get_child(0).name_label.text == _weapon.name:
+				break
 
 
 func _on_warning(_text: String) -> void:

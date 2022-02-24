@@ -30,6 +30,8 @@ func _update_UI(_life: Life, character: Character):
 		
 		var _life_quantity = self.inventory.get_item_quantity(_life)
 		
+		
+		
 		var _current_life_index: int = 0
 		while _current_life_index < _life_quantity:
 			_current_life_index += 1
