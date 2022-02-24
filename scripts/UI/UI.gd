@@ -34,6 +34,7 @@ func _on_current_weapon_changed(_weapon: Weapon, character: Character):
 		var _weapon_item_UI_list: Array = _weapon_grid_container.get_children()
 		var _last_weapon_item_UI: WeaponItemUI
 		
+		#Faccio scorrere i pannelli in modo che il primo della lista sia quello che contiene l'arma corrente
 		for _weapon_item_UI in _weapon_item_UI_list:
 			_last_weapon_item_UI = _weapon_grid_container.get_child(_weapon_item_UI_list.size() - 1)
 			_weapon_grid_container.remove_child(_weapon_item_UI)
@@ -42,6 +43,7 @@ func _on_current_weapon_changed(_weapon: Weapon, character: Character):
 			if _weapon_grid_container.get_child(0).name_label.text == _weapon.name:
 				break
 		
+		#Per questioni di spazio visualizzo solo i primi _max_weapon_item_UI pannelli
 		var _count: int = 0
 		for _weapon_item_UI in _weapon_grid_container.get_children():
 			if _count < _max_weapon_item_UI:
@@ -80,7 +82,7 @@ func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionar
 		var _weapon_list: Array = _inventory.get_item_list(Enums.ItemTipology.WEAPON)
 	
 		var found: bool = false
-	
+		#Controllo che il pannello che mostra l'arma non sia già stato aggiunto
 		for _weapon_item_UI in _weapon_item_UI_list:
 			_weapon_item_UI = _weapon_item_UI as WeaponItemUI
 			if _weapon_item_UI.name_label.text != _item.name:
@@ -89,21 +91,29 @@ func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionar
 			found = true
 		
 		if not found:
+			#Nel caso in cui non sia presente devo inserirlo come nodo figlio di _weapon_grid_container
+			
+			#Ricavo prima un array che contiene tutte gli oggetti di tipo Weapon presenti nell'inventario
 			var _weapon_item_list: Array
 			for _weapon in _weapon_list:
 				_weapon_item_list.append(_weapon.item_reference)
 			
+			#Poi salvo l'indice dell'array in cui è contenuta l'oggetto che devo aggiungere
 			var _current_weapon_index: int = _weapon_item_list.find(_item)
+			#Ricavo il nome dell'arma precedente a quella che devo aggiungere
 			var _previous_name: String = _weapon_item_list[(_current_weapon_index - 1 + _weapon_list.size()) % _weapon_list.size()].name
 			
 			var _new_weapon_item_UI = weapon_item_UI.instance() as WeaponItemUI
 			var _previous_weapon_item_UI: WeaponItemUI
 			
+			#Cerco il pannello che contiene l'arma che sta una posizione prima nell'elenco delle armi nell'inventario
 			for _weapon_item_UI in _weapon_item_UI_list:
 				if _weapon_item_UI.name_label.text == _previous_name:
 					_previous_weapon_item_UI = _weapon_item_UI
 					break
 			
+			#Se tale pannello è presente, aggiungo al di sotto di esso il pannello appena creato
+			#in modo che l'ordine con cui le armi vengono mostrate dalla UI rispecchi quello dell'inventario
 			if _previous_weapon_item_UI:
 				_weapon_grid_container.add_child_below_node(_previous_weapon_item_UI, _new_weapon_item_UI)
 			else:
