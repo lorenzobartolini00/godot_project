@@ -5,6 +5,7 @@ class_name InventoryManager
 export(Array, String) var path_list
 
 func _ready():
+	initialize_inventory()
 	GameEvents.connect("add_item_to_inventory", self, "_on_add_item_to_inventory")
 
 
@@ -28,7 +29,8 @@ func initialize_inventory() -> void:
 		var item: Item = load(resource)
 		
 		if item is Item:
-			inventory.add_item(item, 0) 
+			var _unlock: bool = false
+			inventory.add_item(item, 0)
 
 
 func list_files_in_directory(path):

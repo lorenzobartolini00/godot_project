@@ -18,9 +18,12 @@ onready var _life_slot = preload("res://my_resources/life_statistics/life_slot.t
 
 func _ready() -> void:
 	self._move_speed = statistics.speed
-	inventory_manager.initialize_inventory()
 	
-	GameEvents.emit_signal("current_life_changed", self.get_life(), self)
+	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon(), 1)
+	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon().get_ammo(), 0)
+	
+	GameEvents.emit_signal("change_current_life", 0, false, self)
+	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
 func _physics_process(delta):
 	movement(delta)
@@ -35,13 +38,6 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("change_weapon"):
 		weapon_manager.shift_current_weapon(1)
 	
-	var _collecting_area: Area = get_node("CollectingArea")
-	var areas = _collecting_area.get_overlapping_areas()
-	for area in areas:
-		if area is Collectable:
-			GameEvents.emit_signal("collected", area ,area.get_item(), area.get_quantity(), self)
-			print(area.get_item().name + " collected")
-	
 
 
 func _input(event) -> void:
@@ -53,19 +49,12 @@ func _input(event) -> void:
 		GameEvents.emit_signal("current_life_changed", self.get_life(), self)
 		print(get_life().get_current_life())
 
-#
-#
-#func _initialize_inventory():
-#	GameEvents.emit_signal("add_item_to_inventory", _life_slot, 0)
-#	inventory.add_item(self.get_life(), 0)
-#	inventory.add_item(self.get_current_weapon(), 1)
-
 
 func get_inventory() -> Inventory:
 	return inventory
 
 
-func _on_CollectingArea_body_entered(body):
-	if body is Collectable:
-		GameEvents.emit_signal("collected", body.get_item(), body.get_quantity(), self)
-		print(body.get_item().name + " collected")
+func _on_CollectingArea_area_entered(area):
+	if area is Collectable:
+			GameEvents.emit_signal("collected", area ,area.get_item(), area.get_quantity(), self)
+			print(area.get_item().name + " collected")

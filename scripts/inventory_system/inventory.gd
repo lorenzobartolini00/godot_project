@@ -37,6 +37,9 @@ func add_item(item: Item, quantity: int):
 		
 		inventory_item.quantity = min(inventory_item.quantity + quantity, _max_quantity)
 		
+		if inventory_item.status != Enums.ItemStatus.UNLOCKED:
+			inventory_item.status = Enums.ItemStatus.UNLOCKED
+		
 		_element_changed = inventory_item
 		
 		_is_new = false
@@ -44,16 +47,16 @@ func add_item(item: Item, quantity: int):
 	if _is_new:
 		var new_item = {
 			item_reference = item,
-			quantity = min(quantity, _max_quantity)
+			quantity = min(quantity, _max_quantity),
+			status = Enums.ItemStatus.LOCKED
 		}
 		_element_changed = new_item
 		
-		
-		print("Found new item: %s" % new_item.item_reference.name)
-		
 		page.append(new_item)
 	
-	GameEvents.emit_inventory_changed(self, _element_changed, _is_new)
+#	print("Found new item: %s" % _element_changed.item_reference.name)
+	
+	GameEvents.emit_inventory_changed(self, _element_changed)
 
 
 func get_item_quantity(_item: Item) -> int:
@@ -86,8 +89,10 @@ func set_item_quantity(_item: Item, _quantity: int) -> void:
 					continue
 					
 				_dictionary_item.quantity = _quantity
+				
+#				_dictionary_item.status = Enums.ItemStatus.UNLOCKED
 	
-				GameEvents.emit_inventory_changed(self, _dictionary_item, false)
+				GameEvents.emit_inventory_changed(self, _dictionary_item)
 
 
 func get_item(_item_name: String, _tipology: int) -> Item:
@@ -132,6 +137,6 @@ func show_inventory() -> void:
 				print("Life:")
 		
 		for item in page:
-			print("item: %s, quantity: %s" % [item.item_reference.name, String(item.quantity)])
+			print("item: %s, quantity: %s, status: %s" % [item.item_reference.name, String(item.quantity), item.status])
 		
 		index_page += 1

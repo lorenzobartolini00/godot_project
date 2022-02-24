@@ -22,5 +22,5 @@ signal inventory_changed(inventory, item_changed, is_new)
 
 signal died
 
-func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary, _is_new: bool) -> void:
-	call_deferred("emit_signal", "inventory_changed", inventory, _item_changed, _is_new)
+func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> void:
+	call_deferred("emit_signal", "inventory_changed", inventory, _item_changed)

@@ -2,16 +2,17 @@ extends MarginContainer
 
 class_name ItemUI
 
-export(Resource) var local_item = local_item as Item
-
+var local_item: Item
+var inventory: Inventory
 
 func _ready():
 	GameEvents.connect("inventory_changed", self, "_on_inventory_changed")
 
 
-func initial_setup(_item: Item):
-	pass
+func setup(_item: Item, _inventory: Inventory):
+	self.local_item = _item
+	self.inventory = _inventory
 
 
-func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary, _is_new: bool):
+func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 	pass
