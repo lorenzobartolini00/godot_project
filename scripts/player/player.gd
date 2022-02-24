@@ -25,6 +25,7 @@ func _ready() -> void:
 	GameEvents.emit_signal("change_current_life", 0, false, self)
 	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
+
 func _physics_process(delta):
 	movement(delta)
 	
@@ -37,7 +38,6 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("change_weapon"):
 		weapon_manager.shift_current_weapon(1)
-	
 
 
 func _input(event) -> void:
