@@ -91,7 +91,9 @@ func set_item_quantity(_item: Item, _quantity: int) -> void:
 					
 				_dictionary_item.quantity = _quantity
 				
-#				_dictionary_item.status = Enums.ItemStatus.UNLOCKED
+				if _dictionary_item.status != Enums.ItemStatus.UNLOCKED:
+					print("Found new item: %s" % _dictionary_item.item_reference.name)
+					_dictionary_item.status = Enums.ItemStatus.UNLOCKED
 	
 				GameEvents.emit_inventory_changed(self, _dictionary_item)
 

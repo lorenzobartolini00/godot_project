@@ -9,11 +9,9 @@ func _ready():
 	GameEvents.connect("current_life_changed", self, "_on_current_life_changed")
 
 
-func initial_setup(_life: Item):
-	if _life is Life:
-		local_item = _life
-		texture_progress.max_value = _life.max_life
-		texture_progress.value = _life.current_life
+func setup(_item: Item, _inventory: Inventory):
+	if _item is LifeSlot:
+		self.inventory = _inventory
 
 
 func _on_current_life_changed(_life: Life, character: Character):
@@ -30,8 +28,7 @@ func _update_UI(_life: Life, character: Character):
 				_current_index = i
 				break
 		
-		var _inventory: Inventory = character.get_inventory()
-		var _life_quantity = _inventory.get_item_quantity(_life)
+		var _life_quantity = self.inventory.get_item_quantity(_life)
 		
 		var _current_life_index: int = 0
 		while _current_life_index < _life_quantity:
@@ -47,6 +44,4 @@ func _update_UI(_life: Life, character: Character):
 			texture_progress.value = _life.current_life
 		
 		texture_progress.max_value = _life.max_life
-		
-#		print("Battery number %s has %s points" % [String(_current_index), String(_life.current_life)])
 

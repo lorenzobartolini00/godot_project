@@ -13,6 +13,7 @@ export(NodePath) onready var description_label = get_node(description_label) as 
 func _ready():
 	GameEvents.connect("current_ammo_changed", self, "_on_current_ammo_changed")
 
+
 func setup(_weapon_item: Item, _inventory: Inventory):
 	if _weapon_item is Weapon:
 		self.local_item = _weapon_item

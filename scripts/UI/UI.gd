@@ -88,3 +88,5 @@ func _update_life_container_UI(_inventory: Inventory, _item_changed: Dictionary)
 	if _item is LifeSlot:
 		var _life_item_UI = life_item_UI.instance() as LifeItemUI
 		_current_life_container.add_child(_life_item_UI)
+		
+		_life_item_UI.setup(_item, _inventory)
