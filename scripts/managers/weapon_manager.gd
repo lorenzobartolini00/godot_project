@@ -26,22 +26,17 @@ func shift_current_weapon(shift: int) ->void:
 			var _inventory: Inventory = character.get_inventory()
 			var _weapon_list: Array = _inventory.get_item_list(Enums.ItemTipology.WEAPON)
 			
-			var _unlocked_weapon_list: Array
-			for _weapon in _weapon_list:
-				if _weapon.status != Enums.ItemStatus.LOCKED:
-					_unlocked_weapon_list.append(_weapon)
-			
 			var _current_weapon_index: int = 0
 			
-			for _weapon in _unlocked_weapon_list:
+			for _weapon in _weapon_list:
 				if _weapon.item_reference.name != _current_weapon.name:
 					_current_weapon_index += 1
 				else:
 					break
 			
-			var next_index: int = (_current_weapon_index + shift) % _unlocked_weapon_list.size()
+			var next_index: int = (_current_weapon_index + shift) % _weapon_list.size()
 			
-			change_current_weapon(_unlocked_weapon_list[next_index].item_reference)
+			change_current_weapon(_weapon_list[next_index].item_reference)
 	
 
 

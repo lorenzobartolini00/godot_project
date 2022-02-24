@@ -117,9 +117,18 @@ func get_item(_item_name: String, _tipology: int) -> Item:
 
 func get_item_list(_tipology: int) -> Array:
 	if _tipology < _items.size():
-		return _items[_tipology]
+		var _item_list: Array = _items[_tipology]
+		
+		var _unlocked_item_list: Array
+		for _item in _item_list:
+			if _item.status != Enums.ItemStatus.LOCKED:
+				_unlocked_item_list.append(_item)
+		
+		return _unlocked_item_list
 	
 	return []
+
+
 
 
 func is_item_in_stock(_item: Item) -> bool:

@@ -13,6 +13,7 @@ export(NodePath) onready var _current_life_container = get_node(_current_life_co
 onready var weapon_item_UI = preload("res://nodes/weapon_item_UI.tscn")
 onready var life_item_UI = preload("res://nodes/life_item_UI.tscn")
 
+export var _max_weapon_item_UI: int = 3
 
 func _ready():
 	GameEvents.connect("reload", self, "_on_reloading")
@@ -37,9 +38,19 @@ func _on_current_weapon_changed(_weapon: Weapon, character: Character):
 			_last_weapon_item_UI = _weapon_grid_container.get_child(_weapon_item_UI_list.size() - 1)
 			_weapon_grid_container.remove_child(_weapon_item_UI)
 			_weapon_grid_container.add_child_below_node(_last_weapon_item_UI, _weapon_item_UI)
-			
+
 			if _weapon_grid_container.get_child(0).name_label.text == _weapon.name:
 				break
+		
+		var _count: int = 0
+		for _weapon_item_UI in _weapon_grid_container.get_children():
+			if _count < _max_weapon_item_UI:
+				_weapon_item_UI.visible = true
+				_count += 1
+				continue
+			
+			_weapon_item_UI.visible = false
+		
 
 
 func _on_warning(_text: String) -> void:
@@ -78,10 +89,27 @@ func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionar
 			found = true
 		
 		if not found:
-			var _weapon_item_UI = weapon_item_UI.instance() as WeaponItemUI
-			_weapon_grid_container.add_child(_weapon_item_UI)
+			var _weapon_item_list: Array
+			for _weapon in _weapon_list:
+				_weapon_item_list.append(_weapon.item_reference)
+			
+			var _current_weapon_index: int = _weapon_item_list.find(_item)
+			var _previous_name: String = _weapon_item_list[(_current_weapon_index - 1 + _weapon_list.size()) % _weapon_list.size()].name
+			
+			var _new_weapon_item_UI = weapon_item_UI.instance() as WeaponItemUI
+			var _previous_weapon_item_UI: WeaponItemUI
+			
+			for _weapon_item_UI in _weapon_item_UI_list:
+				if _weapon_item_UI.name_label.text == _previous_name:
+					_previous_weapon_item_UI = _weapon_item_UI
+					break
+			
+			if _previous_weapon_item_UI:
+				_weapon_grid_container.add_child_below_node(_previous_weapon_item_UI, _new_weapon_item_UI)
+			else:
+				_weapon_grid_container.add_child(_new_weapon_item_UI)
 
-			_weapon_item_UI.setup(_item, _inventory)
+			_new_weapon_item_UI.setup(_item, _inventory)
 
 
 func _update_life_container_UI(_inventory: Inventory, _item_changed: Dictionary):
