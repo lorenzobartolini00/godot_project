@@ -14,11 +14,13 @@ func _ready():
 
 func _process(_delta):
 	if not _set:
-		_set = true
-		get_node("MeshInstance").mesh = item.mesh
+		if item:
+			get_node("MeshInstance").mesh = item.mesh
+			_set = true
 
 
 func _physics_process(delta):
+	
 	get_node("MeshInstance").rotation_degrees.y += 180*delta
 
 

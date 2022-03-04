@@ -18,6 +18,7 @@ func _on_found_new_item(_item: Dictionary):
 	
 	var splash_message_text: String = message_array[Enums.MessageTipology.NEW_ITEM] + item.name
 	var description_text: String = item.description
+	
 		
 	show_splash_message(splash_message_text, description_text)
 
