@@ -2,28 +2,33 @@ extends Node
 
 
 func _ready():
+	pause_mode = Node.PAUSE_MODE_PROCESS
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-
-func _physics_process(_delta):
-	set_pause()
+	
+	GameEvents.connect("pause_game", self, "_on_game_paused")
+	GameEvents.connect("resume_game", self, "_on_game_resumed")
 
 
 func _input(_event):
-	set_mouse_mode()
-
-func set_mouse_mode() -> void:
-	if Input.is_action_just_pressed("pause"):
-		var mouse_mode: int = Input.get_mouse_mode()
-		if mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		elif mouse_mode == Input.MOUSE_MODE_VISIBLE:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	set_pause()
 
 
 func set_pause() -> void:
 	if Input.is_action_just_pressed("pause"):
 		if get_tree().paused == true:
-			get_tree().paused = false
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			GameEvents.emit_signal("resume_game")
 		else:
-			get_tree().paused = true
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			GameEvents.emit_signal("pause_game")
+
+
+func _on_game_paused() -> void:
+	get_tree().paused = true
+
+
+func _on_game_resumed() -> void:
+	get_tree().paused = false
+
+
+

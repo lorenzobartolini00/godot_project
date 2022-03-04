@@ -38,6 +38,7 @@ func add_item(item: Item, quantity: int):
 		inventory_item.quantity = min(inventory_item.quantity + quantity, _max_quantity)
 		
 		if inventory_item.status != Enums.ItemStatus.UNLOCKED:
+			GameEvents.emit_signal("found_new_item", inventory_item)
 			print("Found new item: %s" % inventory_item.item_reference.name)
 			inventory_item.status = Enums.ItemStatus.UNLOCKED
 		

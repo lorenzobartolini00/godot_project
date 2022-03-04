@@ -4,6 +4,7 @@ class_name Item
 
 export(String) var name
 export(Texture) var avatar
+export(String, MULTILINE) var description: String = "No description"
 export(Mesh) var mesh
 export(bool) var is_unique
 export(int) var max_quantity

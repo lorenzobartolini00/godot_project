@@ -18,7 +18,11 @@ signal current_ammo_changed(new_current_ammo, character)
 
 signal show_weapon_list(weapon_list)
 
-signal inventory_changed(inventory, item_changed, is_new)
+signal inventory_changed(inventory, item_changed)
+signal found_new_item(new_item)
+
+signal pause_game
+signal resume_game
 
 signal died
 
