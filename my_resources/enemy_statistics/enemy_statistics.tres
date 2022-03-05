@@ -1,15 +1,3 @@
-[gd_resource type="Resource" load_steps=4 format=2]
-
-[ext_resource path="res://scripts/statistics/statistics.gd" type="Script" id=1]
-[ext_resource path="res://my_resources/weapon_statistics/shot_gun.tres" type="Resource" id=2]
-[ext_resource path="res://my_resources/life_statistics/simple_life.tres" type="Resource" id=3]
-
-[resource]
-resource_local_to_scene = true
-script = ExtResource( 1 )
-_name = ""
-life = ExtResource( 3 )
-is_alive = true
-speed = 3.0
-reload_time = 0.0
-current_weapon = ExtResource( 2 )
+version https://git-lfs.github.com/spec/v1
+oid sha256:0a4c99129a932b4980daa6379e65fde7e2433785cc2f742b17f6dcdaf9645885
+size 505

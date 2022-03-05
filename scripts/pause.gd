@@ -16,7 +16,8 @@ func _input(_event):
 
 
 func set_pause() -> void:
-	if Input.is_action_just_pressed("pause"):
+	if Input.is_action_just_pressed("pause") \
+	and runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG:
 		if get_tree().paused == true:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			GameEvents.emit_signal("resume_game")
