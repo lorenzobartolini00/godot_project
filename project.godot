@@ -135,6 +135,11 @@ _global_script_classes=[ {
 "path": "res://scripts/interfaces/shootable.gd"
 }, {
 "base": "Resource",
+"class": "Slide",
+"language": "GDScript",
+"path": "res://scripts/slide_system/slide.gd"
+}, {
+"base": "Resource",
 "class": "Statistics",
 "language": "GDScript",
 "path": "res://scripts/statistics/statistics.gd"
@@ -200,6 +205,7 @@ _global_script_class_icons={
 "RuntimeData": "",
 "ShootManager": "",
 "Shootable": "",
+"Slide": "",
 "Statistics": "",
 "Stockable": "",
 "UI": "",

@@ -24,7 +24,14 @@ signal found_new_item(new_item)
 signal pause_game
 signal resume_game
 
+signal dialogue_initiated(slides)
+signal dialogue_finished
+
 signal died
 
 func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> void:
 	call_deferred("emit_signal", "inventory_changed", inventory, _item_changed)
+
+
+func emit_dialog_finished() -> void:
+	call_deferred("emit_signal", "dialogue_finished")

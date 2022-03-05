@@ -1,5 +1,7 @@
 extends Node
 
+export(Resource)var runtime_data = runtime_data as RuntimeData
+
 
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
@@ -20,6 +22,7 @@ func set_pause() -> void:
 			GameEvents.emit_signal("resume_game")
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			runtime_data.current_gameplay_state = Enums.GamePlayState.PAUSED
 			GameEvents.emit_signal("pause_game")
 
 
@@ -28,6 +31,7 @@ func _on_game_paused() -> void:
 
 
 func _on_game_resumed() -> void:
+	runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
 	get_tree().paused = false
 
 

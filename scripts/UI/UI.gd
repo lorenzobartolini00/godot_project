@@ -10,6 +10,9 @@ export(NodePath) onready var _weapon_grid_container = get_node(_weapon_grid_cont
 export(NodePath) onready var _current_weapon_container = get_node(_current_weapon_container) as Control
 export(NodePath) onready var _current_life_container = get_node(_current_life_container) as Control
 
+#debug
+export(Resource) onready var runtime_data = runtime_data as RuntimeData
+
 onready var weapon_item_UI = preload("res://nodes/weapon_item_UI.tscn")
 onready var life_item_UI = preload("res://nodes/life_item_UI.tscn")
 
@@ -27,6 +30,10 @@ func _ready():
 func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 	_update_weapon_container_UI(_inventory, _item_changed)
 	_update_life_container_UI(_inventory, _item_changed)
+
+
+func _process(delta):
+	get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Debug").text = String(runtime_data.current_gameplay_state)
 
 
 func _on_current_weapon_changed(_weapon: Weapon, character: Character):
