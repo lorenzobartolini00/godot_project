@@ -12,7 +12,7 @@ func shoot(character) -> void:
 
 	character.get_weapon_position().add_child(bullet)
 	
-	bullet.initialize(bullet_spawn_position, self)
+	bullet.initialize(bullet_spawn_position, character)
 
 
 func get_bullet_spawn_position() -> Vector3:

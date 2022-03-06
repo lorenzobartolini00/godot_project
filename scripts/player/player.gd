@@ -9,7 +9,7 @@ export(NodePath) onready var shoot_manager = get_node(shoot_manager) as ShootMan
 export(NodePath) onready var reload_manager = get_node(reload_manager) as ReloadManager
 export(NodePath) onready var inventory_manager = get_node(inventory_manager) as InventoryManager
 export(NodePath) onready var weapon_position = get_node(weapon_position) as Spatial
-
+export(NodePath) onready var camera = get_node(camera) as Camera
 
 export(Resource) var inventory = inventory as Inventory
 
@@ -55,6 +55,9 @@ func get_shooting_raycast() -> RayCast:
 
 func get_weapon_position() -> Spatial:
 	return weapon_position
+
+func get_camera() -> Camera:
+	return camera
 
 
 func _on_CollectingArea_area_entered(area):
