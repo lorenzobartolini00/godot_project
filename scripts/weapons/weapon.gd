@@ -8,8 +8,10 @@ export(Resource) var ammo = ammo as Ammo
 
 
 func use(_character):
-	#Seleziono la nuova arma raccolta come quella corrente
-	GameEvents.emit_signal("change_current_weapon", self, _character)
+	if _character.is_in_group("player"):
+		GameEvents.emit_signal("change_current_weapon", self, _character)
+			
+		_character.ammo_manager.max_ammo(self.get_ammo())
 
 
 func set_ammo(_ammo: Ammo) -> void:

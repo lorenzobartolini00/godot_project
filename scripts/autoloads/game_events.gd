@@ -32,6 +32,8 @@ signal died
 func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> void:
 	call_deferred("emit_signal", "inventory_changed", inventory, _item_changed)
 
+#func emit_add_item_to_inventory(item: Item, quantity: int) -> void:
+#	emit_signal("add_item_to_inventory", item, quantity)
 
 func emit_dialog_finished() -> void:
 	call_deferred("emit_signal", "dialogue_finished")

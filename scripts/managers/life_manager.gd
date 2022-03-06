@@ -15,7 +15,7 @@ func _on_change_current_life(_value: int, _to_max: bool, _character):
 
 
 func set_life(_value: int, to_max: bool) -> void:
-	print("Requets value: " + String(_value))
+#	print("Requets value: " + String(_value))
 	var inventory: Inventory
 	
 	var _life: Life = character.get_life() 
@@ -36,21 +36,21 @@ func set_life(_value: int, to_max: bool) -> void:
 			_quantity = inventory.get_item_quantity(_life)
 			_max_quantity = inventory.get_item_quantity(_life_slot)
 			
-			print("current_life" + String(_current_life))
-			print("quantity" + String(_quantity))
+#			print("current_life" + String(_current_life))
+#			print("quantity" + String(_quantity))
 			_total_life = _current_life + _quantity*_max_life
-			print("total_life: " + String(_total_life))
+#			print("total_life: " + String(_total_life))
 			_max_total_life = (_max_quantity + 1)*_max_life
 			
 			if to_max:
 				_value = _max_total_life
 			
 			var _partial_value: int = _total_life + _value
-			print("partial_result :" + String(_partial_value))
-			print(_partial_value >= 0 and _partial_value <= _max_total_life)
+#			print("partial_result :" + String(_partial_value))
+#			print(_partial_value >= 0 and _partial_value <= _max_total_life)
 			if _partial_value >= 0 and _partial_value <= _max_total_life:
 				_current_life = _partial_value % _max_life
-				print("_current_pot: "+ String(_max_life))
+#				print("_current_pot: "+ String(_max_life))
 				
 				var _remaining_quantity: int = _partial_value - _current_life
 				
@@ -74,7 +74,7 @@ func set_life(_value: int, to_max: bool) -> void:
 		else:
 			_current_life = clamp(_current_life + _value, 0, _max_life)
 		
-		print("_current_set: "+ String(_current_life))
+#		print("_current_set: "+ String(_current_life))
 		character.set_current_life(_current_life)
 		
 		GameEvents.emit_signal("current_life_changed", character.get_life(), character)

@@ -99,7 +99,7 @@ func set_item_quantity(_item: Item, _quantity: int) -> void:
 				GameEvents.emit_inventory_changed(self, _dictionary_item)
 
 
-func get_item(_item_name: String, _tipology: int) -> Item:
+func get_dictionary_item(_item_name: String, _tipology: int) -> Dictionary:
 	var _items: Array = get_items()
 	var _item_list: Array
 	
@@ -111,9 +111,18 @@ func get_item(_item_name: String, _tipology: int) -> Item:
 				if _dictionary_item.item_reference.name != _item_name:
 					continue
 					
-				return _dictionary_item.item_reference
+				return _dictionary_item
 	
-	return null
+	return Dictionary()
+
+
+func get_item(_item_name: String, _tipology: int) -> Item:
+	var _dictionary_item = get_dictionary_item(_item_name, _tipology) as Dictionary
+	
+	if  not _dictionary_item.empty():
+		return _dictionary_item.item_reference
+	else:
+		return null
 
 
 func get_item_list(_tipology: int) -> Array:
@@ -130,6 +139,13 @@ func get_item_list(_tipology: int) -> Array:
 	return []
 
 
+func has_item(_item: Item) -> bool:
+	var _dictionary_item = get_dictionary_item(_item.name, _item.tipology) as Dictionary
+	
+	if  not _dictionary_item.empty():
+		return _dictionary_item.status == Enums.ItemStatus.UNLOCKED
+	else:
+		return false
 
 
 func is_item_in_stock(_item: Item) -> bool:

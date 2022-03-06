@@ -12,7 +12,7 @@ func set_ammo_for_weapon(_weapon: Weapon):
 		var _ammo: Ammo = inventory.get_item(_weapon_name + "_ammo", Enums.ItemTipology.AMMO)
 		
 		character.get_current_weapon().set_ammo(_ammo)
-		print("changed ammo")
+		
 		GameEvents.emit_signal("current_ammo_changed", character.get_current_weapon().get_ammo(), character)
 
 
@@ -25,6 +25,7 @@ func max_ammo(_ammo: Ammo) -> void:
 func consume_current_ammo() -> void:
 	var _ammo: Ammo = character.get_current_weapon().get_ammo()
 	_ammo.current_ammo -= _ammo.ammo_per_shot
+	
 	
 	GameEvents.emit_signal("current_ammo_changed", character.get_current_weapon().get_ammo(), character)
 

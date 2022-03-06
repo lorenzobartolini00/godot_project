@@ -28,7 +28,7 @@ func _can_shoot() -> bool:
 
 func shoot(shooting_raycast: RayCast) -> void:
 	if _can_shoot():
-		print(character.name + " has shot")
+#		print(character.name + " has shot")
 		
 		character.ammo_manager.consume_current_ammo()
 		

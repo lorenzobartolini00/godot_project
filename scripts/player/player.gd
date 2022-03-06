@@ -54,5 +54,5 @@ func get_inventory() -> Inventory:
 
 func _on_CollectingArea_area_entered(area):
 	if area is Collectable:
-			GameEvents.emit_signal("collected", area ,area.get_item(), area.get_quantity(), self)
+			GameEvents.emit_signal("collected", area, area.get_item(), area.get_quantity(), self)
 			print(area.get_item().name + " collected")
