@@ -29,6 +29,13 @@ signal dialogue_finished
 
 signal died
 
+signal button_selected(button)
+signal button_pressed(button)
+
+signal play
+signal options
+signal exit
+
 func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> void:
 	call_deferred("emit_signal", "inventory_changed", inventory, _item_changed)
 

@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/weapons/bullet.gd"
 }, {
+"base": "CenterContainer",
+"class": "ButtonUI",
+"language": "GDScript",
+"path": "res://scripts/title_screen/button.gd"
+}, {
 "base": "KinematicBody",
 "class": "Character",
 "language": "GDScript",
@@ -211,6 +216,7 @@ _global_script_class_icons={
 "AreaWeapon": "",
 "BasicFirstPersonController": "",
 "Bullet": "",
+"ButtonUI": "",
 "Character": "",
 "Collectable": "",
 "DotAmmo": "",
@@ -249,13 +255,14 @@ _global_script_class_icons={
 [application]
 
 config/name="Es4"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/levels/main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Enums="*res://scripts/autoloads/enums.gd"
 GameEvents="*res://scripts/autoloads/game_events.gd"
+SceneManager="*res://scripts/autoloads/scene_manager.gd"
 
 [display]
 
