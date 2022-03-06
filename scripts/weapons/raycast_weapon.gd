@@ -4,9 +4,12 @@ class_name RayCastWeapon
 
 export(float) var max_distance
 
-func shoot(shooting_raycast: RayCast) -> void:
-	var collided_area = shooting_raycast.get_collider()
+func shoot(character) -> void:
+	var shooting_raycast = character.get_shooting_raycast() as RayCast
 	
-	if collided_area:
-		if collided_area is Shootable:
-			GameEvents.emit_signal("hit", collided_area, self)
+	if shooting_raycast:
+		var collided_area = character.get_shooting_raycast().get_collider()
+	
+		if collided_area:
+			if collided_area is Shootable:
+				GameEvents.emit_signal("hit", collided_area, self)

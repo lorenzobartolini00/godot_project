@@ -14,3 +14,7 @@ export(Enums.ItemTipology) var tipology
 
 func get_avatar() -> Texture:
 	return avatar
+
+
+func get_mesh() -> Mesh:
+	return mesh

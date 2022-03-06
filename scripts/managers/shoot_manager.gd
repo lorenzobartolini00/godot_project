@@ -26,7 +26,7 @@ func _can_shoot() -> bool:
 		return false
 
 
-func shoot(shooting_raycast: RayCast) -> void:
+func shoot() -> void:
 	if _can_shoot():
 #		print(character.name + " has shot")
 		var _current_weapon: Weapon = character.get_current_weapon()
@@ -36,7 +36,7 @@ func shoot(shooting_raycast: RayCast) -> void:
 		#Setta can_shoot a false finchè non è passato un tempo pari a shoot_time
 		_set_shoot_timer()
 		
-		_current_weapon.shoot(shooting_raycast)
+		_current_weapon.shoot(character)
 
 
 func _set_shoot_timer():

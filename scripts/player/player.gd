@@ -8,6 +8,8 @@ export(NodePath) onready var shooting_raycast = get_node(shooting_raycast) as Ra
 export(NodePath) onready var shoot_manager = get_node(shoot_manager) as ShootManager
 export(NodePath) onready var reload_manager = get_node(reload_manager) as ReloadManager
 export(NodePath) onready var inventory_manager = get_node(inventory_manager) as InventoryManager
+export(NodePath) onready var weapon_position = get_node(weapon_position) as Spatial
+
 
 export(Resource) var inventory = inventory as Inventory
 
@@ -27,7 +29,7 @@ func _physics_process(delta):
 	movement(delta)
 	
 	if Input.is_action_pressed("shoot"):
-		shoot_manager.shoot(shooting_raycast)
+		shoot_manager.shoot()
 	elif Input.is_action_just_pressed("reload"):
 		reload_manager.reload()
 	
@@ -45,6 +47,14 @@ func _input(event) -> void:
 
 func get_inventory() -> Inventory:
 	return inventory
+
+
+func get_shooting_raycast() -> RayCast:
+	return shooting_raycast
+
+
+func get_weapon_position() -> Spatial:
+	return weapon_position
 
 
 func _on_CollectingArea_area_entered(area):
