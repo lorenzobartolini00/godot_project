@@ -32,9 +32,8 @@ func update_level_list(path: String) -> void:
 		var file_name: String = dir.get_next()
 		while file_name != "":
 			if dir.current_is_dir():
-				print("Found directory: " + file_name)
+				pass
 			else:
-				print("Found file: " + file_name)
 				level_list.append(String(path + file_name))
 				
 			file_name = dir.get_next()
