@@ -19,7 +19,7 @@ func _on_found_new_item(_item: Dictionary):
 	
 	if not item is Ammo:
 		var new_slide: Slide = message_array[Enums.MessageTipology.NEW_ITEM]
-		var header_text: String = new_slide.slides[0] % item.name
+		var header_text: String = new_slide.slides[0] % item.display_name
 		
 		show_splash_message(header_text, item.description)
 

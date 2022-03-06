@@ -7,9 +7,6 @@ export(NodePath) onready var shooting_raycast = get_node(shooting_raycast) as Ra
 
 export(NodePath) onready var shoot_manager = get_node(shoot_manager) as ShootManager
 export(NodePath) onready var reload_manager = get_node(reload_manager) as ReloadManager
-#export(NodePath) onready var weapon_manager = get_node(weapon_manager) as WeaponManager
-#export(NodePath) onready var ammo_manager = get_node(ammo_manager) as AmmoManager
-
 export(NodePath) onready var inventory_manager = get_node(inventory_manager) as InventoryManager
 
 export(Resource) var inventory = inventory as Inventory
@@ -33,8 +30,6 @@ func _physics_process(delta):
 		shoot_manager.shoot(shooting_raycast)
 	elif Input.is_action_just_pressed("reload"):
 		reload_manager.reload()
-#	elif Input.is_action_just_pressed("drop_weapon"):
-#		weapon_manager.drop_weapon()
 	
 	if Input.is_action_just_pressed("change_weapon"):
 		weapon_manager.shift_current_weapon(1)

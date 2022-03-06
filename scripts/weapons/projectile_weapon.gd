@@ -1,8 +1,13 @@
-extends Weapon
+extends DotWeapon
 
 class_name ProjectileWeapon
 
-export(float) var reload_time
-export(float) var shoot_time
-export(float) var max_distance
-export(bool) var is_shoot_timer_timeout = true
+export(PackedScene) var instance_bullet = preload("res://nodes/bullet.tscn")
+export(float) var bullet_time
+
+
+func shoot(shooting_raycast: RayCast) -> void:
+	var bullet: Bullet = instance_bullet.instance()
+#	add_child(bullet)
+	
+	bullet.set_as_toplevel(true)

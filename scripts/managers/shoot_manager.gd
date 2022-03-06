@@ -29,16 +29,14 @@ func _can_shoot() -> bool:
 func shoot(shooting_raycast: RayCast) -> void:
 	if _can_shoot():
 #		print(character.name + " has shot")
+		var _current_weapon: Weapon = character.get_current_weapon()
 		
 		character.ammo_manager.consume_current_ammo()
-		
+			
 		#Setta can_shoot a false finchè non è passato un tempo pari a shoot_time
 		_set_shoot_timer()
-
-		var collided_area = shooting_raycast.get_collider()
-		if collided_area:
-			if collided_area is Shootable:
-				GameEvents.emit_signal("hit", collided_area, character.get_current_weapon())
+		
+		_current_weapon.shoot(shooting_raycast)
 
 
 func _set_shoot_timer():

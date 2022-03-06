@@ -1,4 +1,4 @@
 extends Ammo
 
-class_name ProjectileAmmo
+class_name DotAmmo
 

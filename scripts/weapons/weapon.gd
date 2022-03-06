@@ -13,6 +13,9 @@ func use(_character):
 			
 		_character.ammo_manager.max_ammo(self.get_ammo())
 
+func shoot(shooting_raycast: RayCast) -> void:
+	pass
+
 
 func set_ammo(_ammo: Ammo) -> void:
 	ammo = _ammo
