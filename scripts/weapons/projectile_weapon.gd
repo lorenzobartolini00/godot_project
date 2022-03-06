@@ -9,7 +9,10 @@ export(float) var vertical_spawn_offset:= 0.35
 func shoot(character) -> void:
 	var bullet: Bullet = bullet_scene.instance()
 	var bullet_spawn_position: Vector3 = get_bullet_spawn_position()
-
+	
+	var shooting_raycast = character.get_shooting_raycast()
+	shooting_raycast.cast_to = Vector3(0, 0, -self.max_distance)
+	
 	character.get_weapon_position().add_child(bullet)
 	
 	bullet.initialize(bullet_spawn_position, character)

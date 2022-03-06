@@ -3,6 +3,7 @@ extends RigidBody
 class_name Bullet
 
 export(NodePath) onready var mesh_instance = get_node(mesh_instance) as MeshInstance
+export(NodePath) onready var despawn_timer = get_node(despawn_timer) as Timer
 
 var _weapon
 var _character
@@ -14,20 +15,14 @@ func initialize(start_position: Vector3, character):
 	mesh_instance.mesh = _weapon.get_ammo().get_mesh()
 	self.transform.origin = start_position
 	
-	if _character.is_in_group("player"):
-			var camera: Camera = _character.get_camera()
-			var raycast: RayCast = _character.get_shooting_raycast()
+	var raycast: RayCast = _character.get_shooting_raycast()
+	var collider = raycast.get_collider()
 			
-			var screen_center: Vector2 = Vector2(ProjectSettings.get("display/window/size/width")/2, ProjectSettings.get("display/window/size/height")/2)
-			var target_point: Vector3 = camera.project_position(screen_center, 100)
-			
-			var collider = raycast.get_collider()
-			
-			if collider:
-				target_point = collider.get_global_transform().origin
-			
-			
-			self.look_at(target_point, Vector3.UP)
+	if collider is Shootable:
+		var target_point: Vector3 = collider.get_global_transform().origin
+		self.look_at(target_point, Vector3.UP)
+	
+	setup_despawn_timer()
 	
 	set_as_toplevel(true)
 
@@ -36,3 +31,24 @@ func _physics_process(delta):
 	if _weapon:
 		var direction: Vector3 = -transform.basis.z.normalized()
 		linear_velocity = direction * _weapon.get_ammo().bullet_speed
+	
+	
+
+
+func setup_despawn_timer() -> void:
+	despawn_timer.wait_time = _weapon.get_ammo().bullet_life_time
+	despawn_timer.autostart = false
+	despawn_timer.one_shot = true
+	
+	despawn_timer.start()
+
+
+func _on_DespawnTimer_timeout():
+	queue_free()
+
+
+func _on_CollisionArea_area_entered(area):
+	if area is Shootable:
+		GameEvents.emit_signal("hit", area, _weapon)
+	
+	queue_free()

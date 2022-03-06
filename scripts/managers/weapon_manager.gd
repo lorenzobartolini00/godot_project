@@ -37,7 +37,6 @@ func shift_current_weapon(shift: int) ->void:
 			var next_index: int = (_current_weapon_index + shift) % _weapon_list.size()
 			
 			change_current_weapon(_weapon_list[next_index].item_reference)
-	
 
 
 func _get_weapon_list() -> Array:
@@ -61,3 +60,6 @@ func change_current_weapon(_new_current_weapon: Weapon):
 	
 	if character.is_in_group("player"):
 		character.ammo_manager.set_ammo_for_weapon(_new_current_weapon)
+	
+	var shooting_raycast = character.get_shooting_raycast() as RayCast
+	shooting_raycast.cast_to = Vector3(0, 0, -_new_current_weapon.max_distance)
