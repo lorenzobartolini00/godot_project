@@ -20,6 +20,11 @@ func _on_died(character) -> void:
 		print(name + " died")
 
 
+func smooth_look_at(transform: Transform, target_position: Vector3, delta: float) -> Transform:
+	var new_transform: Transform = transform.looking_at(target_position, Vector3.UP)
+	return transform.interpolate_with(new_transform, 2.0 * delta)
+
+
 func set_current_weapon(_current_weapon: Weapon) -> void:
 	statistics.current_weapon = _current_weapon
 

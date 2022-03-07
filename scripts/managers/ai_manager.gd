@@ -4,8 +4,8 @@ class_name AIManager
 
 onready var runtime_data = character.get_runtime_data() as RuntimeData
 
-var aim_target: Player
-var shoot_target: Player
+var aim_target
+var shoot_target
 var target_timer: Timer
 
 
@@ -27,8 +27,7 @@ func _physics_process(delta):
 		if shoot_target:
 			runtime_data.current_ai_state = Enums.AIState.TARGET_AQUIRED
 		
-		
-		character.look_at(aim_target.transform.origin, Vector3.UP)
+		character.transform = character.smooth_look_at(character.transform, aim_target.transform.origin, delta)
 
 
 func check_aim_target() -> void:
@@ -37,10 +36,11 @@ func check_aim_target() -> void:
 	for raycast in raycasts:
 		var collider = raycast.get_collider()
 	
-		if collider is Player:
-			if not aim_target:
-				aim_target = collider
-				target_timer.start()
+		if collider:
+			if collider.is_in_group("player"):
+				if not aim_target:
+					aim_target = collider
+					target_timer.start()
 
 
 func check_shoot_target() -> void:

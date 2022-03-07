@@ -27,7 +27,7 @@ func _can_shoot() -> bool:
 		return false
 
 
-func shoot() -> void:
+func shoot(delta) -> void:
 	if _can_shoot():
 #		print(character.name + " has shot")
 		var _current_weapon: Weapon = character.get_current_weapon()
@@ -39,18 +39,22 @@ func shoot() -> void:
 		
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.SHOOTING
 		
-		#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
-		_aim()
+		rotate_weapon(delta)
 		
 		_current_weapon.shoot(character)
 
 
-func _aim() -> void:
+func rotate_weapon(delta) -> void:
 	var shooting_raycast: RayCast = character.get_shooting_raycast()
 	var collider = shooting_raycast.get_collider()
-		
+
 	if collider is Shootable:
-		character.get_weapon_position().look_at(collider.get_global_transform().origin, Vector3.UP)
+		#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
+		var weapon_position: Spatial = character.get_weapon_position()
+		var target: Vector3 = collider.get_global_transform().origin
+		
+#		weapon_position.transform = character.smooth_look_at(weapon_position.transform, target, delta)
+		weapon_position.look_at(target, Vector3.UP)
 
 
 func _set_shoot_timer():
