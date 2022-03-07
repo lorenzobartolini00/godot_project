@@ -21,8 +21,9 @@ func initialize(start_position: Vector3, character):
 	var collider = raycast.get_collider()
 			
 	if collider is Shootable:
-		target_point = collider.get_global_transform().origin
-		self.look_at(target_point, Vector3.UP)
+#		target_point = collider.get_global_transform().origin
+#		self.look_at(target_point, Vector3.UP)
+		pass
 	
 	setup_despawn_timer()
 	

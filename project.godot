@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Manager",
+"class": "AIManager",
+"language": "GDScript",
+"path": "res://scripts/managers/ai_manager.gd"
+}, {
 "base": "Stockable",
 "class": "Ammo",
 "language": "GDScript",
@@ -210,6 +215,7 @@ _global_script_classes=[ {
 "path": "res://scripts/managers/weapon_manager.gd"
 } ]
 _global_script_class_icons={
+"AIManager": "",
 "Ammo": "",
 "AmmoManager": "",
 "AreaAmmo": "",

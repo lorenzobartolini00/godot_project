@@ -56,6 +56,7 @@ func get_shooting_raycast() -> RayCast:
 func get_weapon_position() -> Spatial:
 	return weapon_position
 
+
 func get_camera() -> Camera:
 	return camera
 

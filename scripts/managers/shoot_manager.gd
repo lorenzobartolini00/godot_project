@@ -39,7 +39,18 @@ func shoot() -> void:
 		
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.SHOOTING
 		
+		#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
+		_aim()
+		
 		_current_weapon.shoot(character)
+
+
+func _aim() -> void:
+	var shooting_raycast: RayCast = character.get_shooting_raycast()
+	var collider = shooting_raycast.get_collider()
+		
+	if collider is Shootable:
+		character.get_weapon_position().look_at(collider.get_global_transform().origin, Vector3.UP)
 
 
 func _set_shoot_timer():

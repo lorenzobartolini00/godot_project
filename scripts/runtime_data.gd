@@ -3,6 +3,7 @@ extends Resource
 class_name RuntimeData
 
 export(Enums.GamePlayState) var current_gameplay_state
+export(Enums.AIState) var current_ai_state
 
 var save_state: Array
 
