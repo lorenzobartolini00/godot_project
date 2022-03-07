@@ -32,7 +32,7 @@ func _on_button_pressed(button):
 	if button == self:
 		match tipology:
 			Enums.ButtonTipology.PLAY:
-				GameEvents.emit_signal("play", 0)
+				GameEvents.emit_signal("play", SceneManager.current_level_index)
 			Enums.ButtonTipology.OPTIONS:
 				GameEvents.emit_signal("options")
 			Enums.ButtonTipology.EXIT:

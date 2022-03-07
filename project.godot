@@ -263,6 +263,7 @@ config/icon="res://icon.png"
 Enums="*res://scripts/autoloads/enums.gd"
 GameEvents="*res://scripts/autoloads/game_events.gd"
 SceneManager="*res://scripts/autoloads/scene_manager.gd"
+Util="*res://scripts/autoloads/util.gd"
 
 [display]
 

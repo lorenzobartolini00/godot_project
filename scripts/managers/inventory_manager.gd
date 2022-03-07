@@ -22,7 +22,7 @@ func initialize_inventory() -> void:
 	var resource_list: Array 
 
 	for path in path_list:
-		var file_list: Array = list_files_in_directory(path)
+		var file_list: Array = Util.list_folder(path)
 		resource_list.append_array(file_list)
 	
 	for resource in resource_list:
@@ -31,21 +31,3 @@ func initialize_inventory() -> void:
 		if item is Item:
 			var _unlock: bool = false
 			inventory.add_item(item, 0)
-
-
-func list_files_in_directory(path):
-	var files = []
-	var dir = Directory.new()
-	dir.open(path)
-	dir.list_dir_begin()
-
-	while true:
-		var file = dir.get_next()
-		if file == "":
-			break
-		elif not file.begins_with("."):
-			files.append(path + file)
-
-	dir.list_dir_end()
-
-	return files
