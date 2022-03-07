@@ -36,6 +36,8 @@ func shoot() -> void:
 		#Setta can_shoot a false finchè non è passato un tempo pari a shoot_time
 		_set_shoot_timer()
 		
+		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.SHOOTING
+		
 		_current_weapon.shoot(character)
 
 
@@ -48,3 +50,5 @@ func _on_shoot_timer_timeout() ->void:
 	var _current_weapon: Weapon = character.get_current_weapon() 
 	if _current_weapon:
 		character.get_current_weapon().is_shoot_timer_timeout = true
+		
+		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
