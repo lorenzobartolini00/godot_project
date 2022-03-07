@@ -17,7 +17,7 @@ func _ready():
 func _physics_process(delta):
 	ai_raycasts.rotation_degrees.y += 180*delta
 	
-	if _runtime_data.current_ai_state == Enums.AIState.AIM:
+	if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
 		shoot_manager.shoot()
 	
 	if reload_manager.need_reload():
