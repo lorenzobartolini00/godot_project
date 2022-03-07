@@ -9,11 +9,23 @@ export(NodePath) onready var animation_player = get_node(animation_player) as An
 
 export(Enums.ButtonTipology) var tipology
 
+var mouse_entered: bool = false
+
+
+
 func _ready():
+	get_node("ColorRect").mouse_filter = Control.MOUSE_FILTER_PASS
 	display_name_label.text = display_name
 	
 	GameEvents.connect("button_pressed", self, "_on_button_pressed")
 	GameEvents.connect("button_selected", self, "_on_button_selected")
+
+
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.pressed and event.button_index == BUTTON_LEFT:
+			if mouse_entered:
+				GameEvents.emit_signal("button_pressed", self)
 
 
 func _on_button_pressed(button):
@@ -33,3 +45,12 @@ func _on_button_selected(button):
 	else:
 		animation_player.stop()
 		animation_player.play("RESET")
+
+
+func _on_Button_mouse_entered():
+	GameEvents.emit_signal("button_selected", self)
+	mouse_entered = true
+
+
+func _on_Button_mouse_exited():
+	mouse_entered = false

@@ -12,6 +12,8 @@ export var rotation_speed: float = 0.2
 onready var _current_button_index: int = 0
 
 func _ready():
+	GameEvents.connect("button_selected", self, "_on_button_selected")
+	
 	var buttons: Array = button_container.get_children()
 	GameEvents.emit_signal("button_selected", buttons[_current_button_index])
 
@@ -35,3 +37,9 @@ func _input(event):
 			
 			_current_button_index %= (buttons.size())
 			GameEvents.emit_signal("button_selected", buttons[_current_button_index])
+
+
+func _on_button_selected(button: ButtonUI):
+	var buttons: Array = button_container.get_children()
+	
+	_current_button_index = buttons.find(button)
