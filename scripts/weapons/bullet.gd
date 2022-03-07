@@ -8,6 +8,8 @@ export(NodePath) onready var despawn_timer = get_node(despawn_timer) as Timer
 var _weapon
 var _character
 
+var target_point: Vector3
+
 func initialize(start_position: Vector3, character):
 	_weapon = character.get_current_weapon()
 	_character = character
@@ -19,7 +21,7 @@ func initialize(start_position: Vector3, character):
 	var collider = raycast.get_collider()
 			
 	if collider is Shootable:
-		var target_point: Vector3 = collider.get_global_transform().origin
+		target_point = collider.get_global_transform().origin
 		self.look_at(target_point, Vector3.UP)
 	
 	setup_despawn_timer()
@@ -29,6 +31,7 @@ func initialize(start_position: Vector3, character):
 
 func _physics_process(delta):
 	if _weapon:
+		
 		var direction: Vector3 = -transform.basis.z.normalized()
 		linear_velocity = direction * _weapon.get_ammo().bullet_speed
 	

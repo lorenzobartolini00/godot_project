@@ -39,19 +39,6 @@ func shift_current_weapon(shift: int) ->void:
 			change_current_weapon(_weapon_list[next_index].item_reference)
 
 
-func _get_weapon_list() -> Array:
-	var _weapon_list: Array
-	
-	var player = character
-	if player:
-		var inventory: Inventory = player.get_inventory()
-		
-		var _items: Array = inventory.get_items()
-		_weapon_list = _items[Enums.ItemTipology.WEAPON]
-		
-	return _weapon_list
-
-
 func change_current_weapon(_new_current_weapon: Weapon):
 	character.set_current_weapon(_new_current_weapon)
 	GameEvents.emit_signal("current_weapon_changed", character.get_current_weapon(), character)
@@ -61,5 +48,6 @@ func change_current_weapon(_new_current_weapon: Weapon):
 	if character.is_in_group("player"):
 		character.ammo_manager.set_ammo_for_weapon(_new_current_weapon)
 	
+	#Setta la distanza dello shooting_raycast
 	var shooting_raycast = character.get_shooting_raycast() as RayCast
 	shooting_raycast.cast_to = Vector3(0, 0, -_new_current_weapon.max_distance)

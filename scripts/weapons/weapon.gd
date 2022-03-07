@@ -13,6 +13,7 @@ func use(_character):
 			
 		_character.ammo_manager.max_ammo(self.get_ammo())
 
+
 func shoot(character) -> void:
 	pass
 

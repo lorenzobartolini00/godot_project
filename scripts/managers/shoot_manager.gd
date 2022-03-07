@@ -11,6 +11,7 @@ func _ready():
 	
 	shoot_timer.connect("timeout", self, "_on_shoot_timer_timeout")
 
+
 func _can_shoot() -> bool:
 	var _current_weapon = character.get_current_weapon()
 	if _current_weapon:
@@ -45,6 +46,7 @@ func _set_shoot_timer():
 	character.get_current_weapon().is_shoot_timer_timeout = false
 	shoot_timer.wait_time = character.get_current_weapon().shoot_time
 	shoot_timer.start()
+
 
 func _on_shoot_timer_timeout() ->void:
 	var _current_weapon: Weapon = character.get_current_weapon() 
