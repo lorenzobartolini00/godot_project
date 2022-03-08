@@ -142,6 +142,7 @@ func _on_target_changed(_target):
 
 
 func _on_ViewArea_body_entered(body):
-	if body.is_in_group("player"):
-		GameEvents.emit_signal("target_changed", body)
+	if not target:
+		if body.is_in_group("player"):
+			GameEvents.emit_signal("target_changed", body)
 
