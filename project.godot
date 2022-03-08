@@ -72,7 +72,7 @@ _global_script_classes=[ {
 "base": "Area",
 "class": "Collectable",
 "language": "GDScript",
-"path": "res://scripts/collectable/collectable.gd"
+"path": "res://scripts/interfaces/collectable.gd"
 }, {
 "base": "Ammo",
 "class": "DotAmmo",

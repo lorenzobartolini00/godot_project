@@ -53,7 +53,6 @@ func rotate_weapon(delta) -> void:
 		var weapon_position: Spatial = character.get_weapon_position()
 		var target: Vector3 = collider.get_global_transform().origin
 		
-#		weapon_position.transform = character.smooth_look_at(weapon_position.transform, target, delta)
 		weapon_position.look_at(target, Vector3.UP)
 
 
