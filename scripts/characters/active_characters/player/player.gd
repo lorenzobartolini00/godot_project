@@ -2,13 +2,8 @@ extends BasicFirstPersonController
 
 class_name Player
 
-export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
-export(NodePath) onready var shooting_raycast = get_node(shooting_raycast) as RayCast
 
-export(NodePath) onready var shoot_manager = get_node(shoot_manager) as ShootManager
-export(NodePath) onready var reload_manager = get_node(reload_manager) as ReloadManager
 export(NodePath) onready var inventory_manager = get_node(inventory_manager) as InventoryManager
-export(NodePath) onready var weapon_position = get_node(weapon_position) as Spatial
 export(NodePath) onready var camera = get_node(camera) as Camera
 
 export(Resource) var inventory = inventory as Inventory
@@ -16,7 +11,7 @@ export(Resource) var inventory = inventory as Inventory
 onready var _life_slot = preload("res://my_resources/life_statistics/life_slot.tres") as LifeSlot
 
 func _ready() -> void:
-	self._move_speed = statistics.speed
+	self._move_speed = statistics.move_speed
 	
 	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon(), 1)
 	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon().get_ammo(), 0)
@@ -47,14 +42,6 @@ func _input(event) -> void:
 
 func get_inventory() -> Inventory:
 	return inventory
-
-
-func get_shooting_raycast() -> RayCast:
-	return shooting_raycast
-
-
-func get_weapon_position() -> Spatial:
-	return weapon_position
 
 
 func get_camera() -> Camera:

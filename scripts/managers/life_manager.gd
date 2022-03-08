@@ -80,6 +80,6 @@ func set_life(_value: int, to_max: bool) -> void:
 		GameEvents.emit_signal("current_life_changed", character.get_life(), character)
 
 		if character.get_current_life() <= 0 and character.get_is_alive():
-			character.statistics.is_alive = false
+			character.get_statistics().is_alive = false
 			GameEvents.emit_signal("died", character)
 	

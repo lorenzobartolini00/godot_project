@@ -22,12 +22,14 @@ func _physics_process(delta):
 	
 	
 	if aim_target:
+		print("aim")
 		runtime_data.current_ai_state = Enums.AIState.AIM
 		
 		if shoot_target:
 			runtime_data.current_ai_state = Enums.AIState.TARGET_AQUIRED
 		
-		character.transform = character.smooth_look_at(character.transform, aim_target.transform.origin, delta)
+		var turning_speed: float = character.get_statistics().turning_speed
+		character.transform = character.smooth_look_at(character.transform, aim_target.transform.origin, turning_speed, delta)
 
 
 func check_aim_target() -> void:

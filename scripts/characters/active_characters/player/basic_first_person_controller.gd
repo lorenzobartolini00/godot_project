@@ -1,4 +1,4 @@
-extends Character
+extends ActiveCharacter
 
 class_name BasicFirstPersonController
 

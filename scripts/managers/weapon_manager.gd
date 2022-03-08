@@ -1,10 +1,11 @@
 extends Manager
 
 class_name WeaponManager
-
+#Componente di ActiveCharacter
 
 var weapon_list: Array
 var current_weapon_index: int
+
 
 func _ready():
 	GameEvents.connect("change_current_weapon", self, "_on_change_current_weapon")
