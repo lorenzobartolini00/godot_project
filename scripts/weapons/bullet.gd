@@ -56,3 +56,10 @@ func _on_CollisionArea_area_entered(area):
 		GameEvents.emit_signal("hit", area, _weapon.damage)
 	
 	queue_free()
+
+
+func _on_CollisionArea_body_entered(body):
+	if body.is_in_group("player"):
+		pass
+	else:
+		queue_free()
