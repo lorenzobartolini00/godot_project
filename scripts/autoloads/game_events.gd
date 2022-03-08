@@ -21,6 +21,8 @@ signal show_weapon_list(weapon_list)
 signal inventory_changed(inventory, item_changed)
 signal found_new_item(new_item)
 
+signal target_changed(target)
+
 signal pause_game
 signal resume_game
 

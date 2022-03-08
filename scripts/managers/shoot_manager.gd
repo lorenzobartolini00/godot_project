@@ -28,6 +28,8 @@ func _can_shoot() -> bool:
 
 
 func shoot(delta) -> void:
+	rotate_weapon(delta)
+	
 	if _can_shoot():
 #		print(character.name + " has shot")
 		var _current_weapon: Weapon = character.get_current_weapon()
@@ -38,8 +40,6 @@ func shoot(delta) -> void:
 		_set_shoot_timer()
 		
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.SHOOTING
-		
-		rotate_weapon(delta)
 		
 		_current_weapon.shoot(character)
 
