@@ -49,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/characters/active_characters/player/basic_first_person_controller.gd"
 }, {
+"base": "Stockable",
+"class": "Bomb",
+"language": "GDScript",
+"path": "res://scripts/bomb/bomb.gd"
+}, {
 "base": "RigidBody",
 "class": "Bullet",
 "language": "GDScript",
@@ -88,6 +93,11 @@ _global_script_classes=[ {
 "class": "Explosive",
 "language": "GDScript",
 "path": "res://scripts/characters/passive_character/explosive.gd"
+}, {
+"base": "Statistics",
+"class": "ExplosiveStatistics",
+"language": "GDScript",
+"path": "res://scripts/statistics/explosive_statistics.gd"
 }, {
 "base": "Resource",
 "class": "Inventory",
@@ -238,6 +248,7 @@ _global_script_class_icons={
 "AreaAmmo": "",
 "AreaWeapon": "",
 "BasicFirstPersonController": "",
+"Bomb": "",
 "Bullet": "",
 "ButtonUI": "",
 "Character": "",
@@ -246,6 +257,7 @@ _global_script_class_icons={
 "DotWeapon": "",
 "Enemy": "",
 "Explosive": "",
+"ExplosiveStatistics": "",
 "Inventory": "",
 "InventoryManager": "",
 "Item": "",

@@ -17,7 +17,7 @@ func _ready():
 	GameEvents.connect("hit", self, "_on_hit")
 
 
-func _on_hit(area_hit: Shootable, weapon: Weapon) -> void:
+func _on_hit(area_hit: Shootable, damage: int) -> void:
 	if area_hit == self:
-		GameEvents.emit_signal("change_current_life", -weapon.damage, false, character)
+		GameEvents.emit_signal("change_current_life", -damage, false, character)
 

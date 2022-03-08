@@ -2,25 +2,27 @@ extends PassiveCharacter
 
 class_name Explosive
 
-export(NodePath) onready var _explosion_area = get_node(_explosion_area) as Area
+export(NodePath) onready var explosion_area = get_node(explosion_area) as Area
+
 
 func _ready():
-	var _shape: Shape = _explosion_area.get_child(0).shape
-#	_shape.radius = statistics.current_weapon.radius
+	var _shape: Shape = explosion_area.get_child(0).shape
+	_shape.radius = get_statistics().current_bomb.radius
 
 
 #Override
 func _on_died(character) -> void:
 	if character == self:
+		print(self.name + " died")
+		
 		explode()
 
 
 func explode() -> void:
-	var overlapping_areas = _explosion_area.get_overlapping_areas()
-
-	for area in overlapping_areas:
-		area = area as Shootable
-		if area:
-			GameEvents.emit_signal("hit", area, statistics.current_weapon)
-
+	var statistics = self.get_statistics()
+	
+	if statistics is ExplosiveStatistics:
+		var bomb: Bomb = self.get_statistics().current_bomb
+		bomb.explode(explosion_area)
+	
 	queue_free()

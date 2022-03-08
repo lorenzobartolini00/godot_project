@@ -11,4 +11,4 @@ func shoot(character) -> void:
 	
 		if collided_area:
 			if collided_area is Shootable:
-				GameEvents.emit_signal("hit", collided_area, self)
+				GameEvents.emit_signal("hit", collided_area, self.damage)

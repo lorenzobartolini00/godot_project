@@ -22,7 +22,6 @@ func _physics_process(delta):
 	
 	
 	if aim_target:
-		print("aim")
 		runtime_data.current_ai_state = Enums.AIState.AIM
 		
 		if shoot_target:

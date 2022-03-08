@@ -53,6 +53,6 @@ func _on_DespawnTimer_timeout():
 
 func _on_CollisionArea_area_entered(area):
 	if area is Shootable:
-		GameEvents.emit_signal("hit", area, _weapon)
+		GameEvents.emit_signal("hit", area, _weapon.damage)
 	
 	queue_free()
