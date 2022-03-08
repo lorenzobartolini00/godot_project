@@ -12,6 +12,10 @@ func _ready():
 	shoot_timer.connect("timeout", self, "_on_shoot_timer_timeout")
 
 
+func _physics_process(delta):
+	rotate_weapon(delta)
+
+
 func _can_shoot() -> bool:
 	var _current_weapon = character.get_current_weapon()
 	if _current_weapon:
@@ -28,8 +32,6 @@ func _can_shoot() -> bool:
 
 
 func shoot(delta) -> void:
-	rotate_weapon(delta)
-	
 	if _can_shoot():
 #		print(character.name + " has shot")
 		var _current_weapon: Weapon = character.get_current_weapon()
@@ -48,10 +50,10 @@ func rotate_weapon(delta) -> void:
 	var shooting_raycast: RayCast = character.get_shooting_raycast()
 	var collider = shooting_raycast.get_collider()
 
-	if collider is Shootable:
+	if collider is Shootable or collider is StaticBody:
 		#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
 		var weapon_position: Spatial = character.get_weapon_position()
-		var target: Vector3 = collider.get_global_transform().origin
+		var target: Vector3 = shooting_raycast.get_collision_point()
 		
 		weapon_position.look_at(target, Vector3.UP)
 

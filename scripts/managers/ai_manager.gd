@@ -42,7 +42,7 @@ func _physics_process(delta):
 				if has_reach_last_seen_position():
 					update_last_seen_position()
 				
-				runtime_data.current_ai_state = Enums.AIState.SEARCHING
+				runtime_data.current_ai_state = Enums.AIState.APPROACHING
 				move(delta)
 		else:
 			if not has_reach_last_seen_position():
