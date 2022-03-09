@@ -14,9 +14,12 @@ export(NodePath) onready var reload_manager = get_node(reload_manager) as Reload
 
 
 
-func smooth_look_at(transform: Transform, target_position: Vector3, speed: float, delta: float) -> Transform:
+func smooth_look_at(object: Spatial, target_position: Vector3, speed: float, delta: float) -> Transform:
+	var transform: Transform = object.transform 
 	var new_transform: Transform = transform.looking_at(target_position, Vector3.UP)
-	return transform.interpolate_with(new_transform, speed * delta)
+	var next_transform: Transform = transform.interpolate_with(new_transform, speed * delta)
+	
+	return next_transform
 
 
 func set_current_weapon(_current_weapon: Weapon) -> void:

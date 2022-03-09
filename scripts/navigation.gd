@@ -14,7 +14,7 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 		# Direction is the difference between where we are now
 		# and where we want to go.
 		var destination: Vector3 = path[0]
-		destination = Vector3(destination.x, character.translation.y, destination.z)
+#		destination = Vector3(destination.x, character.translation.y, destination.z)
 		direction = destination - character.translation
 
 		# If the next node is closer than we intend to 'step', then
@@ -35,15 +35,25 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 
 		# Lastly let's make sure we're looking in the direction we're traveling.
 		# Clamp y to 0 so the robot only looks left and right, not up/down.
+		
 		direction.y = 0
 		if direction:
 			# Direction is relative, so apply it to the robot's location to
 			# get a point we can actually look at.
 			var look_at_point = character.translation + direction.normalized()
 			# Make the robot look at the point.
-			var new_transform: Transform = character.transform.looking_at(look_at_point, Vector3.UP)
-			character.transform = character.transform.interpolate_with(new_transform, character.get_statistics().turning_speed * delta)
-	
+			var turning_speed: float = character.get_statistics().turning_speed
+			
+			character.transform = character.smooth_look_at(character, look_at_point, turning_speed, delta)
+			
+			if character.get_runtime_data().current_ai_state == Enums.AIState.SEARCHING:
+				var upper_part: Spatial = character.get_upper_part()
+#				var aim_speed: float = character.get_statistics().aim_speed
+				
+				upper_part.set_as_toplevel(true)
+				upper_part.transform = character.smooth_look_at(upper_part, look_at_point, turning_speed, delta)
+				upper_part.set_as_toplevel(false)
+			
 	return path
 
 

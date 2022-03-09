@@ -23,7 +23,9 @@ func _ready():
 
 func _physics_process(delta):
 	if target:
+		character.get_line_of_sight_raycast().set_as_toplevel(true)
 		character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
+		character.get_line_of_sight_raycast().set_as_toplevel(false)
 		
 		if is_target_in_direct_sight():
 			target_timer.start()
@@ -31,9 +33,7 @@ func _physics_process(delta):
 			
 			if is_target_in_shoot_range():
 				path = []
-				
-				aim(delta)
-				
+
 				if is_target_aquired():
 					runtime_data.current_ai_state = Enums.AIState.TARGET_AQUIRED
 				else:
@@ -41,9 +41,13 @@ func _physics_process(delta):
 			else:
 				if has_reach_last_seen_position():
 					update_last_seen_position()
-				
+
 				runtime_data.current_ai_state = Enums.AIState.APPROACHING
+
 				move(delta)
+			
+			aim(delta)
+			
 		else:
 			if not has_reach_last_seen_position():
 				runtime_data.current_ai_state = Enums.AIState.SEARCHING
@@ -60,7 +64,11 @@ func move(delta) -> void:
 
 func aim(delta) -> void:
 	var turning_speed: float = character.get_statistics().turning_speed
-	character.transform = character.smooth_look_at(character.transform, target.transform.origin, turning_speed, delta)
+	var upper_part: Spatial = character.get_upper_part()
+	
+	upper_part.set_as_toplevel(true)
+	upper_part.transform = character.smooth_look_at(upper_part, target.transform.origin, turning_speed, delta)
+	upper_part.set_as_toplevel(false)
 
 
 func has_reach_last_seen_position() -> bool:

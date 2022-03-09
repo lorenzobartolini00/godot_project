@@ -54,9 +54,12 @@ func rotate_weapon(delta) -> void:
 		#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
 		var weapon_position: Spatial = character.get_weapon_position()
 		var target: Vector3 = shooting_raycast.get_collision_point()
+		var aim_speed: float = character.get_statistics().aim_speed
 		
-		weapon_position.look_at(target, Vector3.UP)
-
+		weapon_position.set_as_toplevel(true)
+		weapon_position.transform = character.smooth_look_at(weapon_position, target, 20, delta)
+		weapon_position.set_as_toplevel(false)
+	
 
 func _set_shoot_timer():
 	character.get_current_weapon().is_shoot_timer_timeout = false

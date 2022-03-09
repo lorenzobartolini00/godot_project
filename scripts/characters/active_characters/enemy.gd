@@ -4,6 +4,8 @@ class_name Enemy
 
 export(NodePath) onready var line_of_sight_raycast = get_node(line_of_sight_raycast) as RayCast
 export(NodePath) onready var view_area = get_node(view_area) as Area
+export(NodePath) onready var upper_part = get_node(upper_part) as Spatial
+
 
 export(NodePath) onready var ai_manager = get_node(ai_manager) as AIManager
 
@@ -43,3 +45,7 @@ func get_line_of_sight_raycast() -> RayCast:
 
 func get_view_area() -> Area:
 	return view_area
+
+
+func get_upper_part() -> Spatial:
+	return upper_part
