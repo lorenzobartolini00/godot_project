@@ -1,26 +1,22 @@
 extends Navigation
 
-
+export var step_size_correction: float = 0.95
 
 func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector3Array:
 	var direction = Vector3()
 	var speed: float = character.get_statistics().move_speed
 
-	# We need to scale the movement speed by how much delta has passed,
-	# otherwise the motion won't be smooth.
-	var step_size: float = delta * speed
-
 	if path.size() > 0:
+		var step_size: float = step_size_correction
 		# Direction is the difference between where we are now
 		# and where we want to go.
 		var destination: Vector3 = path[0]
 #		destination = Vector3(destination.x, character.translation.y, destination.z)
 		direction = destination - character.translation
-
 		# If the next node is closer than we intend to 'step', then
 		# take a smaller step. Otherwise we would go past it and
 		# potentially go through a wall or over a cliff edge!
-		if step_size > direction.length():
+		if direction.length() < step_size:
 			step_size = direction.length()
 			# We should also remove this node since we're about to reach it.
 			path.remove(0)
@@ -58,4 +54,4 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 
 
 func get_points(character: Enemy, target_position: Vector3) -> PoolVector3Array:
-	return get_simple_path(character.translation, get_closest_point(target_position))
+	return  get_simple_path(character.translation, get_closest_point(target_position))

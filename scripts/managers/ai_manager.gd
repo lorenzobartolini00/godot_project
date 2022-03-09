@@ -32,8 +32,6 @@ func _physics_process(delta):
 			update_last_seen_position()
 			
 			if is_target_in_shoot_range():
-				path = []
-
 				if is_target_aquired():
 					runtime_data.current_ai_state = Enums.AIState.TARGET_AQUIRED
 				else:
@@ -41,7 +39,7 @@ func _physics_process(delta):
 			else:
 				if has_reach_last_seen_position():
 					update_last_seen_position()
-
+				
 				runtime_data.current_ai_state = Enums.AIState.APPROACHING
 
 				move(delta)
