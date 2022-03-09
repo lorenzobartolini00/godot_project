@@ -41,6 +41,8 @@ func shoot(delta) -> void:
 		#Setta can_shoot a false finchè non è passato un tempo pari a shoot_time
 		_set_shoot_timer()
 		
+		_play_weapon_sound()
+		
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.SHOOTING
 		
 		_current_weapon.shoot(character)
@@ -74,3 +76,9 @@ func _on_shoot_timer_timeout() ->void:
 		character.get_current_weapon().delete_muzzle(character)
 		
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
+
+func _play_weapon_sound() -> void:
+	var shoot_sound: AudioStream = character.get_current_weapon().shoot_sound
+	var weapon_stream_player: AudioStreamPlayer3D = character.get_weapon_audio_stream_player()
+	
+	character.play_sound(weapon_stream_player, shoot_sound)

@@ -11,3 +11,4 @@ export(float) var max_distance_tollerance:= 1.0	#distanza al di sotto della qual
 export(float) var lost_target_time:= 60
 export(float) var reload_time
 export(Resource) var current_weapon = current_weapon as Weapon
+export(Array, AudioStream) var idle_sounds

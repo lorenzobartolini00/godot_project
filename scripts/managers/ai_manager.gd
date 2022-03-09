@@ -7,6 +7,7 @@ onready var runtime_data = character.get_runtime_data() as RuntimeData
 var target
 var last_seen_position: Vector3
 var target_timer: Timer
+var rng = RandomNumberGenerator.new()
 
 var path: PoolVector3Array = []
 
@@ -22,6 +23,8 @@ func _ready():
 
 
 func _physics_process(delta):
+	
+	
 	if target:
 		character.get_line_of_sight_raycast().set_as_toplevel(true)
 		character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
@@ -105,6 +108,18 @@ func is_target_aquired() -> bool:
 			return false
 	else:
 		return false
+
+
+func play_idle_sound() ->void:
+	var sounds: Array = character.get_statistics().idle_sounds
+	var sound: AudioStream
+	
+	rng.randomize()
+	var random_number:int = rng.randi_range(0, (sounds.size() - 1))
+	print(random_number)
+	sound = sounds[random_number]
+	
+	character.play_sound(character.get_audio_stream_player(), sound)
 
 
 func update_last_seen_position():

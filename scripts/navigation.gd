@@ -17,6 +17,8 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 		# take a smaller step. Otherwise we would go past it and
 		# potentially go through a wall or over a cliff edge!
 		if direction.length() < step_size:
+			character.ai_manager.play_idle_sound()
+			
 			step_size = direction.length()
 			# We should also remove this node since we're about to reach it.
 			path.remove(0)

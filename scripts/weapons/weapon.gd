@@ -6,6 +6,7 @@ class_name Weapon
 export(int) var damage
 export(Resource) var ammo = ammo as Ammo
 export(PackedScene) var muzzle_flash = preload("res://nodes/muzzle_flash.tscn")
+export(AudioStream) var shoot_sound
 
 
 func use(_character):

@@ -5,6 +5,8 @@ class_name Character
 export(Resource) var statistics = statistics as Statistics
 export(Resource) var _runtime_data = _runtime_data as RuntimeData
 
+export(NodePath) onready var audio_stream_player = get_node(audio_stream_player) as AudioStreamPlayer3D
+
 export(NodePath) onready var life_manager = get_node(life_manager) as LifeManager
 
 export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
@@ -18,6 +20,12 @@ func _ready():
 func _on_died(character) -> void:
 	if character == self:
 		print(name + " died")
+
+
+func play_sound(audio_stream_player:AudioStreamPlayer3D, stream: AudioStream) -> void:
+	if not audio_stream_player.is_playing():
+		audio_stream_player.stream = stream
+		audio_stream_player.playing = true
 
 
 func set_life(_life: Life) -> void:
@@ -42,6 +50,14 @@ func set_is_alive(_is_alive: bool) -> void:
 
 func get_is_alive() -> bool:
 	return statistics.is_alive
+
+
+func get_audio_stream_player() -> AudioStreamPlayer:
+	return audio_stream_player
+
+
+func set_audio_stream_player(_audio_stream_player) -> void:
+	audio_stream_player = _audio_stream_player
 
 
 func get_runtime_data() -> RuntimeData:
