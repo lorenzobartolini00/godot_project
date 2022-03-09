@@ -22,6 +22,16 @@ func smooth_look_at(object: Spatial, target_position: Vector3, speed: float, del
 	return next_transform
 
 
+func check_target():
+	var collider = shooting_raycast.get_collider()
+	
+	if collider:
+		if collider is Shootable:
+			GameEvents.emit_signal("target_acquired", self, Enums.TargetTipology.SHOOTABLE)
+	else:
+		GameEvents.emit_signal("target_acquired", self, Enums.TargetTipology.NO_TARGET)
+
+
 func set_current_weapon(_current_weapon: Weapon) -> void:
 	get_statistics().current_weapon = _current_weapon
 

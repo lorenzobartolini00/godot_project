@@ -59,7 +59,6 @@ func _on_current_weapon_changed(_weapon: Weapon, character: Character):
 				continue
 			
 			_weapon_item_UI.visible = false
-		
 
 
 func _on_warning(_text: String) -> void:

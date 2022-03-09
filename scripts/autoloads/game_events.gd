@@ -22,6 +22,7 @@ signal inventory_changed(inventory, item_changed)
 signal found_new_item(new_item)
 
 signal target_changed(target)
+signal target_acquired(character, target_tipology)
 
 signal pause_game
 signal resume_game

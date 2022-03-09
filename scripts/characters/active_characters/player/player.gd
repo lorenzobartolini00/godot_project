@@ -22,6 +22,7 @@ func _ready() -> void:
 
 func _physics_process(delta):
 	movement(delta)
+	check_target()
 	
 	if Input.is_action_pressed("shoot"):
 		shoot_manager.shoot(delta)
