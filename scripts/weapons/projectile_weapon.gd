@@ -10,6 +10,8 @@ func shoot(character) -> void:
 	var bullet: Bullet = bullet_scene.instance()
 	var bullet_spawn_position: Vector3 = get_bullet_spawn_position()
 	
+	add_muzzle_flash(character)
+	
 	character.get_weapon_position().add_child(bullet)
 	
 	bullet.initialize(bullet_spawn_position, character)

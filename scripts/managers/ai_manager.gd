@@ -33,6 +33,7 @@ func _physics_process(delta):
 			
 			if is_target_in_shoot_range():
 				if is_target_aquired():
+					path = []
 					runtime_data.current_ai_state = Enums.AIState.TARGET_AQUIRED
 				else:
 					runtime_data.current_ai_state = Enums.AIState.AIMING
