@@ -127,8 +127,11 @@ func update_navigation_path(target: Vector3) ->void:
 
 
 func change_state(new_state: int) -> void:
-	runtime_data.current_ai_state = new_state
-	GameEvents.emit_signal("state_changed", character, new_state)
+	var current_state: int = runtime_data.current_ai_state
+	
+	if current_state != new_state:
+		runtime_data.current_ai_state = new_state
+		GameEvents.emit_signal("state_changed", character, new_state)
 
 
 

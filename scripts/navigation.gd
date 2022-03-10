@@ -16,9 +16,9 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 		direction = destination - character.translation
 		var length = direction.length()
 		
-		print("v: " + str(character.velocity.length()))
-		print("l: " + str(length))
-		print("s: " + str(step_size))
+#		print("v: " + str(character.velocity.length()))
+#		print("l: " + str(length))
+#		print("s: " + str(step_size))
 		
 		if direction.length() < step_size:
 			step_size = direction.length()
