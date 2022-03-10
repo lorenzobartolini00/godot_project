@@ -23,6 +23,7 @@ signal found_new_item(new_item)
 
 signal target_changed(target)
 signal target_acquired(character, target_tipology)
+signal state_changed(character, new_state)
 
 signal pause_game
 signal resume_game

@@ -11,6 +11,8 @@ export(NodePath) onready var life_manager = get_node(life_manager) as LifeManage
 
 export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
 
+var rng = RandomNumberGenerator.new()
+
 
 func _ready():
 	_runtime_data.setup_local_to_scene()

@@ -7,24 +7,24 @@ onready var runtime_data = character.get_runtime_data() as RuntimeData
 var target
 var last_seen_position: Vector3
 var target_timer: Timer
-var rng = RandomNumberGenerator.new()
 
 var path: PoolVector3Array = []
 
 
 func _ready():
+	set_aim_target_timer()
+	
 	GameEvents.connect("target_changed", self, "_on_target_changed")
-	runtime_data.current_ai_state = Enums.AIState.IDLE
+	target_timer.connect("timeout", self, "_on_target_timer_timeout")
+	change_state(Enums.AIState.IDLE)
 	
 	call_deferred("set_view_distance")
 	
-	set_aim_target_timer()
-	target_timer.connect("timeout", self, "_on_target_timer_timeout")
+	
+	
 
 
 func _physics_process(delta):
-	
-	
 	if target:
 		character.get_line_of_sight_raycast().set_as_toplevel(true)
 		character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
@@ -36,15 +36,17 @@ func _physics_process(delta):
 			
 			if is_target_in_shoot_range():
 				if is_target_aquired():
-					path = []
-					runtime_data.current_ai_state = Enums.AIState.TARGET_AQUIRED
+					change_state(Enums.AIState.TARGET_AQUIRED)
 				else:
-					runtime_data.current_ai_state = Enums.AIState.AIMING
+					change_state(Enums.AIState.AIMING)
+				
+				if path.size() > 0:
+					path = []
 			else:
 				if has_reach_last_seen_position():
 					update_last_seen_position()
 				
-				runtime_data.current_ai_state = Enums.AIState.APPROACHING
+				change_state(Enums.AIState.APPROACHING)
 
 				move(delta)
 			
@@ -52,7 +54,8 @@ func _physics_process(delta):
 			
 		else:
 			if not has_reach_last_seen_position():
-				runtime_data.current_ai_state = Enums.AIState.SEARCHING
+				change_state(Enums.AIState.SEARCHING)
+				
 				move(delta)
 
 
@@ -110,18 +113,6 @@ func is_target_aquired() -> bool:
 		return false
 
 
-func play_idle_sound() ->void:
-	var sounds: Array = character.get_statistics().idle_sounds
-	var sound: AudioStream
-	
-	rng.randomize()
-	var random_number:int = rng.randi_range(0, (sounds.size() - 1))
-	print(random_number)
-	sound = sounds[random_number]
-	
-	character.play_sound(character.get_audio_stream_player(), sound)
-
-
 func update_last_seen_position():
 	if target:
 		last_seen_position = target.translation
@@ -133,6 +124,12 @@ func update_navigation_path(target: Vector3) ->void:
 		path = navigation.get_points(character, target)
 	else:
 		path = []
+
+
+func change_state(new_state: int) -> void:
+	runtime_data.current_ai_state = new_state
+	GameEvents.emit_signal("state_changed", character, new_state)
+
 
 
 func set_view_distance():
