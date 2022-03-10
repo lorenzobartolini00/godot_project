@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/weapons/bullet.gd"
 }, {
+"base": "GridContainer",
+"class": "ButtonContainer",
+"language": "GDScript",
+"path": "res://scripts/UI/button_container_UI.gd"
+}, {
 "base": "CenterContainer",
 "class": "ButtonUI",
 "language": "GDScript",
@@ -255,6 +260,7 @@ _global_script_class_icons={
 "BasicFirstPersonController": "",
 "Bomb": "",
 "Bullet": "",
+"ButtonContainer": "",
 "ButtonUI": "",
 "Character": "",
 "Collectable": "",

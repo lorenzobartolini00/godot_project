@@ -24,3 +24,4 @@ func _on_options():
 
 func _on_exit():
 	get_tree().quit()
+

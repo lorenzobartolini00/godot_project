@@ -13,8 +13,8 @@ export(NodePath) onready var _current_life_container = get_node(_current_life_co
 #debug
 export(Resource) onready var runtime_data = runtime_data as RuntimeData
 
-onready var weapon_item_UI = preload("res://nodes/weapon_item_UI.tscn")
-onready var life_item_UI = preload("res://nodes/life_item_UI.tscn")
+onready var weapon_item_UI = preload("res://nodes/UI/weapon_item_UI.tscn")
+onready var life_item_UI = preload("res://nodes/UI/life_item_UI.tscn")
 
 export var _max_weapon_item_UI: int = 3
 

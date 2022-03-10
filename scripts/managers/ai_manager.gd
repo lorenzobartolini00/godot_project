@@ -25,38 +25,39 @@ func _ready():
 
 
 func _physics_process(delta):
-	if target:
-		character.get_line_of_sight_raycast().set_as_toplevel(true)
-		character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
-		character.get_line_of_sight_raycast().set_as_toplevel(false)
-		
-		if is_target_in_direct_sight():
-			target_timer.start()
-			update_last_seen_position()
+	if character.get_is_alive():
+		if target:
+			character.get_line_of_sight_raycast().set_as_toplevel(true)
+			character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
+			character.get_line_of_sight_raycast().set_as_toplevel(false)
 			
-			if is_target_in_shoot_range():
-				if is_target_aquired():
-					change_state(Enums.AIState.TARGET_AQUIRED)
+			if is_target_in_direct_sight():
+				target_timer.start()
+				update_last_seen_position()
+				
+				if is_target_in_shoot_range():
+					if is_target_aquired():
+						change_state(Enums.AIState.TARGET_AQUIRED)
+					else:
+						change_state(Enums.AIState.AIMING)
+					
+					if path.size() > 0:
+						path = []
 				else:
-					change_state(Enums.AIState.AIMING)
-				
-				if path.size() > 0:
-					path = []
-			else:
-				if has_reach_last_seen_position():
-					update_last_seen_position()
-				
-				change_state(Enums.AIState.APPROACHING)
+					if has_reach_last_seen_position():
+						update_last_seen_position()
+					
+					change_state(Enums.AIState.APPROACHING)
 
-				move(delta)
-			
-			aim(delta)
-			
-		else:
-			if not has_reach_last_seen_position():
-				change_state(Enums.AIState.SEARCHING)
+					move(delta)
 				
-				move(delta)
+				aim(delta)
+				
+			else:
+				if not has_reach_last_seen_position():
+					change_state(Enums.AIState.SEARCHING)
+					
+					move(delta)
 
 
 func move(delta) -> void:

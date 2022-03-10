@@ -17,22 +17,27 @@ func _input(_event):
 
 func set_pause() -> void:
 	if Input.is_action_just_pressed("pause") \
-	and runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG:
+	and runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG \
+	and runtime_data.current_gameplay_state != Enums.GamePlayState.DIED:
 		if get_tree().paused == true:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			GameEvents.emit_signal("resume_game")
 		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			runtime_data.current_gameplay_state = Enums.GamePlayState.PAUSED
 			GameEvents.emit_signal("pause_game")
 
 
 func _on_game_paused() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().paused = true
 
 
 func _on_game_resumed() -> void:
+	call_deferred("resume")
+
+
+func resume():
 	runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	get_tree().paused = false
 
 

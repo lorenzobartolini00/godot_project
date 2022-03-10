@@ -30,9 +30,10 @@ func _physics_process(delta):
 #Override
 func _on_died(character) -> void:
 	if character == self:
+		character.set_is_alive(false)
 		print(name + " died")
 		#Something
-		queue_free()
+		set_damage_area_off()
 
 
 func get_navigation() -> Navigation:

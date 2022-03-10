@@ -21,24 +21,36 @@ func _ready() -> void:
 
 
 func _physics_process(delta):
-	movement(delta)
-	check_target()
-	
-	if Input.is_action_pressed("shoot"):
-		shoot_manager.shoot(delta)
-	elif Input.is_action_just_pressed("reload"):
-		reload_manager.reload()
-	
-	if Input.is_action_just_pressed("change_weapon"):
-		weapon_manager.shift_current_weapon(1)
+	if self.get_is_alive():
+		movement(delta)
+		check_target()
+		
+		if Input.is_action_pressed("shoot"):
+			shoot_manager.shoot(delta)
+		elif Input.is_action_just_pressed("reload"):
+			reload_manager.reload()
+		
+		if Input.is_action_just_pressed("change_weapon"):
+			weapon_manager.shift_current_weapon(1)
 
 
 func _input(event) -> void:
-	aim(event)
-	
-	if Input.is_action_just_pressed("show_inventory"):
-		inventory.show_inventory()
-		print(get_life().get_current_life())
+	if self.get_is_alive():
+		aim(event)
+		
+		if Input.is_action_just_pressed("show_inventory"):
+			inventory.show_inventory()
+			print(get_life().get_current_life())
+
+
+#Override
+func _on_died(character) -> void:
+	if character == self:
+		character.set_is_alive(false)
+		print(name + " died")
+		
+		set_damage_area_off()
+		
 
 
 func get_inventory() -> Inventory:

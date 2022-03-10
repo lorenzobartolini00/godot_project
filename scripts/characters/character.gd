@@ -24,6 +24,12 @@ func _on_died(character) -> void:
 		print(name + " died")
 
 
+func set_damage_area_off() -> void:
+	var collision_shape: CollisionShape = damage_area.get_child(0)
+	collision_shape.disabled = true
+
+
+
 func play_sound(audio_stream_player:AudioStreamPlayer3D, stream: AudioStream) -> void:
 	if not audio_stream_player.is_playing():
 		audio_stream_player.stream = stream

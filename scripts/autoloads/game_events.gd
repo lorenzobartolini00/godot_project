@@ -25,8 +25,7 @@ signal target_changed(target)
 signal target_acquired(character, target_tipology)
 signal state_changed(character, new_state)
 
-signal pause_game
-signal resume_game
+
 
 signal dialogue_initiated(slides)
 signal dialogue_finished
@@ -38,13 +37,20 @@ signal button_pressed(button)
 
 signal play
 signal options
+signal resume_game
+signal advance_slide
 signal exit
+
+signal pause_game
 
 func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> void:
 	call_deferred("emit_signal", "inventory_changed", inventory, _item_changed)
 
-#func emit_add_item_to_inventory(item: Item, quantity: int) -> void:
-#	emit_signal("add_item_to_inventory", item, quantity)
+func emit_resume_game() -> void:
+	call_deferred("emit_signal", "resume_game")
+
+func emit_button_selected(button: ButtonUI) -> void:
+	emit_signal("button_selected", button)
 
 func emit_dialog_finished() -> void:
 	call_deferred("emit_signal", "dialogue_finished")

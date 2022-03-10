@@ -18,6 +18,8 @@ func _on_died(character) -> void:
 		var explosion_sound: AudioStream = character.get_statistics().explosion_sound
 		character.play_sound(self.get_audio_stream_player(), explosion_sound)
 		
+		set_damage_area_off()
+		
 		explode()
 
 
