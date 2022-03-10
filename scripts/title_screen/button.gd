@@ -19,6 +19,7 @@ func _ready():
 	
 	GameEvents.connect("button_pressed", self, "_on_button_pressed")
 	GameEvents.connect("button_selected", self, "_on_button_selected")
+	print("1")
 
 
 func _input(event):

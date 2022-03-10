@@ -18,8 +18,6 @@ export(bool) onready var active
 func _ready():
 	_columns = self.columns
 	_lines = buttons.size() / _columns
-	
-	GameEvents.emit_signal("button_selected", buttons[_current_button_index])
 
 
 func _input(event):
@@ -58,3 +56,5 @@ func _on_button_selected(button: ButtonUI):
 
 func set_active(_active: bool) -> void:
 	active = _active
+	if active:
+		GameEvents.emit_signal("button_selected", buttons[_current_button_index])
