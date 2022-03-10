@@ -32,13 +32,9 @@ func _on_game_paused() -> void:
 
 
 func _on_game_resumed() -> void:
-	call_deferred("resume")
-
-
-func resume():
-	runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 	get_tree().paused = false
-
+	runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
 
 

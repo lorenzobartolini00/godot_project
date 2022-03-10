@@ -25,18 +25,13 @@ func _on_advance_slide():
 		_current_slide_index += 1
 		show_slide()
 	elif runtime_data.current_gameplay_state == Enums.GamePlayState.IN_DIALOG:
-		GameEvents.emit_dialog_finished()
+		GameEvents.emit_resume_game()
 
 
 func _on_dialogue_initiated(_slides: Slide) -> void:
 	runtime_data.current_gameplay_state = Enums.GamePlayState.IN_DIALOG
 	set_dialogue(_slides)
 	show_slide()
-
-
-func _on_dialogue_finished() -> void:
-	GameEvents.emit_resume_game()
-	pass
 
 
 func set_dialogue(slides: Slide) -> void:

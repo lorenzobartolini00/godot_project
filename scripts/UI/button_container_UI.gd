@@ -2,22 +2,26 @@ extends GridContainer
 
 class_name ButtonContainer
 
-export(int) onready var default_x = 0
-export(int) onready var default_y = 0
+export(int) onready var default_x
+export(int) onready var default_y
 
 var _columns: int
 var _lines: int
 
-onready var _current_column: int = default_x
-onready var _current_line: int = default_y
-onready var _current_button_index: int = _current_line*_columns + _current_column
+onready var _current_button_index: int = default_y*_columns + default_x
 onready var buttons: Array = get_children()
 
 export(bool) onready var active
 
+
 func _ready():
 	_columns = self.columns
 	_lines = buttons.size() / _columns
+	
+	GameEvents.connect("button_selected", self, "_on_button_selected")
+	
+	reset_current_button_index()
+	GameEvents.emit_signal("button_selected", buttons[_current_button_index])
 
 
 func _input(event):
@@ -25,27 +29,33 @@ func _input(event):
 		if event is InputEventKey:
 			if event.pressed:
 				var button_selected: bool = false
+				var _new_row: int = _current_button_index/_columns
+				var _new_column: int = _current_button_index%_columns
 				
 				if Input.is_action_just_pressed("ui_up"):
-					_current_line += (_lines - 1)
+					_new_row += (_lines - 1)
 					button_selected = true
 				elif Input.is_action_just_pressed("ui_down"):
-					_current_line += 1
+					_new_row += 1
 					button_selected = true
+				
+				_new_row %= _lines
+				
 				if Input.is_action_just_pressed("ui_right"):
-					_current_column += (_columns - 1)
+					_new_column += (_columns - 1)
 					button_selected = true
 				elif Input.is_action_just_pressed("ui_left"):
-					_current_column += 1
+					_new_column += 1
 					button_selected = true
 				elif Input.is_action_just_pressed("ui_select"):
 					GameEvents.emit_signal("button_pressed", buttons[_current_button_index])
 				
+				_new_column %= _columns
+				
 				if button_selected:
-					_current_column %= _columns
-					_current_line %= _lines
 					
-					_current_button_index = _current_line*_columns + _current_column
+					_current_button_index = _new_row*_columns + _new_column
+					
 					
 					GameEvents.emit_signal("button_selected", buttons[_current_button_index])
 
@@ -56,5 +66,11 @@ func _on_button_selected(button: ButtonUI):
 
 func set_active(_active: bool) -> void:
 	active = _active
+	
 	if active:
+		reset_current_button_index()
 		GameEvents.emit_signal("button_selected", buttons[_current_button_index])
+
+
+func reset_current_button_index():
+	_current_button_index = default_y*_columns + default_x

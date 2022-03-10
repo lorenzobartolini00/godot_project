@@ -46,8 +46,8 @@ func _on_game_resumed() -> void:
 	self.visible = false
 
 
-func resume() -> void:
-	GameEvents.emit_resume_game()
+#func resume() -> void:
+#	GameEvents.emit_signal("resume_game")
 
 
 func pause() -> void:

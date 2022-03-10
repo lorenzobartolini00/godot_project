@@ -54,3 +54,9 @@ func emit_button_selected(button: ButtonUI) -> void:
 
 func emit_dialog_finished() -> void:
 	call_deferred("emit_signal", "dialogue_finished")
+
+func emit_advance_slide() -> void:
+	call_deferred("emit_signal", "advance_slide")
+
+func emit_button_pressed(button: ButtonUI):
+	call_deferred("emit_signal", "button_pressed", button)

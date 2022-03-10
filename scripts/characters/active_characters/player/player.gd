@@ -2,6 +2,7 @@ extends BasicFirstPersonController
 
 class_name Player
 
+export(Resource) var global_runtime_data = global_runtime_data as RuntimeData
 
 export(NodePath) onready var inventory_manager = get_node(inventory_manager) as InventoryManager
 export(NodePath) onready var camera = get_node(camera) as Camera
@@ -20,8 +21,10 @@ func _ready() -> void:
 	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
 
+
+
 func _physics_process(delta):
-	if self.get_is_alive():
+	if self.get_is_alive() and global_runtime_data.current_gameplay_state == Enums.GamePlayState.PLAY:
 		movement(delta)
 		check_target()
 		
@@ -41,6 +44,8 @@ func _input(event) -> void:
 		if Input.is_action_just_pressed("show_inventory"):
 			inventory.show_inventory()
 			print(get_life().get_current_life())
+		
+		
 
 
 #Override
@@ -48,6 +53,8 @@ func _on_died(character) -> void:
 	if character == self:
 		character.set_is_alive(false)
 		print(name + " died")
+		
+		
 		
 		set_damage_area_off()
 		

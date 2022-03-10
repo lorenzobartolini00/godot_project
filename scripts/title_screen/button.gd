@@ -19,14 +19,12 @@ func _ready():
 	
 	GameEvents.connect("button_pressed", self, "_on_button_pressed")
 	GameEvents.connect("button_selected", self, "_on_button_selected")
-	print("1")
 
 
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.pressed and event.button_index == BUTTON_LEFT:
-			if mouse_entered:
-				GameEvents.emit_signal("button_pressed", self)
+func _physics_process(delta):
+	if Input.is_action_just_pressed("shoot"):
+		if mouse_entered:
+			GameEvents.emit_signal("button_pressed", self)
 
 
 func _on_button_pressed(button):
