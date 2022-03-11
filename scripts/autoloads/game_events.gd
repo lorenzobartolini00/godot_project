@@ -30,6 +30,7 @@ signal tab_selected(tab)
 signal dialogue_initiated(slides)
 signal dialogue_finished
 
+signal spawn_enemy(spawner)
 signal died
 
 signal button_selected(button)
@@ -64,3 +65,7 @@ func emit_button_pressed(button: ButtonUI):
 
 func emit_tab_selected(tab: Tab):
 	call_deferred("emit_signal", "tab_selected", tab)
+
+
+func emit_spawn_enemy(spawner: Spawner):
+	call_deferred("emit_signal", "spawn_enemy", spawner)

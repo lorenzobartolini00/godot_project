@@ -21,8 +21,6 @@ func _ready() -> void:
 	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
 
-
-
 func _physics_process(delta):
 	if self.get_is_alive() and global_runtime_data.current_gameplay_state == Enums.GamePlayState.PLAY:
 		movement(delta)

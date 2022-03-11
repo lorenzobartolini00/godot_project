@@ -77,6 +77,7 @@ func _on_shoot_timer_timeout() ->void:
 		
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
 
+
 func _play_weapon_sound() -> void:
 	var shoot_sound: AudioStream = character.get_current_weapon().shoot_sound
 	var weapon_stream_player: AudioStreamPlayer3D = character.get_weapon_audio_stream_player()

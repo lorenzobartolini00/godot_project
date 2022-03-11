@@ -12,11 +12,15 @@ export(NodePath) onready var life_manager = get_node(life_manager) as LifeManage
 export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
 
 var rng = RandomNumberGenerator.new()
+var despawn_timer = Timer.new()
 
 
 func _ready():
 	_runtime_data.setup_local_to_scene()
 	GameEvents.connect("died", self, "_on_died")
+	
+	set_up_despawn_timer()
+	
 
 
 func _on_died(character) -> void:
@@ -29,11 +33,23 @@ func set_damage_area_off() -> void:
 	collision_shape.set_deferred("disabled", true)
 
 
-
 func play_sound(audio_stream_player:AudioStreamPlayer3D, stream: AudioStream) -> void:
 	if not audio_stream_player.is_playing():
 		audio_stream_player.stream = stream
 		audio_stream_player.playing = true
+
+
+func set_up_despawn_timer():
+	add_child(despawn_timer)
+	
+	despawn_timer.wait_time = 5
+	despawn_timer.one_shot = true
+	despawn_timer.autostart = false
+	despawn_timer.connect("timeout", self, "_on_despawn_timer_timeout")
+
+
+func _on_despawn_timer_timeout():
+	queue_free()
 
 
 func set_life(_life: Life) -> void:

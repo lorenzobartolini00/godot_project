@@ -20,11 +20,11 @@ func add_to_stack() -> void:
 
 func _on_tab_selected(tab: Tab):
 	if tab == self:
-		print("active: " + name_label.text)
+#		print("active: " + name_label.text)
 		selected = true
 		button_container.set_active(true)
 	else:
-		print("disactive: " + name_label.text)
+#		print("disactive: " + name_label.text)
 		selected = false
 		button_container.set_active(false)
 

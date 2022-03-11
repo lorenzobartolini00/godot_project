@@ -17,6 +17,7 @@ var velocity: Vector3 = Vector3()
 
 func _ready():
 	choose_random_weapon()
+	SpawnManager.total_enemies_in_scene += 1
 
 
 func choose_random_weapon():
@@ -43,8 +44,10 @@ func _on_died(character) -> void:
 	if character == self:
 		character.set_is_alive(false)
 		print(name + " died")
-		#Something
 		set_damage_area_off()
+		SpawnManager.total_enemies_in_scene -= 1
+		
+		self.despawn_timer.start()
 
 
 func get_navigation() -> Navigation:

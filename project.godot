@@ -99,7 +99,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/characters/passive_character/explosive.gd"
 }, {
-"base": "Statistics",
+"base": "PassiveCharacterStatistics",
 "class": "ExplosiveStatistics",
 "language": "GDScript",
 "path": "res://scripts/statistics/explosive_statistics.gd"
@@ -123,6 +123,11 @@ _global_script_classes=[ {
 "class": "ItemUI",
 "language": "GDScript",
 "path": "res://scripts/UI/items/item_UI.gd"
+}, {
+"base": "Spatial",
+"class": "Level",
+"language": "GDScript",
+"path": "res://scripts/levels/level.gd"
 }, {
 "base": "Usable",
 "class": "Life",
@@ -163,6 +168,11 @@ _global_script_classes=[ {
 "class": "PassiveCharacter",
 "language": "GDScript",
 "path": "res://scripts/characters/passive_character.gd"
+}, {
+"base": "Statistics",
+"class": "PassiveCharacterStatistics",
+"language": "GDScript",
+"path": "res://scripts/statistics/passive_character_statistics.gd"
 }, {
 "base": "BasicFirstPersonController",
 "class": "Player",
@@ -213,6 +223,11 @@ _global_script_classes=[ {
 "class": "SoundManager",
 "language": "GDScript",
 "path": "res://scripts/managers/sound_manager.gd"
+}, {
+"base": "PassiveCharacter",
+"class": "Spawner",
+"language": "GDScript",
+"path": "res://scripts/spawner.gd"
 }, {
 "base": "Resource",
 "class": "Statistics",
@@ -288,6 +303,7 @@ _global_script_class_icons={
 "InventoryManager": "",
 "Item": "",
 "ItemUI": "",
+"Level": "",
 "Life": "",
 "LifeItemUI": "",
 "LifeManager": "",
@@ -296,6 +312,7 @@ _global_script_class_icons={
 "OptionTab": "",
 "OptionTabList": "",
 "PassiveCharacter": "",
+"PassiveCharacterStatistics": "",
 "Player": "",
 "ProjectileAmmo": "",
 "ProjectileWeapon": "",
@@ -306,6 +323,7 @@ _global_script_class_icons={
 "Shootable": "",
 "Slide": "",
 "SoundManager": "",
+"Spawner": "",
 "Statistics": "",
 "Stockable": "",
 "Tab": "",
@@ -330,6 +348,7 @@ Enums="*res://scripts/autoloads/enums.gd"
 GameEvents="*res://scripts/autoloads/game_events.gd"
 SceneManager="*res://scripts/autoloads/scene_manager.gd"
 Util="*res://scripts/autoloads/util.gd"
+SpawnManager="*res://scripts/autoloads/spawn_manager.gd"
 
 [display]
 

@@ -1,0 +1,3 @@
+extends Statistics
+
+class_name PassiveCharacterStatistics

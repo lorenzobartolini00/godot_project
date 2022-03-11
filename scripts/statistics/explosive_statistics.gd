@@ -1,4 +1,4 @@
-extends Statistics
+extends PassiveCharacterStatistics
 
 class_name ExplosiveStatistics
 

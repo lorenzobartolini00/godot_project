@@ -14,9 +14,6 @@ func _ready():
 	add_to_stack()
 
 
-
-
-
 func _physics_process(delta):
 	camera_pivot.rotation_degrees.y += 180*delta*rotation_speed
 	

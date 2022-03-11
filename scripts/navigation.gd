@@ -41,7 +41,7 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 				var upper_part: Spatial = character.get_upper_part()
 				
 				upper_part.set_as_toplevel(true)
-				upper_part.transform = character.smooth_look_at(upper_part, look_at_point, turning_speed, delta)
+				upper_part.transform = character.smooth_look_at(upper_part, Vector3(look_at_point.x, upper_part.transform.origin.y, look_at_point.z), turning_speed, delta)
 				upper_part.set_as_toplevel(false)
 			
 	return path
