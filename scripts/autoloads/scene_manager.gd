@@ -9,6 +9,7 @@ export(int) var current_level_index = 0
 export(Array, Dictionary)onready var tab_stack = []
 export(Resource) var option_tab_list_resource = preload("res://my_resources/options/option_tab_list.tres") as OptionTabList
 export(Array, PackedScene) var option_tab_list
+export(PackedScene) onready var title_screen = preload("res://scenes/title_screen.tscn")
 
 onready var option_layer: CanvasLayer
 
@@ -23,12 +24,15 @@ func _ready():
 	GameEvents.connect("play", self, "_on_play")
 	GameEvents.connect("options", self, "_on_options")
 	GameEvents.connect("back", self, "_on_back")
+	GameEvents.connect("win", self, "_on_win")
 	GameEvents.connect("exit", self, "_on_exit")
 
 
 func _on_play(level_index: int):
 	if level_index < level_list.size():
 		get_tree().change_scene(level_list[level_index])
+	else:
+		get_tree().change_scene(title_screen)
 
 
 func _on_options(option_tab_index: int):
@@ -43,6 +47,11 @@ func _on_back():
 	var current_tab: Dictionary = tab_stack.pop_back()
 	if current_tab:
 		current_tab.instance.queue_free()
+
+
+func _on_win():
+	current_level_index += 1
+	GameEvents.emit_signal("play", current_level_index)
 
 
 func _on_exit():

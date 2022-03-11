@@ -82,8 +82,6 @@ func _on_PreventSpawnArea_body_exited(body):
 
 
 func _on_ResetTimer_timeout():
-	print(name + str(self.get_is_alive()))
-	
 	if self.get_is_alive():
 		if is_spawn_area_free():
 			SpawnManager.add_spawner(self)

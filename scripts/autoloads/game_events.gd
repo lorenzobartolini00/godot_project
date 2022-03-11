@@ -45,6 +45,8 @@ signal exit
 
 signal pause_game
 
+signal win
+
 func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> void:
 	call_deferred("emit_signal", "inventory_changed", inventory, _item_changed)
 
