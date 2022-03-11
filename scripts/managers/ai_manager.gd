@@ -19,9 +19,6 @@ func _ready():
 	change_state(Enums.AIState.IDLE)
 	
 	call_deferred("set_view_distance")
-	
-	
-	
 
 
 func _physics_process(delta):
@@ -35,7 +32,7 @@ func _physics_process(delta):
 				target_timer.start()
 				update_last_seen_position()
 				
-				if is_target_in_shoot_range():
+				if is_target_in_shoot_range() and is_weapon_sight_free():
 					if is_target_aquired():
 						change_state(Enums.AIState.TARGET_AQUIRED)
 					else:
@@ -90,13 +87,19 @@ func is_target_in_direct_sight() -> bool:
 	
 	if collider:
 		if collider == target:
-			if weapon_collider:
-				if weapon_collider is StaticBody:
-					return false
-				else:
-					return true
-			else:
-				return true
+			return true
+	
+	return false
+
+
+func is_weapon_sight_free() -> bool:
+	var weapon_collider = character.get_weapon_line_of_sight_raycast().get_collider()
+	
+	if weapon_collider:
+		if weapon_collider == target:
+			return true
+	else:
+		return true
 	
 	return false
 
@@ -163,16 +166,17 @@ func set_aim_target_timer():
 
 func _on_target_timer_timeout():
 	runtime_data.current_ai_state = Enums.AIState.IDLE
-	GameEvents.emit_signal("target_changed", null)
+	GameEvents.emit_signal("target_changed", null, character)
 
 
-func _on_target_changed(_target):
-	target = _target
-	update_last_seen_position()
+func _on_target_changed(_target, _character):
+	if _character == character:
+		target = _target
+		update_last_seen_position()
 
 
 func _on_ViewArea_body_entered(body):
 	if not target:
 		if body.is_in_group("player"):
-			GameEvents.emit_signal("target_changed", body)
+			GameEvents.emit_signal("target_changed", body, character)
 

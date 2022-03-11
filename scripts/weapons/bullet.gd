@@ -61,7 +61,7 @@ func _on_CollisionArea_area_entered(area):
 func _on_CollisionArea_body_entered(body):
 	if body.is_in_group("player"):
 		pass
-	else:
+	elif body is StaticBody:
 		self.visible = false
 		
 		
