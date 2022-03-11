@@ -25,7 +25,7 @@ signal target_changed(target)
 signal target_acquired(character, target_tipology)
 signal state_changed(character, new_state)
 
-
+signal tab_selected(tab)
 
 signal dialogue_initiated(slides)
 signal dialogue_finished
@@ -37,6 +37,7 @@ signal button_pressed(button)
 
 signal play
 signal options
+signal back
 signal resume_game
 signal advance_slide
 signal exit
@@ -60,3 +61,6 @@ func emit_advance_slide() -> void:
 
 func emit_button_pressed(button: ButtonUI):
 	call_deferred("emit_signal", "button_pressed", button)
+
+func emit_tab_selected(tab: Tab):
+	call_deferred("emit_signal", "tab_selected", tab)

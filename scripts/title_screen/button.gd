@@ -22,9 +22,10 @@ func _ready():
 
 
 func _physics_process(delta):
-	if Input.is_action_just_pressed("shoot"):
-		if mouse_entered:
-			GameEvents.emit_signal("button_pressed", self)
+	if get_parent().active:
+		if Input.is_action_just_pressed("shoot"):
+			if mouse_entered:
+				GameEvents.emit_signal("button_pressed", self)
 
 
 func _on_button_pressed(button):
@@ -33,7 +34,15 @@ func _on_button_pressed(button):
 			Enums.ButtonTipology.PLAY:
 				GameEvents.emit_signal("play", SceneManager.current_level_index)
 			Enums.ButtonTipology.OPTIONS:
-				GameEvents.emit_signal("options")
+				GameEvents.emit_signal("options", Enums.OptionTab.MAIN)
+			Enums.ButtonTipology.COMAND_LIST:
+				GameEvents.emit_signal("options", Enums.OptionTab.COMAND_LIST)
+			Enums.ButtonTipology.AUDIO_SETTINGS:
+				GameEvents.emit_signal("options", Enums.OptionTab.AUDIO_SETTINGS)
+			Enums.ButtonTipology.PLAY_SETTINGS:
+				GameEvents.emit_signal("options", Enums.OptionTab.PLAY_SETTINGS)
+			Enums.ButtonTipology.BACK:
+				GameEvents.emit_signal("back")
 			Enums.ButtonTipology.ADVANCE_SLIDE:
 				GameEvents.emit_signal("advance_slide")
 			Enums.ButtonTipology.RESUME:

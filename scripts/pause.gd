@@ -18,7 +18,8 @@ func _input(_event):
 func set_pause() -> void:
 	if Input.is_action_just_pressed("pause") \
 	and runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG \
-	and runtime_data.current_gameplay_state != Enums.GamePlayState.DIED:
+	and runtime_data.current_gameplay_state != Enums.GamePlayState.DIED \
+	and runtime_data.current_gameplay_state != Enums.GamePlayState.OPTIONS:
 		if get_tree().paused == true:
 			GameEvents.emit_signal("resume_game")
 		else:

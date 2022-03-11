@@ -1,24 +1,20 @@
-extends Control
-
-
-export(NodePath) onready var button_container = get_node(button_container) as ButtonContainer
-export(NodePath) onready var text_label = get_node(text_label) as Label
-export(Resource)var runtime_data = runtime_data as RuntimeData
-
+extends Tab
 
 func _ready():
 	self.visible = false
 	
 	GameEvents.connect("pause_game", self, "_on_game_paused")
 	GameEvents.connect("resume_game", self, "_on_game_resumed")
+	
+	add_to_stack()
 
 
 func _on_game_paused():
 	if runtime_data.current_gameplay_state == Enums.GamePlayState.PAUSED:
+		GameEvents.emit_signal("tab_selected", self)
+		
 		self.visible = true
-		text_label.text = "Game Paused"
-			
-		button_container.set_active(true)
+		name_label.text = "Game Paused"
 
 
 func _on_game_resumed():

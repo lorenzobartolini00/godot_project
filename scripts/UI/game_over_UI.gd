@@ -1,8 +1,4 @@
-extends Control
-
-export(NodePath) onready var button_container = get_node(button_container) as ButtonContainer
-export(NodePath) onready var text_label = get_node(text_label) as Label
-export(Resource)var runtime_data = runtime_data as RuntimeData
+extends Tab
 
 func _ready():
 	self.visible = false
@@ -14,9 +10,10 @@ func _on_died(character):
 	if character.is_in_group("player"):
 		self.visible = true
 		
-		text_label.text = character.get_statistics().die_text
+		name_label.text = character.get_statistics().die_text
 		
 		runtime_data.current_gameplay_state = Enums.GamePlayState.DIED
 		GameEvents.emit_signal("pause_game")
+		GameEvents.emit_signal("tab_selected", self)
 		
-		button_container.set_active(true)
+#		button_container.set_active(true)

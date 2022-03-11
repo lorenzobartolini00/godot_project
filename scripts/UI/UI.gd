@@ -33,7 +33,7 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 
 
 func _process(delta):
-	print(runtime_data.current_gameplay_state)
+#	print(runtime_data.current_gameplay_state)
 	get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Debug").text = String(runtime_data.current_gameplay_state)
 
 

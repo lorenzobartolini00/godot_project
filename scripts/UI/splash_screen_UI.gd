@@ -1,9 +1,6 @@
-extends Control
+extends Tab
 
-export(NodePath)onready var header_label = get_node(header_label) as Label
 export(Array, Resource)onready var message_array
-export(Resource)var runtime_data = runtime_data as RuntimeData
-export(NodePath) onready var button_container = get_node(button_container) as ButtonContainer
 
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
@@ -31,12 +28,13 @@ func _on_died(character) -> void:
 
 
 func show_splash_message(_header_text: String, _slides: Slide) -> void:
-	header_label.text = _header_text
+	self.name_label.text = _header_text
 	GameEvents.emit_signal("dialogue_initiated", _slides)
 	
 	self.visible = true
-	button_container.set_active(true)
 	runtime_data.current_gameplay_state = Enums.GamePlayState.IN_DIALOG
+	
+	GameEvents.emit_signal("tab_selected", self)
 	
 	pause()
 
@@ -44,10 +42,6 @@ func show_splash_message(_header_text: String, _slides: Slide) -> void:
 func _on_game_resumed() -> void:
 	button_container.set_active(false)
 	self.visible = false
-
-
-#func resume() -> void:
-#	GameEvents.emit_signal("resume_game")
 
 
 func pause() -> void:

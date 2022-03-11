@@ -149,6 +149,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/managers/manager.gd"
 }, {
+"base": "Tab",
+"class": "OptionTab",
+"language": "GDScript",
+"path": "res://scripts/UI/tabs/options_UI.gd"
+}, {
+"base": "Resource",
+"class": "OptionTabList",
+"language": "GDScript",
+"path": "res://scripts/UI/tabs/option_tab_list.gd"
+}, {
 "base": "Character",
 "class": "PassiveCharacter",
 "language": "GDScript",
@@ -215,6 +225,11 @@ _global_script_classes=[ {
 "path": "res://scripts/inventory_system/stockable.gd"
 }, {
 "base": "Control",
+"class": "Tab",
+"language": "GDScript",
+"path": "res://scripts/UI/tabs/tab.gd"
+}, {
+"base": "Tab",
 "class": "TitleScreen",
 "language": "GDScript",
 "path": "res://scripts/title_screen/title_screen.gd"
@@ -278,6 +293,8 @@ _global_script_class_icons={
 "LifeManager": "",
 "LifeSlot": "",
 "Manager": "",
+"OptionTab": "",
+"OptionTabList": "",
 "PassiveCharacter": "",
 "Player": "",
 "ProjectileAmmo": "",
@@ -291,6 +308,7 @@ _global_script_class_icons={
 "SoundManager": "",
 "Statistics": "",
 "Stockable": "",
+"Tab": "",
 "TitleScreen": "",
 "UI": "",
 "UIComponent": "",
