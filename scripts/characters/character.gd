@@ -26,7 +26,7 @@ func _on_died(character) -> void:
 
 func set_damage_area_off() -> void:
 	var collision_shape: CollisionShape = damage_area.get_child(0)
-	collision_shape.disabled = true
+	collision_shape.set_deferred("disabled", true)
 
 
 

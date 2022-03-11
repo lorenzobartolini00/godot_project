@@ -86,10 +86,17 @@ func has_reach_last_seen_position() -> bool:
 
 func is_target_in_direct_sight() -> bool:
 	var collider = character.get_line_of_sight_raycast().get_collider()
+	var weapon_collider = character.get_weapon_line_of_sight_raycast().get_collider()
 	
 	if collider:
 		if collider == target:
-			return true
+			if weapon_collider:
+				if weapon_collider is StaticBody:
+					return false
+				else:
+					return true
+			else:
+				return true
 	
 	return false
 

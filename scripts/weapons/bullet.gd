@@ -62,4 +62,7 @@ func _on_CollisionArea_body_entered(body):
 	if body.is_in_group("player"):
 		pass
 	else:
-		queue_free()
+		self.visible = false
+		
+		
+		despawn_timer.start()

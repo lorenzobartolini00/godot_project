@@ -3,6 +3,7 @@ extends ActiveCharacter
 class_name Enemy
 
 export(NodePath) onready var line_of_sight_raycast = get_node(line_of_sight_raycast) as RayCast
+export(NodePath) onready var weapon_line_of_sight_raycast = get_node(weapon_line_of_sight_raycast) as RayCast
 export(NodePath) onready var view_area = get_node(view_area) as Area
 export(NodePath) onready var upper_part = get_node(upper_part) as Spatial
 
@@ -15,7 +16,17 @@ var velocity: Vector3 = Vector3()
 
 
 func _ready():
-	GameEvents.emit_signal("change_current_weapon", self.get_current_weapon(), self)
+	choose_random_weapon()
+
+
+func choose_random_weapon():
+	var weapon_list: Array = Util.load_folder("res://my_resources/weapon_statistics/")
+	
+	rng.randomize()
+	var rnd_index: int = rng.randi() % weapon_list.size()
+	
+	var weapon: Weapon = weapon_list[rnd_index]
+	GameEvents.emit_signal("change_current_weapon", weapon, self)
 
 
 func _physics_process(delta):
@@ -42,6 +53,10 @@ func get_navigation() -> Navigation:
 
 func get_line_of_sight_raycast() -> RayCast:
 	return line_of_sight_raycast
+
+
+func get_weapon_line_of_sight_raycast() -> RayCast:
+	return weapon_line_of_sight_raycast
 
 
 func get_view_area() -> Area:
