@@ -31,12 +31,12 @@ func choose_random_weapon():
 
 
 func _physics_process(delta):
-	
-	if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
-		shoot_manager.shoot(delta)
-	
-	if reload_manager.need_reload():
-		reload_manager.reload()
+	if get_is_alive():
+		if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
+			shoot_manager.shoot(delta)
+		
+		if reload_manager.need_reload():
+			reload_manager.reload()
 
 
 #Override

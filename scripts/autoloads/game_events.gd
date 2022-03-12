@@ -21,6 +21,8 @@ signal show_weapon_list(weapon_list)
 signal inventory_changed(inventory, item_changed)
 signal found_new_item(new_item)
 
+signal new_mission(level)
+
 signal target_changed(target, character)
 signal target_acquired(character, target_tipology)
 signal state_changed(character, new_state)

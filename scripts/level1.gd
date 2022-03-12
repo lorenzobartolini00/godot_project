@@ -2,10 +2,13 @@ extends Level
 
 #Obbiettivo del livello: distruggere tutti gli spawner
 onready var spawner_count: int = get_tree().get_nodes_in_group("Spawner").size()
+export(Resource) var description = description as Slide
 
 
 func _ready():
 	GameEvents.connect("died", self, "_on_died")
+	
+	GameEvents.emit_signal("new_mission", self)
 
 
 func _on_died(character: Character):

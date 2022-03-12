@@ -2,6 +2,8 @@ extends Tab
 
 export(Array, Resource)onready var message_array
 
+var queue: Array = []
+
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	
@@ -10,6 +12,22 @@ func _ready():
 	GameEvents.connect("found_new_item", self, "_on_found_new_item")
 	GameEvents.connect("resume_game", self, "_on_game_resumed")
 	GameEvents.connect("died", self, "_on_died")
+	GameEvents.connect("new_mission", self, "_on_new_mission")
+
+
+func free_queue():
+	if queue.size() > 0 and runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG:
+		var message: Dictionary = queue.pop_back()
+		
+		show_splash_message(message.text, message.slide)
+		
+
+func add_to_queue(_text: String, _slide: Slide):
+	var dictionary_element: Dictionary = {
+		text = _text,
+		slide = _slide }
+	
+	queue.append(dictionary_element)
 
 
 func _on_found_new_item(_item: Dictionary):
@@ -19,7 +37,16 @@ func _on_found_new_item(_item: Dictionary):
 		var new_slide: Slide = message_array[Enums.MessageTipology.NEW_ITEM]
 		var header_text: String = new_slide.slides[0] % item.display_name
 		
-		show_splash_message(header_text, item.description)
+		call_deferred("add_to_queue", header_text, item.description)
+
+
+func _on_new_mission(level: Level):
+	var new_slide: Slide = message_array[Enums.MessageTipology.NEW_MISSION]
+	var header_text: String = new_slide.slides[0]
+	var description: Slide = level.description
+	
+	call_deferred("add_to_queue", header_text, description)
+
 
 
 func _on_died(character) -> void:
@@ -46,3 +73,7 @@ func _on_game_resumed() -> void:
 
 func pause() -> void:
 	GameEvents.emit_signal("pause_game")
+
+
+func _on_FreeQueueTimer_timeout():
+	free_queue()

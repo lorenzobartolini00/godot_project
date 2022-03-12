@@ -42,8 +42,6 @@ func _input(event) -> void:
 		if Input.is_action_just_pressed("show_inventory"):
 			inventory.show_inventory()
 			print(get_life().get_current_life())
-		
-		
 
 
 #Override

@@ -27,6 +27,7 @@ func _ready():
 	
 	_warning_label.visible = false
 
+
 func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 	_update_weapon_container_UI(_inventory, _item_changed)
 	_update_life_container_UI(_inventory, _item_changed)
