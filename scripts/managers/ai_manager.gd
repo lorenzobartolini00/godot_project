@@ -10,12 +10,16 @@ var target_timer: Timer
 
 var path: PoolVector3Array = []
 
+var update_path_timer: Timer
+
 
 func _ready():
 	set_aim_target_timer()
+	set_update_path_timer()
 	
 	GameEvents.connect("target_changed", self, "_on_target_changed")
 	target_timer.connect("timeout", self, "_on_target_timer_timeout")
+	update_path_timer.connect("timeout", self, "_on_update_path_timer_timeout")
 	change_state(Enums.AIState.IDLE)
 	
 	call_deferred("set_view_distance")
@@ -129,7 +133,7 @@ func update_last_seen_position():
 		last_seen_position = target.translation
 
 
-func update_navigation_path(target: Vector3) ->void:
+func update_navigation_path(target: Vector3) -> void:
 	if target:
 		var navigation: Navigation = character.get_navigation()
 		path = navigation.get_points(character, target)
@@ -156,7 +160,7 @@ func set_view_distance():
 
 func set_aim_target_timer():
 	target_timer = Timer.new()
-	add_child(target_timer)
+	call_deferred("add_child", target_timer)
 	var lost_target_time: float = character.get_statistics().lost_target_time
 	
 	target_timer.wait_time = lost_target_time
@@ -164,9 +168,23 @@ func set_aim_target_timer():
 	target_timer.one_shot = true
 
 
+func set_update_path_timer():
+	update_path_timer = Timer.new()
+	call_deferred("add_child", update_path_timer)
+	
+	update_path_timer.wait_time = 2
+	update_path_timer.autostart = true
+	update_path_timer.one_shot = false
+
+
 func _on_target_timer_timeout():
 	runtime_data.current_ai_state = Enums.AIState.IDLE
 	GameEvents.emit_signal("target_changed", null, character)
+
+
+func _on_update_path_timer_timeout():
+	if runtime_data.current_ai_state == Enums.AIState.APPROACHING:
+		update_navigation_path(target.translation)
 
 
 func _on_target_changed(_target, _character):
