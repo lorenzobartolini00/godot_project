@@ -2,6 +2,15 @@ extends Character
 
 class_name ActiveCharacter
 
+export var _gravity: float = -2.5
+export var _acceleration: float = 10.0
+export var _air_acceleration: float = 2.0
+export var _vertical_acceleration: float = 5
+
+const MAX_TERMINAL_VELOCITY: float = 50.0
+
+var velocity: Vector3
+
 export(NodePath) onready var shooting_raycast = get_node(shooting_raycast) as RayCast
 
 export(NodePath) onready var current_weapon_mesh = get_node(current_weapon_mesh) as MeshInstance

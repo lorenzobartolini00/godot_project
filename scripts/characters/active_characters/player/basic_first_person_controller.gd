@@ -5,15 +5,6 @@ class_name BasicFirstPersonController
 export var _mouse_sensitivity := 0.1
 export var _move_speed :float = 5
 export var _jump_high: float = 5
-export var _gravity: float = -2.5
-export var _acceleration: float = 10.0
-export var _air_acceleration: float = 2.0
-export var _vertical_acceleration: float = 5
-
-const MAX_TERMINAL_VELOCITY: float = 50.0
-
-
-var movement_vector: Vector3 
 
 
 func movement(delta) -> void:
@@ -29,7 +20,7 @@ func movement(delta) -> void:
 	elif Input.is_action_pressed("move_right"):
 		direction_vector += transform.basis.x
 	
-	y_movement = movement_vector.y
+	y_movement = velocity.y
 	
 	
 	if Input.is_action_just_pressed("jump") and is_on_floor():
@@ -40,7 +31,7 @@ func movement(delta) -> void:
 	else:
 		y_movement = -0.1
 	
-	movement_vector.y = 0
+	velocity.y = 0
 	
 	var current_acceleration: float
 	if is_on_floor():
@@ -48,10 +39,10 @@ func movement(delta) -> void:
 	else:
 		current_acceleration = _air_acceleration
 	
-	movement_vector = lerp(movement_vector, direction_vector.normalized() * _move_speed, delta * current_acceleration)
-	movement_vector.y = y_movement
+	velocity = lerp(velocity, direction_vector.normalized() * _move_speed, delta * current_acceleration)
+	velocity.y = y_movement
 	
-	movement_vector = move_and_slide(movement_vector, Vector3.UP)
+	velocity = move_and_slide(velocity, Vector3.UP)
 
 
 func aim(event: InputEvent) -> void:

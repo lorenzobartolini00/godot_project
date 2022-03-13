@@ -9,6 +9,8 @@ func _ready():
 	GameEvents.connect("died", self, "_on_died")
 	
 	GameEvents.emit_signal("new_mission", self)
+	
+	global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
 
 
 func _on_died(character: Character):
