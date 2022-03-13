@@ -18,6 +18,7 @@ func _ready():
 	set_update_path_timer()
 	
 	GameEvents.connect("target_changed", self, "_on_target_changed")
+	GameEvents.connect("character_shot", self, "_on_character_shot")
 	target_timer.connect("timeout", self, "_on_target_timer_timeout")
 	update_path_timer.connect("timeout", self, "_on_update_path_timer_timeout")
 	change_state(Enums.AIState.IDLE)
@@ -185,6 +186,18 @@ func _on_target_timer_timeout():
 func _on_update_path_timer_timeout():
 	if runtime_data.current_ai_state == Enums.AIState.APPROACHING:
 		update_navigation_path(target.translation)
+
+
+func _on_character_shot(_character):
+	if _character.is_in_group("player"):
+		if not target:
+			var distance: float = (self.character.translation - _character.translation).length()
+			var max_hear_distance: float = self.character.get_statistics().max_hear_distance
+			
+			if distance < max_hear_distance:
+				GameEvents.emit_signal("target_changed", _character, self.character)
+		else:
+			update_last_seen_position()
 
 
 func _on_target_changed(_target, _character):

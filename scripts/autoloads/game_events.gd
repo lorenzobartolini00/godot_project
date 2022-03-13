@@ -26,6 +26,7 @@ signal new_mission(level)
 signal target_changed(target, character)
 signal target_acquired(character, target_tipology)
 signal state_changed(character, new_state)
+signal character_shot(character)
 
 signal tab_selected(tab)
 
