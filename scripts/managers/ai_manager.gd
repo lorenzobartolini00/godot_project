@@ -24,11 +24,15 @@ func _ready():
 	change_state(Enums.AIState.IDLE)
 	
 	call_deferred("set_view_distance")
+#	call_deferred("set_min_distance")
 
 
 func _physics_process(delta):
 	if character.get_is_alive():
 		if target:
+#			if not is_min_distance_kept():
+#				move_away()
+			
 			character.get_line_of_sight_raycast().set_as_toplevel(true)
 			character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
 			character.get_line_of_sight_raycast().set_as_toplevel(false)
@@ -68,6 +72,11 @@ func move(delta) -> void:
 	
 	var navigation: Navigation = character.get_navigation()
 	path = navigation.navigate(character, path, delta)
+	
+
+
+func move_away() -> void:
+	print("away")
 
 
 func aim(delta) -> void:
@@ -129,6 +138,16 @@ func is_target_aquired() -> bool:
 		return false
 
 
+func is_min_distance_kept() -> bool:
+	var collider_list: Array = character.get_min_distance_area().get_overlapping_bodies()
+	
+	for collider in collider_list:
+		if collider is Character:
+			return false
+	
+	return true
+
+
 func update_last_seen_position():
 	if target:
 		last_seen_position = target.translation
@@ -150,13 +169,18 @@ func change_state(new_state: int) -> void:
 		GameEvents.emit_signal("state_changed", character, new_state)
 
 
-
 func set_view_distance():
 	var max_view_distance: int = character.get_statistics().max_view_distance
 	var max_alert_distance: int = character.get_statistics().max_alert_distance
-	
+
 	character.get_view_area().get_child(0).shape.radius = max_alert_distance
-	character.get_line_of_sight_raycast().cast_to = Vector3(0, 0, -max_view_distance) 
+	character.get_line_of_sight_raycast().cast_to = Vector3(0, 0, -max_view_distance)
+
+
+#func set_min_distance():
+#	var min_distance: int = character.get_statistics().min_distance
+#
+#	character.get_min_distance_area().get_child(0).shape.radius = min_distance
 
 
 func set_aim_target_timer():
@@ -186,6 +210,7 @@ func _on_target_timer_timeout():
 func _on_update_path_timer_timeout():
 	if runtime_data.current_ai_state == Enums.AIState.APPROACHING:
 		update_navigation_path(target.translation)
+		pass
 
 
 func _on_character_shot(_character):

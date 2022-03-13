@@ -11,7 +11,7 @@ var spawn_timer = Timer.new()
 
 func _ready():
 	get_tree().get_root().call_deferred("add_child", spawn_timer)
-	spawn_timer.wait_time = 10
+	spawn_timer.wait_time = 5
 	spawn_timer.one_shot = false
 	spawn_timer.autostart = true
 	spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout")

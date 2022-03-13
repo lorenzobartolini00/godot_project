@@ -43,7 +43,8 @@ func shoot(delta) -> void:
 		
 		_play_weapon_sound()
 		
-		GameEvents.emit_signal("character_shot", character)
+		if character.is_in_group("player"):
+			GameEvents.emit_signal("character_shot", character)
 		
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.SHOOTING
 		

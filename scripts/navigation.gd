@@ -24,7 +24,7 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 			step_size = direction.length()
 			
 			path.remove(0)
-
+		
 		
 		velocity = velocity.linear_interpolate(direction.normalized() * speed, delta * 5)
 		
