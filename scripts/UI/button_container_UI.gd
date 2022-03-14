@@ -26,7 +26,7 @@ func _ready():
 
 func _input(event):
 	if active:
-		if event is InputEventKey:
+		if event is InputEventKey or event is InputEventJoypadButton:
 			if event.pressed:
 				var button_selected: bool = false
 				var _new_row: int = _current_button_index/_columns

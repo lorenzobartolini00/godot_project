@@ -3,6 +3,12 @@ extends Manager
 class_name AmmoManager
 
 
+func _ready():
+	#Da sostituire quando verrà implementato il salvataggio
+	var current_weapon: Weapon = character.get_current_weapon()
+	max_ammo(current_weapon, current_weapon.get_ammo())
+
+
 func set_ammo_for_weapon(_weapon: Weapon):
 	if character.is_in_group("player"):
 		

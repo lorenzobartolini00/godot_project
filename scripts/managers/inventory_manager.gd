@@ -10,13 +10,18 @@ func _ready():
 
 
 func set_up_inventory():
-	var inventory: Inventory = SaveManager.get_saved_inventory()
+	var inventory: Inventory = character.get_inventory()
+	
+	#Da sostituire quando verrà implementato il salvataggio
+	inventory.set_items([])
 	
 	if inventory.is_empty():
 		initialize_inventory()
 	else:
 		#Siccome all'inizio di ogni livello l'inventario non si deve resettare, non posso chiamare la funzione
 		#initialize_inventory(), altrimenti aggiungerei all'inventario degli elementi già esistenti.
+		
+		#Fino a quando non verrà implementato il salvataggio questo metodo è inutile
 		scan_for_unlocked_items()
 	
 #	character.set_inventory(inventory)

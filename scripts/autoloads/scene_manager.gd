@@ -37,7 +37,6 @@ func _process(_delta):
 
 func _on_play(level_index: int):
 	if level_index < level_list.size():
-		SaveManager.load_data()
 		get_tree().change_scene(level_list[level_index])
 	else:
 		get_tree().change_scene_to(title_screen)

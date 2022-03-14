@@ -18,6 +18,7 @@ func _ready() -> void:
 	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon(), 1)
 	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon().get_ammo(), 0)
 	
+	#Da sostituire quando verrà implementato il salvataggio
 	self.get_inventory().set_item_quantity(_life_slot, 3)
 	
 	GameEvents.emit_signal("change_current_life", 0, true, self)
@@ -27,6 +28,7 @@ func _ready() -> void:
 func _physics_process(delta):
 	if self.get_is_alive() and global_runtime_data.current_gameplay_state == Enums.GamePlayState.PLAY:
 		movement(delta)
+		joy_aim()
 		check_target()
 		
 		if reload_manager.need_reload():
