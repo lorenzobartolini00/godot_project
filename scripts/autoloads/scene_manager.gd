@@ -3,15 +3,16 @@ extends Node
 
 export(Array, String) var level_list = Array()
 export(String) onready var level_list_path = "res://scenes/levels/"
-export(int) var current_level_index = 0
+export(int) onready var current_level_index = 0
 
 #Array LIFO in cui viene conservata la lista dei tab aperti, nell'ordine in cui sono stati aperti
-export(Array, Dictionary)onready var tab_stack = []
+export(Array, Dictionary) onready var tab_stack = []
 export(Resource) var option_tab_list_resource = preload("res://my_resources/options/option_tab_list.tres") as OptionTabList
 export(Array, PackedScene) var option_tab_list
 export(PackedScene) onready var title_screen = preload("res://scenes/title_screen.tscn")
 
 onready var option_layer: CanvasLayer
+
 
 func _ready():
 	option_layer = CanvasLayer.new()
@@ -28,7 +29,7 @@ func _ready():
 	GameEvents.connect("exit", self, "_on_exit")
 
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("change_level"):
 		current_level_index += 1
 		GameEvents.emit_signal("play", current_level_index)
@@ -36,6 +37,7 @@ func _process(delta):
 
 func _on_play(level_index: int):
 	if level_index < level_list.size():
+		SaveManager.load_data()
 		get_tree().change_scene(level_list[level_index])
 	else:
 		get_tree().change_scene_to(title_screen)
@@ -58,6 +60,8 @@ func _on_back():
 
 func _on_win():
 	current_level_index += 1
+	SaveManager.save_data()
+	
 	GameEvents.emit_signal("play", current_level_index)
 
 

@@ -36,8 +36,9 @@ func shift_current_weapon(shift: int) ->void:
 					break
 			
 			var next_index: int = (_current_weapon_index + shift) % _weapon_list.size()
+			var new_weapon: Weapon = _weapon_list[next_index].item_reference
 			
-			change_current_weapon(_weapon_list[next_index].item_reference)
+			change_current_weapon(new_weapon)
 
 
 func change_current_weapon(_new_current_weapon: Weapon):

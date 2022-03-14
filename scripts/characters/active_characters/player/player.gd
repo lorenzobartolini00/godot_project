@@ -11,13 +11,16 @@ export(Resource) var inventory = inventory as Inventory
 
 onready var _life_slot = preload("res://my_resources/life_statistics/life_slot.tres") as LifeSlot
 
+
 func _ready() -> void:
 	self._move_speed = statistics.move_speed
 	
 	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon(), 1)
 	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon().get_ammo(), 0)
 	
-	GameEvents.emit_signal("change_current_life", 0, false, self)
+	self.get_inventory().set_item_quantity(_life_slot, 3)
+	
+	GameEvents.emit_signal("change_current_life", 0, true, self)
 	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
 
@@ -43,7 +46,7 @@ func _input(event) -> void:
 		aim(event)
 		
 		if Input.is_action_just_pressed("show_inventory"):
-			inventory.show_inventory()
+			get_inventory().show_inventory()
 			print(get_life().get_current_life())
 
 
@@ -53,10 +56,11 @@ func _on_died(character) -> void:
 		character.set_is_alive(false)
 		print(name + " died")
 		
-		
-		
 		set_damage_area_off()
-		
+
+
+func set_inventory(_inventory: Inventory) -> void:
+	inventory = _inventory
 
 
 func get_inventory() -> Inventory:

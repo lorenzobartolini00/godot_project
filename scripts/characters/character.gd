@@ -92,6 +92,9 @@ func set_audio_stream_player(_audio_stream_player) -> void:
 func get_runtime_data() -> RuntimeData:
 	return _runtime_data
 
+func set_statistics(_statistics: Statistics) -> void:
+	statistics = _statistics
+
 
 func get_statistics() -> Statistics:
 	return statistics

@@ -8,6 +8,7 @@ func is_empty() -> bool:
 	var is_empty: bool = not (_items.size() > 0)
 	return is_empty
 
+
 func set_items(_new_items: Array):
 	_items = _new_items
 	pass

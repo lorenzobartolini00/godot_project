@@ -5,7 +5,12 @@ class_name InventoryManager
 export(Array, String) var path_list
 
 func _ready():
-	var inventory: Inventory = character.get_inventory()
+	GameEvents.connect("add_item_to_inventory", self, "_on_add_item_to_inventory")
+	set_up_inventory()
+
+
+func set_up_inventory():
+	var inventory: Inventory = SaveManager.get_saved_inventory()
 	
 	if inventory.is_empty():
 		initialize_inventory()
@@ -14,7 +19,8 @@ func _ready():
 		#initialize_inventory(), altrimenti aggiungerei all'inventario degli elementi già esistenti.
 		scan_for_unlocked_items()
 	
-	GameEvents.connect("add_item_to_inventory", self, "_on_add_item_to_inventory")
+#	character.set_inventory(inventory)
+#	SaveManager.set_inventory(inventory)
 
 
 func _on_add_item_to_inventory(_item: Item, _quantity: int):

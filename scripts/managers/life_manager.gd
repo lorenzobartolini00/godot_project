@@ -38,9 +38,9 @@ func set_life(_value: int, to_max: bool) -> void:
 			
 #			print("current_life" + String(_current_life))
 #			print("quantity" + String(_quantity))
-			_total_life = _current_life + _quantity*_max_life
+			_total_life = _current_life + (_quantity - 1) *_max_life
 #			print("total_life: " + String(_total_life))
-			_max_total_life = (_max_quantity + 1)*_max_life
+			_max_total_life = (_max_quantity)*_max_life
 			
 			if to_max:
 				_value = _max_total_life
@@ -54,12 +54,12 @@ func set_life(_value: int, to_max: bool) -> void:
 				
 				var _remaining_quantity: int = _partial_value - _current_life
 				
-				_quantity = 0
+				_quantity = 1
 				while _remaining_quantity > 0:
 					_quantity += 1
 					_remaining_quantity -= _max_life
 				
-				if _current_life == 0 and _quantity > 0:
+				if _current_life == 0 and _quantity > 1:
 					_current_life = _max_life
 					_quantity -= 1
 				

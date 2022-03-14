@@ -31,7 +31,7 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 	_update_life_container_UI(_inventory, _item_changed)
 
 
-func _process(delta):
+func _process(_delta):
 	get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Debug").text = String(runtime_data.current_gameplay_state)
 
 
@@ -129,9 +129,17 @@ func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionar
 
 func _update_life_container_UI(_inventory: Inventory, _item_changed: Dictionary):
 	var _item: Item = _item_changed.item_reference
+	var _quantity: int = _item_changed.quantity
+	var _status: int = _item_changed.status
+	
+	var current_number_of_slots: int = _current_life_container.get_children().size()
 	
 	if _item is LifeSlot:
-		var _life_item_UI = life_item_UI.instance() as LifeItemUI
-		_current_life_container.add_child(_life_item_UI)
+		if _status == Enums.ItemStatus.UNLOCKED:
+			while current_number_of_slots < _quantity:
+				var _life_item_UI = life_item_UI.instance() as LifeItemUI
+				_current_life_container.add_child(_life_item_UI)
 		
-		_life_item_UI.setup(_item, _inventory)
+				_life_item_UI.setup(_item, _inventory)
+				
+				current_number_of_slots = _current_life_container.get_children().size()

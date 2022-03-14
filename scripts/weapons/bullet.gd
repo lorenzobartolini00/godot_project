@@ -17,9 +17,6 @@ func initialize(start_position: Vector3, character):
 	mesh_instance.mesh = _weapon.get_ammo().get_mesh()
 	self.transform.origin = start_position
 	
-	var raycast: RayCast = _character.get_shooting_raycast()
-	var collider = raycast.get_collider()
-	
 	setup_despawn_timer()
 	
 	set_as_toplevel(true)

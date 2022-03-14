@@ -33,7 +33,7 @@ func _update_UI(_life: Life, character: Character):
 		
 		
 		var _current_life_index: int = 0
-		while _current_life_index < _life_quantity:
+		while _current_life_index < (_life_quantity-1):
 			_current_life_index += 1
 		
 		if _current_index < _current_life_index:
