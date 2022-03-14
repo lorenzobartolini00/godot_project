@@ -19,11 +19,6 @@ func initialize(start_position: Vector3, character):
 	
 	var raycast: RayCast = _character.get_shooting_raycast()
 	var collider = raycast.get_collider()
-			
-	if collider is Shootable:
-#		target_point = collider.get_global_transform().origin
-#		self.look_at(target_point, Vector3.UP)
-		pass
 	
 	setup_despawn_timer()
 	
@@ -35,8 +30,6 @@ func _physics_process(delta):
 		
 		var direction: Vector3 = -transform.basis.z.normalized()
 		linear_velocity = direction * _weapon.get_ammo().bullet_speed
-	
-	
 
 
 func setup_despawn_timer() -> void:

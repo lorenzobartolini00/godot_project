@@ -21,7 +21,7 @@ func setup(_weapon_item: Item, _inventory: Inventory):
 		
 		self.weapon_avatar.texture = _weapon_item.get_avatar()
 		self.name_label.text = _weapon_item.name
-		_update_UI(_weapon_item.get_ammo())
+		_update_UI(_weapon_item, _weapon_item.get_ammo())
 
 
 func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
@@ -29,21 +29,22 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 
 	if _item is Ammo:
 		if _item.name == self.name_label.text + "_ammo":
+			var weapon: Weapon = self.local_item
 			
-			_update_UI(_item)
+			_update_UI(weapon, _item)
 
 
-func _on_current_ammo_changed(_ammo: Ammo, character: Character):
+func _on_current_ammo_changed(_weapon: Weapon, _ammo: Ammo, character: Character):
 	if character is Player:
 		if _ammo.name == self.name_label.text + "_ammo":
-			_update_UI(_ammo)
+			_update_UI(_weapon, _ammo)
 
 
-func _update_UI(_ammo: Ammo) -> void:
+func _update_UI(_weapon: Weapon, _ammo: Ammo) -> void:
 	if _ammo:
 		var _ammo_in_stock: int = inventory.get_item_quantity(_ammo)
 		
-		var _current_ammo: String = String(_ammo.current_ammo)
+		var _current_ammo: String = String(_weapon.current_ammo)
 		var _remaining_ammo: String = String(_ammo.max_ammo * _ammo_in_stock)
 		
 		var _new_description_text: String = _current_ammo\

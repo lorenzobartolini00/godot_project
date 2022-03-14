@@ -26,6 +26,9 @@ func _physics_process(delta):
 		movement(delta)
 		check_target()
 		
+		if reload_manager.need_reload():
+			pass
+		
 		if Input.is_action_pressed("shoot"):
 			shoot_manager.shoot(delta)
 		elif Input.is_action_just_pressed("reload"):

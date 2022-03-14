@@ -13,21 +13,22 @@ func set_ammo_for_weapon(_weapon: Weapon):
 		
 		character.get_current_weapon().set_ammo(_ammo)
 		
-		GameEvents.emit_signal("current_ammo_changed", character.get_current_weapon().get_ammo(), character)
+		GameEvents.emit_signal("current_ammo_changed", character.get_current_weapon(), character.get_current_weapon().get_ammo(), character)
 
 
-func max_ammo(_ammo: Ammo) -> void:
-	_ammo.current_ammo = _ammo.max_ammo
-	
-	GameEvents.emit_signal("current_ammo_changed", _ammo, character)
+func max_ammo(_weapon: Weapon, _ammo: Ammo) -> void:
+	_weapon.current_ammo = _ammo.max_ammo
+
+	GameEvents.emit_signal("current_ammo_changed", character.get_current_weapon(), character.get_current_weapon().get_ammo(), character)
 
 
 func consume_current_ammo() -> void:
 	var _ammo: Ammo = character.get_current_weapon().get_ammo()
-	_ammo.current_ammo -= _ammo.ammo_per_shot
+	var _weapon: Weapon = character.get_current_weapon()
+	_weapon.current_ammo -= _ammo.ammo_per_shot
 	
 	
-	GameEvents.emit_signal("current_ammo_changed", character.get_current_weapon().get_ammo(), character)
+	GameEvents.emit_signal("current_ammo_changed", character.get_current_weapon(), character.get_current_weapon().get_ammo(), character)
 
 
 func consume_ammo_in_stock(_quantity: int) -> void:

@@ -21,7 +21,7 @@ func _can_shoot() -> bool:
 	if _current_weapon:
 		var _ammo: Ammo = character.get_current_weapon().get_ammo()
 		if _ammo:
-			var _has_ammo: bool = character.get_current_weapon().get_ammo().current_ammo > 0
+			var _has_ammo: bool = character.get_current_weapon().current_ammo > 0
 			var _is_shoot_timer_timeout: bool = character.get_current_weapon().is_shoot_timer_timeout
 			var _is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 			

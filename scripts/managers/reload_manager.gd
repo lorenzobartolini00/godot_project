@@ -31,9 +31,11 @@ func _can_reload() -> bool:
 
 
 func need_reload():
-	if character.get_current_weapon():
-		if character.get_current_weapon().get_ammo():
-			return character.get_current_weapon().get_ammo().current_ammo == 0
+	var weapon: Weapon = character.get_current_weapon()
+	if weapon:
+		var current_ammo: int = weapon.current_ammo
+		
+		return current_ammo == 0
 
 
 func reload() -> void:
@@ -55,7 +57,7 @@ func _on_reload_timer_timeout():
 		var _ammo: Ammo = character.get_current_weapon().get_ammo()
 		
 		if _ammo:
-			character.ammo_manager.max_ammo(_ammo)
+			character.ammo_manager.max_ammo(_current_weapon, _ammo)
 			
 			if character.is_in_group("player"):
 				character.ammo_manager.consume_ammo_in_stock(1)
