@@ -3,11 +3,9 @@ extends Control
 class_name UI
 
 export(NodePath) onready var _warning_label = get_node(_warning_label) as Label
-
 export(NodePath) onready var _warning_animation_player = get_node(_warning_animation_player) as AnimationPlayer
-export(NodePath) onready var _weapon_grid_container = get_node(_weapon_grid_container) as GridContainer
 
-export(NodePath) onready var _current_weapon_container = get_node(_current_weapon_container) as Control
+export(NodePath) onready var _weapon_grid_container = get_node(_weapon_grid_container) as GridContainer
 export(NodePath) onready var _current_life_container = get_node(_current_life_container) as Control
 
 #debug
@@ -34,7 +32,6 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 
 
 func _process(delta):
-#	print(runtime_data.current_gameplay_state)
 	get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Debug").text = String(runtime_data.current_gameplay_state)
 
 
@@ -87,7 +84,7 @@ func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionar
 	
 	if _item is Weapon and _item_changed.status != Enums.ItemStatus.LOCKED:
 		var _weapon_item_UI_list: Array = _weapon_grid_container.get_children()
-		var _weapon_list: Array = _inventory.get_item_list(Enums.ItemTipology.WEAPON)
+		var _weapon_list: Array = _inventory.get_dictionary_item_list(Enums.ItemTipology.WEAPON)
 	
 		var found: bool = false
 		#Controllo che il pannello che mostra l'arma non sia già stato aggiunto

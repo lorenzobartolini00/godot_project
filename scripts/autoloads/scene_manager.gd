@@ -28,11 +28,18 @@ func _ready():
 	GameEvents.connect("exit", self, "_on_exit")
 
 
+func _process(delta):
+	if Input.is_action_just_pressed("change_level"):
+		current_level_index += 1
+		GameEvents.emit_signal("play", current_level_index)
+
+
 func _on_play(level_index: int):
 	if level_index < level_list.size():
 		get_tree().change_scene(level_list[level_index])
 	else:
-		get_tree().change_scene(title_screen)
+		get_tree().change_scene_to(title_screen)
+		current_level_index = 0
 
 
 func _on_options(option_tab_index: int):

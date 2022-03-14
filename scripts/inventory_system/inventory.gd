@@ -4,6 +4,10 @@ class_name Inventory
 export(Array, Array) var _items = Array() setget set_items, get_items
 
 
+func is_empty() -> bool:
+	var is_empty: bool = not (_items.size() > 0)
+	return is_empty
+
 func set_items(_new_items: Array):
 	_items = _new_items
 	pass
@@ -125,14 +129,28 @@ func get_item(_item_name: String, _tipology: int) -> Item:
 		return null
 
 
+func get_dictionary_item_list(_tipology: int) -> Array:
+	if _tipology < _items.size():
+		var _dictionary_item_list: Array = _items[_tipology]
+		
+		var _unlocked_dictionary_item_list: Array
+		for _dictionary_item in _dictionary_item_list:
+			if _dictionary_item.status != Enums.ItemStatus.LOCKED:
+				_unlocked_dictionary_item_list.append(_dictionary_item)
+		
+		return _unlocked_dictionary_item_list
+	
+	return []
+
+
 func get_item_list(_tipology: int) -> Array:
 	if _tipology < _items.size():
-		var _item_list: Array = _items[_tipology]
+		var _dictionary_item_list: Array = _items[_tipology]
 		
 		var _unlocked_item_list: Array
-		for _item in _item_list:
-			if _item.status != Enums.ItemStatus.LOCKED:
-				_unlocked_item_list.append(_item)
+		for _dictionary_item in _dictionary_item_list:
+			if _dictionary_item.status != Enums.ItemStatus.LOCKED:
+				_unlocked_item_list.append(_dictionary_item.item_reference)
 		
 		return _unlocked_item_list
 	

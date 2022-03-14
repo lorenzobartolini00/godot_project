@@ -25,7 +25,7 @@ func shift_current_weapon(shift: int) ->void:
 			var _current_weapon: Weapon = character.get_current_weapon()
 			
 			var _inventory: Inventory = character.get_inventory()
-			var _weapon_list: Array = _inventory.get_item_list(Enums.ItemTipology.WEAPON)
+			var _weapon_list: Array = _inventory.get_dictionary_item_list(Enums.ItemTipology.WEAPON)
 			
 			var _current_weapon_index: int = 0
 			
