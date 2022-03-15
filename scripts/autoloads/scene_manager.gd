@@ -59,7 +59,7 @@ func _on_back():
 
 func _on_win():
 	current_level_index += 1
-	SaveManager.save_data()
+#	SaveManager.save_data()
 	
 	GameEvents.emit_signal("play", current_level_index)
 

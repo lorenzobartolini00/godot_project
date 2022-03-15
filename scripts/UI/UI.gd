@@ -49,15 +49,19 @@ func _on_current_weapon_changed(_weapon: Weapon, character: Character):
 			if _weapon_grid_container.get_child(0).name_label.text == _weapon.name:
 				break
 		
-		#Per questioni di spazio visualizzo solo i primi _max_weapon_item_UI pannelli
-		var _count: int = 0
-		for _weapon_item_UI in _weapon_grid_container.get_children():
-			if _count < _max_weapon_item_UI:
-				_weapon_item_UI.visible = true
-				_count += 1
-				continue
+		update_panel_visibility()
+
+
+func update_panel_visibility():
+	#Per questioni di spazio visualizzo solo i primi _max_weapon_item_UI pannelli
+	var _count: int = 0
+	for _weapon_item_UI in _weapon_grid_container.get_children():
+		if _count < _max_weapon_item_UI:
+			_weapon_item_UI.visible = true
+			_count += 1
+			continue
 			
-			_weapon_item_UI.visible = false
+		_weapon_item_UI.visible = false
 
 
 func _on_warning(_text: String) -> void:
@@ -125,6 +129,8 @@ func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionar
 				_weapon_grid_container.add_child(_new_weapon_item_UI)
 
 			_new_weapon_item_UI.setup(_item, _inventory)
+		
+		update_panel_visibility()
 
 
 func _update_life_container_UI(_inventory: Inventory, _item_changed: Dictionary):

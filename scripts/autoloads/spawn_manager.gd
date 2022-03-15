@@ -16,21 +16,22 @@ func _ready():
 	spawn_timer.autostart = true
 	spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout")
 	
-	GameEvents.connect("play", self, "_on_play")
+#	GameEvents.connect("play", self, "_on_play")
+#	GameEvents.connect("died", self, "_on_died")
 
-
-func _on_play(index: int):
-	total_enemies_in_scene = 0
-#	update_enemy_count()
-
-
+#
+#func _on_play(_index: int):
+#	update_total_enemies()
+#
+#
 #func _on_died(character):
-#	if character is Enemy:
-#		update_enemy_count()
+#	if character is Enemy or character is Spawner:
+#		update_total_enemies()
 
 
 func _on_spawn_timer_timeout():
-	update_enemy_count()
+	update_total_enemies()
+	spawn()
 
 
 func add_spawner(spawner: Spawner) -> void:
@@ -46,12 +47,10 @@ func remove_spawner(spawner: Spawner) -> void:
 		spawner_list.remove(index)
 
 
-func update_enemy_count():
-	total_enemies = get_tree().get_nodes_in_group("Spawner").size()
-	
+func spawn():
 	var spawner: Spawner
 	var try: int = 0
-			
+		
 	if total_enemies_in_scene < total_enemies:
 		if spawner_list.size() > 0:
 			rng.randomize()
@@ -61,3 +60,21 @@ func update_enemy_count():
 			GameEvents.emit_spawn_enemy(spawner)
 					
 			spawner_list.remove(rnd_index)
+			
+			update_total_enemies()
+			
+
+func update_total_enemies():
+	total_enemies = 0
+	var spawners = get_tree().get_nodes_in_group("Spawner")
+	
+	for spawner in spawners:
+		if spawner.get_is_alive():
+			total_enemies += 1
+	
+	total_enemies_in_scene = 0
+	
+	var enemies = get_tree().get_nodes_in_group("Enemy")
+	
+	for enemy in enemies:
+		total_enemies_in_scene += 1
