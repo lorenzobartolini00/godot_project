@@ -27,7 +27,10 @@ func load_folder(path: String) -> Array:
 	
 	if not path_list.empty():
 		for element_path in path_list:
-			var element = load(element_path)
+			var element: Resource = ResourceLoader.load(element_path, "",true)
+			if element.is_local_to_scene():
+				element.setup_local_to_scene()
+			
 			elements.append(element)
 		
 	return elements

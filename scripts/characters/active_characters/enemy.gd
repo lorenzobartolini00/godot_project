@@ -12,8 +12,6 @@ export(NodePath) onready var ai_manager = get_node(ai_manager) as AIManager
 
 onready var navigation = get_parent() as Navigation
 
-var direction_1: Vector3
-var direction_2: Vector3
 
 func _ready():
 	choose_random_weapon()
@@ -21,7 +19,7 @@ func _ready():
 
 
 func choose_random_weapon():
-	var weapon_list: Array = Util.load_folder("res://my_resources/weapon_statistics/")
+	var weapon_list = Util.load_folder("res://my_resources/weapon_statistics/")
 	
 	rng.randomize()
 	var rnd_index: int = rng.randi() % weapon_list.size()

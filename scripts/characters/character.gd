@@ -11,6 +11,8 @@ export(NodePath) onready var life_manager = get_node(life_manager) as LifeManage
 
 export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
 
+export(Resource) onready var current_life = current_life as Life
+
 var rng = RandomNumberGenerator.new()
 var despawn_timer = Timer.new()
 
@@ -58,11 +60,11 @@ func _on_despawn_timer_timeout():
 
 
 func set_life(_life: Life) -> void:
-	statistics.life = _life
+	current_life = _life
 
 
 func get_life() -> Life:
-	return statistics.life
+	return current_life
 
 
 func set_current_life(_new_life: int) -> void:

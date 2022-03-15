@@ -13,6 +13,7 @@ var velocity: Vector3
 
 export(NodePath) onready var shooting_raycast = get_node(shooting_raycast) as RayCast
 
+export(Resource) onready var current_weapon = current_weapon as Weapon
 export(NodePath) onready var current_weapon_mesh = get_node(current_weapon_mesh) as MeshInstance
 export(NodePath) onready var weapon_position = get_node(weapon_position) as Spatial
 
@@ -23,6 +24,9 @@ export(NodePath) onready var reload_manager = get_node(reload_manager) as Reload
 export(NodePath) onready var sound_manager = get_node(sound_manager) as SoundManager
 
 export(NodePath) onready var weapon_audio_stream_player = get_node(weapon_audio_stream_player) as AudioStreamPlayer3D
+
+
+#export(Array, Resource) onready var weapon_list
 
 
 func smooth_look_at(object: Spatial, target_position: Vector3, speed: float, delta: float) -> Transform:
@@ -44,11 +48,11 @@ func check_target():
 
 
 func set_current_weapon(_current_weapon: Weapon) -> void:
-	get_statistics().current_weapon = _current_weapon
+	current_weapon = _current_weapon
 
 
 func get_current_weapon() -> Weapon:
-	return get_statistics().current_weapon
+	return current_weapon
 	
 
 func set_current_weapon_mesh(_mesh: Mesh) -> void:

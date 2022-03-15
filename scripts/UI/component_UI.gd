@@ -5,8 +5,8 @@ class_name UIComponent
 
 onready var ui: UI = get_parent()
 
-var _current_weapon: Weapon
-var _ammo: Ammo
+#var _current_weapon: Weapon
+#var _ammo: Ammo
 
 func _get_configuration_warning() -> String:
 	ui = get_parent() as UI

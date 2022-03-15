@@ -11,8 +11,9 @@ export(AudioStream) var shoot_sound
 
 
 func use(_character):
-	if _character.is_in_group("player"):
-		GameEvents.emit_signal("change_current_weapon", self, _character)
+#	if _character.is_in_group("player"):
+#		GameEvents.emit_signal("change_current_weapon", self, _character)
+	pass
 
 
 func shoot(character) -> void:
