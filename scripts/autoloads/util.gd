@@ -34,3 +34,4 @@ func load_folder(path: String) -> Array:
 			elements.append(element)
 		
 	return elements
+
