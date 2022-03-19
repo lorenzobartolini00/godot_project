@@ -268,7 +268,7 @@ func _on_ViewArea_body_entered(body):
 
 
 func _on_MinDistanceArea_body_entered(body):
-	if body != self.character:
+	if body != self.character and not (body is StaticBody):
 		close_character_list.append(body)
 
 
