@@ -35,3 +35,30 @@ func load_folder(path: String) -> Array:
 		
 	return elements
 
+
+func play_sound(audio_stream_player:AudioStreamPlayer3D, stream: AudioStream) -> void:
+	if not audio_stream_player.is_playing():
+		audio_stream_player.stream = stream
+		audio_stream_player.playing = true
+		
+		if stream is AudioStreamMP3:
+			stream.loop = false
+		elif stream is AudioStreamSample:
+			stream.loop_mode = AudioStreamSample.LOOP_DISABLED
+
+
+func set_node_despawnable(node: Node, despawn_time: int, start: bool) -> void:
+	node.set_script(load("res://scripts/despawner.gd"))
+	node.set_up_timer()
+	
+	if despawn_time > 0:
+		node.set_despawn_time(despawn_time)
+	
+	if start:
+		node.start_despawn_timer()
+
+
+func add_node_to_scene(node: Node, position: Vector3) -> void:
+	get_tree().get_root().add_child(node)
+	
+	node.translation = position

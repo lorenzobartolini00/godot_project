@@ -14,6 +14,7 @@ export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
 export(Resource) onready var current_life = current_life as Life
 
 export(Array, Resource) onready var mesh_list
+export(Resource) onready var explosion_reference = preload("res://nodes/visual_effects/explosion.tscn")
 
 
 var rng = RandomNumberGenerator.new()
@@ -24,7 +25,7 @@ func _ready():
 	_runtime_data.setup_local_to_scene()
 	GameEvents.connect("died", self, "_on_died")
 	
-	set_up_despawn_timer()
+#	set_up_despawn_timer()
 
 
 func _on_died(character) -> void:
@@ -37,17 +38,6 @@ func set_damage_area_off() -> void:
 	collision_shape.set_deferred("disabled", true)
 
 
-func play_sound(audio_stream_player:AudioStreamPlayer3D, stream: AudioStream) -> void:
-	if not audio_stream_player.is_playing():
-		audio_stream_player.stream = stream
-		audio_stream_player.playing = true
-		
-		if stream is AudioStreamMP3:
-			stream.loop = false
-		elif stream is AudioStreamSample:
-			stream.loop_mode = AudioStreamSample.LOOP_DISABLED
-
-
 func dismount() -> void:
 	if mesh_list.size() > 0:
 		for mesh in mesh_list:
@@ -55,38 +45,52 @@ func dismount() -> void:
 			var new_collision_shape: CollisionShape = CollisionShape.new()
 			var new_mesh_instance: MeshInstance = MeshInstance.new()
 			
-			new_rigid_body.translation = self.translation
-			new_rigid_body.rotation_degrees.y = self.rotation_degrees.y
+			Util.add_node_to_scene(new_rigid_body, self.translation)
 			
 			new_mesh_instance.mesh = mesh
 			
-			get_tree().get_root().add_child(new_rigid_body)
 			new_rigid_body.add_child(new_mesh_instance)
 			new_rigid_body.add_child(new_collision_shape)
 			
 			new_collision_shape.make_convex_from_brothers()
 			
+			set_node_despawnable(new_rigid_body, 0, true)
+			
 			var max_impulse_force: float = 10.0
 			var max_impulse_position: float = 0.1
 			rng.randomize()
 			new_rigid_body.apply_impulse(Vector3(rng.randf_range(0, max_impulse_position), rng.randf_range(0, max_impulse_position), rng.randf_range(0, max_impulse_position)), Vector3(rng.randf_range(0, max_impulse_force), rng.randf_range(0, max_impulse_force), rng.randf_range(0, max_impulse_force)))
-			
 
 
-
-func set_up_despawn_timer():
-	add_child(despawn_timer)
+func spawn_explosion() -> void:
+	var explosion = explosion_reference.instance()
+	var particles: Particles = explosion.get_child(0)
+	var audio_stream_player: AudioStreamPlayer3D = explosion.get_child(1)
+	var explosion_sound: AudioStream = self.get_statistics().explosion_sound
 	
-	despawn_timer.wait_time = 0.1
-	despawn_timer.one_shot = true
-	despawn_timer.autostart = false
-	despawn_timer.connect("timeout", self, "_on_despawn_timer_timeout")
-
-
-func _on_despawn_timer_timeout():
-	dismount()
+	add_node_to_scene(explosion, self.translation)
 	
-	queue_free()
+	particles.emitting = true
+	
+	Util.play_sound(audio_stream_player, explosion_sound)
+	
+	Util.set_node_despawnable(explosion, 8, true)
+
+
+#func set_up_despawn_timer():
+#	add_child(despawn_timer)
+#
+#	despawn_timer.wait_time = 0.1
+#	despawn_timer.one_shot = true
+#	despawn_timer.autostart = false
+#	despawn_timer.connect("timeout", self, "_on_despawn_timer_timeout")
+#
+#
+#func _on_despawn_timer_timeout():
+#	dismount()
+#	spawn_explosion()
+#
+#	queue_free()
 
 
 func set_life(_life: Life) -> void:

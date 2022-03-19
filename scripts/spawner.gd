@@ -38,6 +38,8 @@ func _on_died(character) -> void:
 		active = false
 		
 		SpawnManager.remove_spawner(self)
+		
+		spawn_explosion()
 
 
 func _on_spawn_enemy(spawner: Spawner) -> void:

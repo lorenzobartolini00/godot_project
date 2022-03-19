@@ -52,11 +52,15 @@ func _physics_process(delta):
 func _on_died(character) -> void:
 	if character == self:
 		character.set_is_alive(false)
-		print(name + " died")
-		set_damage_area_off()
+		
 		SpawnManager.total_enemies_in_scene -= 1
 		
-		self.despawn_timer.start()
+		set_damage_area_off()
+		dismount()
+		spawn_explosion()
+		
+		queue_free()
+#		self.despawn_timer.start()
 
 
 func get_navigation() -> Navigation:

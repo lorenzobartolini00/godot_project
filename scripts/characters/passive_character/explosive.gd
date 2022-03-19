@@ -15,10 +15,8 @@ func _on_died(character) -> void:
 	if character == self:
 		print(self.name + " died")
 		
-		var explosion_sound: AudioStream = character.get_statistics().explosion_sound
-		character.play_sound(self.get_audio_stream_player(), explosion_sound)
-		
 		set_damage_area_off()
+		spawn_explosion()
 		
 		explode()
 
@@ -29,6 +27,3 @@ func explode() -> void:
 	if statistics is ExplosiveStatistics:
 		var bomb: Bomb = self.get_statistics().current_bomb
 		bomb.explode(explosion_area)
-	
-#	if not self.get_audio_stream_player().playing:
-#		queue_free()
