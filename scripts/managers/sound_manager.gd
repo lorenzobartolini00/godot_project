@@ -13,13 +13,52 @@ func _ready():
 	speak_timer.one_shot = true
 	
 	speak_timer.connect("timeout", self, "_on_speak_timer_timeout")
+	GameEvents.connect("hit", self, "_on_hit")
 	
-	start_speak_timer()
+	if character.is_in_group("Enemy"):
+		start_speak_timer()
+
+
+func _on_hit(area_hit: Shootable, damage: int) -> void:
+	if area_hit == character.damage_area:
+		play_on_character_stream_player("hit")
+
+
+func get_sound_list(sound_name: String) -> Array:
+	var sound_list: Dictionary = character.get_statistics().sound_list
+	var sound_variants: Array
+	
+	if sound_list.has(sound_name):
+		sound_variants = sound_list.get(sound_name)
+		return sound_variants
+	
+	return []
+
+
+func play_on_character_stream_player(sound_name: String) -> void:
+	var sound_variants: Array = get_sound_list(sound_name)
+	var audio_stream_player: AudioStreamPlayer3D = character.get_audio_stream_player()
+	
+	if sound_variants.size() > 0:
+		reproduce_random_sound(sound_variants, audio_stream_player)
+
+
+func play_on_ai_stream_player():
+	var index: int = character.ai_manager.get_current_ai_state()
+	
+	var ai_sound_list: Array = character.get_statistics().ai_sound_list
+	var sound_variants: Array 
+	var audio_stream_player: AudioStreamPlayer3D = character.get_ai_audio_stream_player()
+		
+	if index < ai_sound_list.size():
+		sound_variants = ai_sound_list[index]
+		reproduce_random_sound(sound_variants, audio_stream_player)
 
 
 func _on_speak_timer_timeout():
-	play_contextual_sound()
-	start_speak_timer()
+	if character.is_in_group("Enemy"):
+		play_on_ai_stream_player()
+		start_speak_timer()
 
 
 func start_speak_timer():
@@ -30,23 +69,13 @@ func start_speak_timer():
 	speak_timer.start()
 
 
-func play_contextual_sound():
-	var index: int
-	
-	if character.is_in_group("Enemy"):
-		index = character.ai_manager.get_current_ai_state()
-	
-	var sound_list: Array = character.get_statistics().sound_list
-	var sound_variants: Array 
+func reproduce_random_sound(sound_list: Array, audio_stream_player: AudioStreamPlayer3D):
 	var sound: AudioStream 
-		
-	if index < sound_list.size():
-		sound_variants = sound_list[index]
-			
-		if sound_variants.size() > 0:
-			sound = get_random_sound(sound_variants)
-			if sound:
-				Util.play_sound(character.get_audio_stream_player(), sound)
+	
+	if sound_list.size() > 0:
+		sound = get_random_sound(sound_list)
+		if sound:
+			Util.play_sound(audio_stream_player, sound)
 
 
 func get_random_sound(sound_list: Array) -> AudioStream:

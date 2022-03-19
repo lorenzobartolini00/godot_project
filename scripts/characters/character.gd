@@ -8,6 +8,7 @@ export(Resource) var _runtime_data = _runtime_data as RuntimeData
 export(NodePath) onready var audio_stream_player = get_node(audio_stream_player) as AudioStreamPlayer3D
 
 export(NodePath) onready var life_manager = get_node(life_manager) as LifeManager
+export(NodePath) onready var sound_manager = get_node(sound_manager) as SoundManager
 
 export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
 
@@ -66,13 +67,15 @@ func spawn_explosion() -> void:
 	var explosion = explosion_reference.instance()
 	var particles: Particles = explosion.get_child(0)
 	var audio_stream_player: AudioStreamPlayer3D = explosion.get_child(1)
-	var explosion_sound: AudioStream = self.get_statistics().explosion_sound
+	
+	var sound_list: Array = sound_manager.get_sound_list("explosion")
+	var sound: AudioStream = sound_manager.get_random_sound(sound_list)
+	
 	
 	Util.add_node_to_scene(explosion, self.translation)
 	
 	particles.emitting = true
-	
-	Util.play_sound(audio_stream_player, explosion_sound)
+	Util.play_sound(audio_stream_player, sound)
 	
 	Util.set_node_despawnable(explosion, 8, true)
 

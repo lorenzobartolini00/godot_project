@@ -17,6 +17,10 @@ func _on_died(character) -> void:
 		
 		set_damage_area_off()
 		spawn_explosion()
+		dismount()
+		
+		self.visible = false
+		get_node("CollisionShape").set_deferred("disabled", true)
 		
 		explode()
 

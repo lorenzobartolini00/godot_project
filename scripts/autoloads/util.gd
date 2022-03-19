@@ -38,13 +38,15 @@ func load_folder(path: String) -> Array:
 
 func play_sound(audio_stream_player:AudioStreamPlayer3D, stream: AudioStream) -> void:
 	if not audio_stream_player.is_playing():
-		audio_stream_player.stream = stream
-		audio_stream_player.playing = true
+		if stream:
 		
-		if stream is AudioStreamMP3:
-			stream.loop = false
-		elif stream is AudioStreamSample:
-			stream.loop_mode = AudioStreamSample.LOOP_DISABLED
+			audio_stream_player.stream = stream
+			audio_stream_player.playing = true
+		
+			if stream is AudioStreamMP3:
+				stream.loop = false
+			elif stream is AudioStreamSample:
+				stream.loop_mode = AudioStreamSample.LOOP_DISABLED
 
 
 func set_node_despawnable(node: Node, despawn_time: int, start: bool) -> void:

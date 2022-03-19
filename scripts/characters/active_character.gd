@@ -21,12 +21,9 @@ export(NodePath) onready var weapon_manager = get_node(weapon_manager) as Weapon
 export(NodePath) onready var ammo_manager = get_node(ammo_manager) as AmmoManager
 export(NodePath) onready var shoot_manager = get_node(shoot_manager) as ShootManager
 export(NodePath) onready var reload_manager = get_node(reload_manager) as ReloadManager
-export(NodePath) onready var sound_manager = get_node(sound_manager) as SoundManager
 
 export(NodePath) onready var weapon_audio_stream_player = get_node(weapon_audio_stream_player) as AudioStreamPlayer3D
 
-
-#export(Array, Resource) onready var weapon_list
 
 
 func smooth_look_at(object: Spatial, target_position: Vector3, speed: float, delta: float) -> Transform:

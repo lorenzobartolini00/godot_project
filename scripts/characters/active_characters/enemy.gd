@@ -10,6 +10,8 @@ export(NodePath) onready var upper_part = get_node(upper_part) as Spatial
 
 export(NodePath) onready var ai_manager = get_node(ai_manager) as AIManager
 
+export(NodePath) onready var ai_audio_stream_player = get_node(ai_audio_stream_player) as AudioStreamPlayer3D
+
 onready var navigation = get_parent() as Navigation
 
 
@@ -86,3 +88,5 @@ func get_min_distance_area() -> Area:
 func get_upper_part() -> Spatial:
 	return upper_part
 
+func get_ai_audio_stream_player() -> AudioStreamPlayer3D:
+	return ai_audio_stream_player
