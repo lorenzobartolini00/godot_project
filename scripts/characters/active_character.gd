@@ -40,6 +40,8 @@ func check_target():
 	if collider:
 		if collider is Shootable:
 			GameEvents.emit_signal("target_acquired", self, Enums.TargetTipology.SHOOTABLE)
+		else:
+			GameEvents.emit_signal("target_acquired", self, Enums.TargetTipology.NO_TARGET)
 	else:
 		GameEvents.emit_signal("target_acquired", self, Enums.TargetTipology.NO_TARGET)
 
