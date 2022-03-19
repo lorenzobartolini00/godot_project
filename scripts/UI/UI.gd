@@ -68,9 +68,12 @@ func _on_warning(_text: String) -> void:
 	if _warning_label.visible == false:
 		_warning_label.visible = true
 	
+	var previous_text: String = _warning_label.text
 	_warning_label.text = _text
-	if not _warning_animation_player.is_playing():
-		_warning_animation_player.play("warning")
+	if _warning_animation_player.is_playing() and not previous_text == _text:
+		_warning_animation_player.play("RESET")
+	
+	_warning_animation_player.play("warning")
 
 
 func _on_reloading(character: Character):
