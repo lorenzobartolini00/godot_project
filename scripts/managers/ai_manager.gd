@@ -66,6 +66,7 @@ func _physics_process(delta):
 					move(delta)
 			
 			keep_distance(delta)
+		
 
 
 func move(delta) -> void:
@@ -173,19 +174,6 @@ func is_target_too_close() -> bool:
 	return distance < min_distance
 
 
-#func update_close_character_list() -> void:
-#	var min_distance_area: Area = character.get_min_distance_area()
-#	var collider_list: Array = min_distance_area.get_overlapping_bodies()
-#	var filtered_list: Array = []
-#
-#	for collider in collider_list:
-#		if collider != self.character and is_instance_valid(collider):
-#			filtered_list.append(collider)
-#			print(collider.name + " is too close")
-#
-#	close_character_list = filtered_list
-
-
 func update_last_seen_position():
 	if target:
 		last_seen_position = target.translation
@@ -238,6 +226,10 @@ func set_update_path_timer():
 	update_path_timer.wait_time = 2
 	update_path_timer.autostart = true
 	update_path_timer.one_shot = false
+
+
+func get_current_ai_state() -> int:
+	return runtime_data.current_ai_state
 
 
 func _on_target_timer_timeout():

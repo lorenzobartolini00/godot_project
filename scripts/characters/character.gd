@@ -54,7 +54,7 @@ func dismount() -> void:
 			
 			new_collision_shape.make_convex_from_brothers()
 			
-			set_node_despawnable(new_rigid_body, 0, true)
+			Util.set_node_despawnable(new_rigid_body, 0, true)
 			
 			var max_impulse_force: float = 10.0
 			var max_impulse_position: float = 0.1
@@ -68,7 +68,7 @@ func spawn_explosion() -> void:
 	var audio_stream_player: AudioStreamPlayer3D = explosion.get_child(1)
 	var explosion_sound: AudioStream = self.get_statistics().explosion_sound
 	
-	add_node_to_scene(explosion, self.translation)
+	Util.add_node_to_scene(explosion, self.translation)
 	
 	particles.emitting = true
 	
