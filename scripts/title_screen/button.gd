@@ -21,9 +21,9 @@ func _ready():
 	GameEvents.connect("button_selected", self, "_on_button_selected")
 
 
-func _physics_process(delta):
+func _process(delta):
 	if get_parent().active:
-		if Input.is_action_just_pressed("shoot"):
+		if Input.is_action_just_released("shoot"):
 			if mouse_entered:
 				GameEvents.emit_signal("button_pressed", self)
 
