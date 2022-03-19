@@ -29,7 +29,6 @@ func _physics_process(delta):
 	if self.get_is_alive() and global_runtime_data.current_gameplay_state == Enums.GamePlayState.PLAY:
 		movement(delta)
 		joy_aim()
-		check_target()
 		
 		if reload_manager.need_reload():
 			pass
@@ -41,6 +40,8 @@ func _physics_process(delta):
 		
 		if Input.is_action_just_pressed("change_weapon"):
 			weapon_manager.shift_current_weapon(1)
+	
+	check_target()
 
 
 func _input(event) -> void:
