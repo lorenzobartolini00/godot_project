@@ -11,7 +11,7 @@ export(NodePath) onready var _current_life_container = get_node(_current_life_co
 #debug
 export(Resource) onready var runtime_data = runtime_data as RuntimeData
 
-onready var weapon_item_UI = preload("res://nodes/UI/weapon_item_UI.tscn")
+#onready var weapon_item_UI = preload("res://nodes/UI/weapon_item_UI.tscn")
 onready var life_item_UI = preload("res://nodes/UI/life_item_UI.tscn")
 
 export var _max_weapon_item_UI: int = 3
@@ -115,7 +115,7 @@ func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionar
 			#Ricavo il nome dell'arma precedente a quella che devo aggiungere
 			var _previous_name: String = _weapon_item_list[(_current_weapon_index - 1 + _weapon_list.size()) % _weapon_list.size()].name
 			
-			var _new_weapon_item_UI = weapon_item_UI.instance() as WeaponItemUI
+			var _new_weapon_item_UI = load(_item.weapon_item_UI_path).instance() as WeaponItemUI
 			var _previous_weapon_item_UI: WeaponItemUI
 			
 			#Cerco il pannello che contiene l'arma che sta una posizione prima nell'elenco delle armi nell'inventario
