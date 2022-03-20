@@ -10,6 +10,7 @@ export(Array, Dictionary) onready var tab_stack = []
 export(Resource) var option_tab_list_resource = preload("res://my_resources/options/option_tab_list.tres") as OptionTabList
 export(Array, PackedScene) var option_tab_list
 export(PackedScene) onready var title_screen = preload("res://scenes/title_screen.tscn")
+export(PackedScene) onready var win_screen = preload("res://scenes/win_screen.tscn")
 
 onready var option_layer: CanvasLayer
 
@@ -39,7 +40,7 @@ func _on_play(level_index: int):
 	if level_index < level_list.size():
 		get_tree().change_scene(level_list[level_index])
 	else:
-		get_tree().change_scene_to(title_screen)
+		get_tree().change_scene_to(win_screen)
 		current_level_index = 0
 
 
