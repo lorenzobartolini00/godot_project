@@ -45,6 +45,11 @@ func change_current_weapon(_new_current_weapon: Weapon):
 	var is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 		
 	if is_freewalk_state:
+		if character.is_in_group("player"):
+			var inventory: Inventory = character.get_inventory()
+			_new_current_weapon = inventory.get_item(_new_current_weapon.name, Enums.ItemTipology.WEAPON)
+		
+		#Invece di settare come arma corrente quella che viene passata, setto come corrente quella presente nell'inventario
 		character.set_current_weapon(_new_current_weapon)
 		GameEvents.emit_signal("current_weapon_changed", character.get_current_weapon(), character)
 
