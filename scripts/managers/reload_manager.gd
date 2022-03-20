@@ -14,13 +14,17 @@ func _ready():
 
 func can_reload() -> bool:
 	var _is_left_in_stock = true
+	var _is_weapon_auto_rechargeable: bool = false
 	
 	if character.is_in_group("player"):
 		_is_left_in_stock = _is_left_in_stock()
+		
+	if character.get_current_weapon() is Blaster:
+		_is_weapon_auto_rechargeable = true
 	
 	var is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 	
-	return is_freewalk_state and _is_left_in_stock
+	return is_freewalk_state and _is_left_in_stock and not _is_weapon_auto_rechargeable
 
 
 func need_reload():

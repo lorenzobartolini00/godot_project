@@ -24,8 +24,12 @@ func can_shoot() -> bool:
 			var _has_ammo: bool = character.get_current_weapon().current_ammo > 0
 			var _is_shoot_timer_timeout: bool = is_shoot_timer_timeout()
 			var _is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
+			var is_charged: bool = true
 			
-			return _has_ammo and _is_shoot_timer_timeout and _is_freewalk_state
+			if _current_weapon.has_method("is_charged"):
+				is_charged = _current_weapon.is_charged()
+			
+			return _has_ammo and _is_shoot_timer_timeout and _is_freewalk_state and is_charged
 		return false
 	else:
 		return false

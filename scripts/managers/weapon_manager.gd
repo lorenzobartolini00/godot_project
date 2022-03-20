@@ -51,6 +51,10 @@ func change_current_weapon(_new_current_weapon: Weapon):
 		
 		#Invece di settare come arma corrente quella che viene passata, setto come corrente quella presente nell'inventario
 		character.set_current_weapon(_new_current_weapon)
+		
+		if _new_current_weapon.has_method("connect_signal"):
+			_new_current_weapon.connect_signal(character)
+		
 		GameEvents.emit_signal("current_weapon_changed", character.get_current_weapon(), character)
 
 		character.set_current_weapon_mesh(_new_current_weapon.mesh)

@@ -49,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/characters/active_characters/player/basic_first_person_controller.gd"
 }, {
+"base": "RayCastWeapon",
+"class": "Blaster",
+"language": "GDScript",
+"path": "res://scripts/weapons/blaster.gd"
+}, {
 "base": "WeaponItemUI",
 "class": "BlasterItemUI",
 "language": "GDScript",
@@ -308,6 +313,7 @@ _global_script_class_icons={
 "AreaAmmo": "",
 "AreaWeapon": "",
 "BasicFirstPersonController": "",
+"Blaster": "",
 "BlasterItemUI": "",
 "Bomb": "",
 "Bullet": "",

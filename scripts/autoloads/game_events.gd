@@ -14,7 +14,7 @@ signal warning(text)
 
 signal current_life_changed(new_life, character)
 signal current_weapon_changed(new_current_weapon, character)
-signal current_ammo_changed(new_current_ammo, character)
+signal current_ammo_changed(weapon, new_current_ammo, character)
 
 signal show_weapon_list(weapon_list)
 
