@@ -7,7 +7,13 @@ export(int) var damage
 export(Resource) var ammo = ammo as Ammo
 export(int) var current_ammo
 export(PackedScene) var muzzle_flash = preload("res://nodes/muzzle_flash.tscn")
-export(AudioStream) var shoot_sound
+export(Dictionary) onready var sound_list = {
+	"shoot": [],
+	"explosion": [],
+	"reload": [],
+	"empty_shoot": []
+	}
+#export(AudioStream) var shoot_sound
 
 
 func use(_character):
@@ -26,3 +32,7 @@ func set_ammo(_ammo: Ammo) -> void:
 
 func get_ammo() -> Ammo:
 	return ammo
+
+
+func get_sound_list() -> Dictionary:
+	return sound_list

@@ -35,6 +35,8 @@ func reload() -> void:
 	if can_reload():
 		var _current_weapon = character.get_current_weapon()
 		if _current_weapon:
+			play_reload_sound()
+			
 			GameEvents.emit_signal("reload", character)
 #			print(character.name + " is reloading...")
 			
@@ -78,3 +80,12 @@ func _on_reload_timer_timeout():
 		
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
 #			print(character.name + " finished reloading")
+
+
+func play_reload_sound() -> void:
+	var sound_list: Dictionary = character.get_current_weapon().get_sound_list()
+	var weapon_stream_player: AudioStreamPlayer3D = character.get_weapon_audio_stream_player()
+	
+	var loop: bool = false
+	var cut: bool = true
+	Util.play_random_sound_from_name("reload", sound_list, weapon_stream_player, loop, cut)

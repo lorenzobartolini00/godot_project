@@ -22,7 +22,7 @@ func _can_shoot() -> bool:
 		var _ammo: Ammo = character.get_current_weapon().get_ammo()
 		if _ammo:
 			var _has_ammo: bool = character.get_current_weapon().current_ammo > 0
-			var _is_shoot_timer_timeout: bool = character.get_current_weapon().is_shoot_timer_timeout
+			var _is_shoot_timer_timeout: bool = is_shoot_timer_timeout()
 			var _is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 			
 			return _has_ammo and _is_shoot_timer_timeout and _is_freewalk_state
@@ -58,7 +58,9 @@ func shoot(delta) -> void:
 					GameEvents.emit_signal("warning", "Need reload")
 				else:
 					GameEvents.emit_signal("warning", "No ammo")
-					
+		
+		if is_shoot_timer_timeout():
+			_play_empty_weapon_sound()
 
 
 func rotate_weapon(delta) -> void:
@@ -91,8 +93,23 @@ func _on_shoot_timer_timeout() ->void:
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
 
 
+func is_shoot_timer_timeout() -> bool:
+	return character.get_current_weapon().is_shoot_timer_timeout
+
+
 func _play_weapon_sound() -> void:
-	var shoot_sound: AudioStream = character.get_current_weapon().shoot_sound
+	var sound_list: Dictionary = character.get_current_weapon().get_sound_list()
 	var weapon_stream_player: AudioStreamPlayer3D = character.get_weapon_audio_stream_player()
 	
-	Util.play_sound(weapon_stream_player, shoot_sound)
+	var loop: bool = false
+	var cut: bool = true
+	Util.play_random_sound_from_name("shoot", sound_list, weapon_stream_player, loop, cut)
+
+
+func _play_empty_weapon_sound() -> void:
+	var sound_list: Dictionary = character.get_current_weapon().get_sound_list()
+	var weapon_stream_player: AudioStreamPlayer3D = character.get_weapon_audio_stream_player()
+	
+	var loop: bool = false
+	var cut: bool = true
+	Util.play_random_sound_from_name("empty_shoot", sound_list, weapon_stream_player, loop, cut)

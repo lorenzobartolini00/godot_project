@@ -75,7 +75,7 @@ func spawn_explosion() -> void:
 	Util.add_node_to_scene(explosion, self.translation)
 	
 	particles.emitting = true
-	Util.play_sound(audio_stream_player, sound)
+	Util.play_sound(audio_stream_player, sound, false, false)
 	
 	Util.set_node_despawnable(explosion, 8, true)
 

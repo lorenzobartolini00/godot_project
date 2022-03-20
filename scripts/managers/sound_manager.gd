@@ -24,23 +24,11 @@ func _on_hit(area_hit: Shootable, damage: int) -> void:
 		play_on_character_stream_player("hit")
 
 
-func get_sound_list(sound_name: String) -> Array:
-	var sound_list: Dictionary = character.get_statistics().sound_list
-	var sound_variants: Array
-	
-	if sound_list.has(sound_name):
-		sound_variants = sound_list.get(sound_name)
-		return sound_variants
-	
-	return []
-
-
 func play_on_character_stream_player(sound_name: String) -> void:
-	var sound_variants: Array = get_sound_list(sound_name)
+	var sound_list: Dictionary = character.get_statistics().sound_list
 	var audio_stream_player: AudioStreamPlayer3D = character.get_audio_stream_player()
 	
-	if sound_variants.size() > 0:
-		reproduce_random_sound(sound_variants, audio_stream_player)
+	Util.play_random_sound_from_name(sound_name, sound_list, audio_stream_player, false, false)
 
 
 func play_on_ai_stream_player():
@@ -52,7 +40,7 @@ func play_on_ai_stream_player():
 		
 	if index < ai_sound_list.size():
 		sound_variants = ai_sound_list[index]
-		reproduce_random_sound(sound_variants, audio_stream_player)
+		Util.play_random_sound_from_list(sound_variants, audio_stream_player, false, false)
 
 
 func _on_speak_timer_timeout():
@@ -69,20 +57,20 @@ func start_speak_timer():
 	speak_timer.start()
 
 
-func reproduce_random_sound(sound_list: Array, audio_stream_player: AudioStreamPlayer3D):
-	var sound: AudioStream 
-	
-	if sound_list.size() > 0:
-		sound = get_random_sound(sound_list)
-		if sound:
-			Util.play_sound(audio_stream_player, sound)
-
-
-func get_random_sound(sound_list: Array) -> AudioStream:
-	if sound_list.size() > 0:
-		character.rng.randomize()
-		var random_number: int = character.rng.randi_range(0, (sound_list.size() - 1))
-		
-		return sound_list[random_number]
-	else:
-		return null
+#func reproduce_random_sound(sound_list: Array, audio_stream_player: AudioStreamPlayer3D):
+#	var sound: AudioStream 
+#
+#	if sound_list.size() > 0:
+#		sound = get_random_sound(sound_list)
+#		if sound:
+#			Util.play_sound(audio_stream_player, sound)
+#
+#
+#func get_random_sound(sound_list: Array) -> AudioStream:
+#	if sound_list.size() > 0:
+#		character.rng.randomize()
+#		var random_number: int = character.rng.randi_range(0, (sound_list.size() - 1))
+#
+#		return sound_list[random_number]
+#	else:
+#		return null

@@ -25,3 +25,4 @@ func get_bullet_spawn_position() -> Vector3:
 	var bullet_dimension: Vector3 = Vector3(0,0, bullet_aabb.size.z)
 	
 	return muzzle_position - bullet_dimension/2
+

@@ -4,6 +4,7 @@ class_name Bullet
 
 export(NodePath) onready var mesh_instance = get_node(mesh_instance) as MeshInstance
 export(NodePath) onready var despawn_timer = get_node(despawn_timer) as Timer
+export(PackedScene) onready var explosion_reference
 
 var _weapon
 var _character
@@ -37,6 +38,10 @@ func setup_despawn_timer() -> void:
 	despawn_timer.start()
 
 
+func get_character() -> Character:
+	return _character
+
+
 func _on_DespawnTimer_timeout():
 	queue_free()
 
@@ -48,11 +53,23 @@ func _on_CollisionArea_area_entered(area):
 	queue_free()
 
 
+func spawn_explosion() -> void:
+	var explosion = explosion_reference.instance()
+	var particles: Particles = explosion.get_child(0)
+	var audio_stream_player: AudioStreamPlayer3D = explosion.get_child(1)
+	
+	var sound_list: Dictionary = _weapon.get_sound_list()
+	var sound_name: String = "explosion"
+	
+	Util.add_node_to_scene(explosion, self.translation)
+	
+	particles.emitting = true
+	Util.play_random_sound_from_name(sound_name, sound_list, audio_stream_player, false, false)
+	
+	Util.set_node_despawnable(explosion, 8, true)
+
+
 func _on_CollisionArea_body_entered(body):
-	if body.is_in_group("player"):
-		pass
-	elif body is StaticBody:
-		self.visible = false
-		
-		
-		despawn_timer.start()
+	spawn_explosion()
+	
+	queue_free()
