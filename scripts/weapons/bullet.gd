@@ -50,6 +50,7 @@ func _on_CollisionArea_area_entered(area):
 	if area is Shootable:
 		GameEvents.emit_signal("hit", area, _weapon.damage)
 	
+	spawn_explosion()
 	queue_free()
 
 
