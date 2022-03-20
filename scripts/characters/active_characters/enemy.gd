@@ -21,7 +21,7 @@ func _ready():
 
 
 func choose_random_weapon():
-	var weapon_list = Util.load_folder("res://my_resources/weapon_statistics/")
+	var weapon_list = Util.load_folder("res://my_resources/weapon_statistics/", true)
 	
 	rng.randomize()
 	var rnd_index: int = rng.randi() % weapon_list.size()
@@ -32,10 +32,10 @@ func choose_random_weapon():
 
 func _physics_process(delta):
 	if get_is_alive():
-		if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
+		if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED and shoot_manager.can_shoot():
 			shoot_manager.shoot(delta)
 		
-		if reload_manager.need_reload():
+		if reload_manager.need_reload() and reload_manager.can_reload():
 			reload_manager.reload()
 	
 	var y_movement = velocity.y

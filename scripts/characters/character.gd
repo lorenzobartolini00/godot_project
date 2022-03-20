@@ -67,15 +67,13 @@ func spawn_explosion() -> void:
 	var explosion = explosion_reference.instance()
 	var particles: Particles = explosion.get_child(0)
 	var audio_stream_player: AudioStreamPlayer3D = explosion.get_child(1)
-	
-	var sound_list: Array = sound_manager.get_sound_list("explosion")
-	var sound: AudioStream = sound_manager.get_random_sound(sound_list)
+	var sound_list: Dictionary = self.get_sound_list()
 	
 	
 	Util.add_node_to_scene(explosion, self.translation)
 	
 	particles.emitting = true
-	Util.play_sound(audio_stream_player, sound, false, false)
+	Util.play_random_sound_from_name("explosion", sound_list, audio_stream_player, false, true)
 	
 	Util.set_node_despawnable(explosion, 8, true)
 
@@ -137,3 +135,7 @@ func set_statistics(_statistics: Statistics) -> void:
 
 func get_statistics() -> Statistics:
 	return statistics
+
+
+func get_sound_list() -> Dictionary:
+	return get_statistics().sound_list

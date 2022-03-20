@@ -38,7 +38,7 @@ func reload() -> void:
 			play_reload_sound()
 			
 			GameEvents.emit_signal("reload", character)
-#			print(character.name + " is reloading...")
+			print(character.name + " is reloading...")
 			
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.RELOADING
 			

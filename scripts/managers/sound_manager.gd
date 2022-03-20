@@ -4,7 +4,8 @@ class_name SoundManager
 
 onready var speak_timer: Timer
 
-export(int) var max_sound_wait = 20
+export(int) var max_sound_wait = 30
+export(int) var min_sound_wait = 10
 
 
 func _ready():
@@ -53,7 +54,7 @@ func start_speak_timer():
 	character.rng.randomize()
 	
 	var wait_time: int = character.rng.randi() % max_sound_wait
-	speak_timer.wait_time = clamp(wait_time, 1 , max_sound_wait)
+	speak_timer.wait_time = clamp(wait_time, min_sound_wait , max_sound_wait)
 	speak_timer.start()
 
 

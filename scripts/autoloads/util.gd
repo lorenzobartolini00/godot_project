@@ -23,13 +23,13 @@ func list_folder(path: String) -> Array:
 	return list
 
 
-func load_folder(path: String) -> Array:
+func load_folder(path: String, no_cache: bool) -> Array:
 	var elements: Array = []
 	var path_list: Array = list_folder(path)
 	
 	if not path_list.empty():
 		for element_path in path_list:
-			var element: Resource = ResourceLoader.load(element_path, "",true)
+			var element: Resource = ResourceLoader.load(element_path, "", no_cache)
 			if element.is_local_to_scene():
 				element.setup_local_to_scene()
 			
@@ -60,12 +60,13 @@ func add_node_to_scene(node: Node, position: Vector3) -> void:
 func play_sound(audio_stream_player:AudioStreamPlayer3D, stream: AudioStream, loop: bool, cut: bool) -> void:
 	if cut:
 		audio_stream_player.stop()
-		audio_stream_player.playing = false
+#		audio_stream_player.playing = false
 	if not audio_stream_player.is_playing():
 		if stream:
 		
 			audio_stream_player.stream = stream
-			audio_stream_player.playing = true
+#			audio_stream_player.playing = true
+			audio_stream_player.play()
 		
 			if stream is AudioStreamMP3:
 				stream.loop = loop

@@ -8,12 +8,14 @@ export(Resource) var ammo = ammo as Ammo
 export(int) var current_ammo
 export(PackedScene) var muzzle_flash = preload("res://nodes/muzzle_flash.tscn")
 export(Dictionary) onready var sound_list = {
-	"shoot": [],
-	"explosion": [],
-	"reload": [],
-	"empty_shoot": []
+	"shoot": [preload("res://assets/my_assets/sounds/cut_sounds/pistol.wav")],
+	"explosion": [preload("res://assets/my_assets/sounds/pixabay_sound_effects/musket-explosion-6383.mp3")],
+	"reload": [preload("res://assets/my_assets/sounds/pixabay_sound_effects/1911-reload-6248.mp3")],
+	"empty_shoot": [preload("res://assets/my_assets/sounds/pixabay_sound_effects/empty-gun-shot-6209.mp3")]
 	}
-#export(AudioStream) var shoot_sound
+
+
+var explosion_sound: Object = preload("res://assets/my_assets/sounds/pixabay_sound_effects/musket-explosion-6383.mp3")
 
 
 func use(_character):

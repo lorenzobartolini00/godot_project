@@ -41,15 +41,12 @@ func initialize_inventory() -> void:
 	var resource_list: Array 
 
 	for path in path_list:
-		var file_list: Array = Util.list_folder(path)
-		resource_list.append_array(file_list)
+		var partial_resource_list: Array = Util.load_folder(path, true)
+		resource_list.append_array(partial_resource_list)
 	
 	for resource in resource_list:
-		var item: Item = load(resource)
-		
-		if item is Item:
-			var _unlock: bool = false
-			inventory.add_item(item, 0)
+		if resource is Item:
+			inventory.add_item(resource, 0)
 
 
 func scan_for_unlocked_items() -> void:

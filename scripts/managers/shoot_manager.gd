@@ -16,7 +16,7 @@ func _physics_process(delta):
 	rotate_weapon(delta)
 
 
-func _can_shoot() -> bool:
+func can_shoot() -> bool:
 	var _current_weapon = character.get_current_weapon()
 	if _current_weapon:
 		var _ammo: Ammo = character.get_current_weapon().get_ammo()
@@ -32,7 +32,7 @@ func _can_shoot() -> bool:
 
 
 func shoot(delta) -> void:
-	if _can_shoot():
+	if can_shoot():
 #		print(character.name + " has shot")
 		var _current_weapon: Weapon = character.get_current_weapon()
 		
