@@ -13,4 +13,6 @@ func explode(explosion_area: Area) -> void:
 		area = area as Shootable
 		if area:
 			GameEvents.emit_signal("hit", area, self.damage)
+	
+	explosion_area.get_parent().queue_free()
 
