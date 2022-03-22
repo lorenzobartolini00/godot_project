@@ -3,7 +3,7 @@ extends DotWeapon
 class_name ProjectileWeapon
 
 export(PackedScene) var bullet_scene = preload("res://nodes/bullet.tscn")
-
+export(PackedScene) var explosion_reference = preload ("res://nodes/visual_effects/explosion.tscn")
 
 
 func shoot(character) -> void:

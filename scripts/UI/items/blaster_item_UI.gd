@@ -11,6 +11,7 @@ func setup(_weapon_item: Item, _inventory: Inventory):
 		self.inventory = _inventory
 		
 		self.name_label.text = _weapon_item.name
+		self.weapon_avatar.texture = _weapon_item.avatar
 		_update_UI(_weapon_item, _weapon_item.get_ammo())
 
 

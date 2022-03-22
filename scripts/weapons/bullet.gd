@@ -4,7 +4,7 @@ class_name Bullet
 
 export(NodePath) onready var mesh_instance = get_node(mesh_instance) as MeshInstance
 export(NodePath) onready var despawn_timer = get_node(despawn_timer) as Timer
-export(PackedScene) onready var explosion_reference
+#export(PackedScene) onready var explosion_reference
 
 var _weapon
 var _character
@@ -55,7 +55,7 @@ func _on_CollisionArea_area_entered(area):
 
 
 func spawn_explosion() -> void:
-	var explosion = explosion_reference.instance()
+	var explosion = _weapon.explosion_reference.instance()
 	var particles: Particles = explosion.get_child(0)
 	var audio_stream_player: AudioStreamPlayer3D = explosion.get_child(1)
 	

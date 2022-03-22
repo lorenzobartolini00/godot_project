@@ -49,7 +49,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/characters/active_characters/player/basic_first_person_controller.gd"
 }, {
-"base": "RayCastWeapon",
+"base": "ProjectileWeapon",
 "class": "Blaster",
 "language": "GDScript",
 "path": "res://scripts/weapons/blaster.gd"

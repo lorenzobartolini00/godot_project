@@ -1,4 +1,4 @@
-extends RayCastWeapon
+extends ProjectileWeapon
 
 class_name Blaster
 
@@ -36,8 +36,8 @@ func _on_current_weapon_changed(_new_weapon: Weapon, _character):
 			set_up_recharge_timer(_character)
 		
 			recharge_timer.start()
-		else:
-			recharge_timer.stop()
+#		else:
+#			recharge_timer.stop()
 
 
 func _on_current_ammo_changed(_weapon: Weapon, _ammo: Ammo, _character):
