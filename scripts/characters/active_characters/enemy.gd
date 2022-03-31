@@ -11,6 +11,7 @@ export(NodePath) onready var upper_part = get_node(upper_part) as Spatial
 export(NodePath) onready var ai_manager = get_node(ai_manager) as AIManager
 
 export(NodePath) onready var ai_audio_stream_player = get_node(ai_audio_stream_player) as AudioStreamPlayer3D
+export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
 
 onready var navigation = get_parent() as Navigation
 
@@ -48,6 +49,7 @@ func _physics_process(delta):
 	
 	velocity.y = y_movement
 	move_and_slide(velocity, Vector3.UP)
+	enemy_model.set_walk_animation(velocity.length())
 
 
 #Override
