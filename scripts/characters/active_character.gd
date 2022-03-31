@@ -80,3 +80,8 @@ func get_weapon_position() -> Spatial:
 
 func get_weapon_audio_stream_player() -> AudioStreamPlayer:
 	return weapon_audio_stream_player
+
+
+func set_velocity(new_velocity: Vector3, accel: float, delta: float) -> void:
+	self.velocity = self.velocity.linear_interpolate(new_velocity, accel*delta)
+	self.velocity = move_and_slide(self.velocity, Vector3.UP)

@@ -21,12 +21,12 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 #		print("s: " + str(step_size))
 		
 		if direction.length() < step_size:
-			step_size = direction.length()
-			
 			path.remove(0)
 		
-		velocity = velocity.linear_interpolate(direction.normalized() * speed, delta * 10)
-		character.velocity = character.move_and_slide(velocity, Vector3.UP)
+		character.set_velocity(direction.normalized() * speed, accel, delta)
+		
+#		velocity = velocity.linear_interpolate(direction.normalized() * speed, delta * 10)
+#		character.velocity = character.move_and_slide(velocity, Vector3.UP)
 		
 		direction.y = 0
 		if direction:

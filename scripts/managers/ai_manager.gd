@@ -89,7 +89,7 @@ func aim(delta) -> void:
 func keep_distance(delta) -> void:
 	if close_character_list.size() > 0:
 		var direction: Vector3 = Vector3()
-		var velocity: Vector3 = character.velocity
+#		var velocity: Vector3 = character.velocity
 		var speed: float = self.character.get_statistics().move_speed
 		var accel: float = self.character.get_statistics().keep_distance_accel
 		var force_sum: Vector3
@@ -102,18 +102,22 @@ func keep_distance(delta) -> void:
 		direction = force_sum.normalized()
 		direction.y = 0
 		
-		velocity = velocity.linear_interpolate(direction*speed, delta * accel)
-		self.character.velocity = self.character.move_and_slide(velocity, Vector3.UP)
-#		self.character.velocity = self.character.velocity.linear_interpolate(direction * speed, delta)
+		character.set_velocity(direction*speed, accel, delta)
+		
+#		character.velocity = character.velocity.linear_interpolate(direction*speed, delta * accel)
+#		self.character.velocity = self.character.move_and_slide(velocity, Vector3.UP)
 
 
 func brake(delta) -> void:
 	var accel: float = self.character.get_statistics().brake_accel
+	var new_velocity: Vector3
 	
 	if character.is_on_floor():
-		character.velocity = character.velocity.linear_interpolate(Vector3(0, -0.1, 0), delta * accel)
+		new_velocity = Vector3(0, -0.1, 0)
 	else:
-		character.velocity = character.velocity.linear_interpolate(Vector3(0, character.velocity.y, 0), delta * accel)
+		new_velocity = Vector3(0, character.velocity.y, 0)
+	
+	character.set_velocity(new_velocity, accel, delta)
 
 
 func has_reach_last_seen_position() -> bool:
