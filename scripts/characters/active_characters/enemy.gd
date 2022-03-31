@@ -39,7 +39,14 @@ func _physics_process(delta):
 		if reload_manager.need_reload() and reload_manager.can_reload():
 			reload_manager.reload()
 	
+	set_vertical_velocity(delta)
+	
+	enemy_model.set_walk_animation(self.transform, velocity)
+
+
+func set_vertical_velocity(delta):
 	var y_movement = velocity.y
+	var new_velocity: Vector3
 	
 	if not is_on_floor():
 		y_movement = lerp(y_movement, y_movement + _gravity, delta * _vertical_acceleration)
@@ -49,7 +56,6 @@ func _physics_process(delta):
 	
 	velocity.y = y_movement
 	move_and_slide(velocity, Vector3.UP)
-	enemy_model.set_walk_animation(velocity.length())
 
 
 #Override

@@ -1,32 +1,41 @@
 extends Navigation
 
-export var step_default: float = 0.95
+var m = SpatialMaterial.new()
+var local_path = []
+
+
+func _ready():
+	set_process_input(true)
+	m.flags_unshaded = true
+	m.flags_use_point_size = true
+	m.albedo_color = Color.white
+
 
 func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector3Array:
 	var direction = Vector3()
 	var velocity: Vector3 = character.velocity
 	var speed: float = character.get_statistics().move_speed
 	var accel: float = character.get_statistics().pathfinding_accel
+	
+	local_path = path
+	
+	var step_size: float = speed
 
 	if path.size() > 0:
-		var step_size = step_default / clamp(character.velocity.length(), 0.1, 1)
 		
 		var destination: Vector3 = path[0]
 		destination.y = character.translation.y
 		
 		direction = destination - character.translation
 		
-#		print("v: " + str(character.velocity.length()))
-#		print("l: " + str(length))
-#		print("s: " + str(step_size))
-		
+		print("previous step: " + str(step_size))
 		if direction.length() < step_size:
+			step_size = direction.length()
+			
 			path.remove(0)
+		print("next step: " + str(step_size))
 		
-		character.set_velocity(direction.normalized() * speed, accel, delta)
-		
-#		velocity = velocity.linear_interpolate(direction.normalized() * speed, delta * 10)
-#		character.velocity = character.move_and_slide(velocity, Vector3.UP)
+		character.set_velocity(direction.normalized() * step_size, accel, delta)
 		
 		direction.y = 0
 		if direction:
@@ -45,5 +54,24 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 	return path
 
 
+func _unhandled_input(event):
+	if event is InputEventKey and event.scancode == KEY_B:
+		draw_path(local_path)
+
+
 func get_points(character: Enemy, target_position: Vector3) -> PoolVector3Array:
 	return  get_simple_path(character.translation, get_closest_point(target_position))
+
+
+func draw_path(path_array):
+	var im = get_node("Draw")
+	im.set_material_override(m)
+	im.clear()
+	im.begin(Mesh.PRIMITIVE_POINTS, null)
+	im.add_vertex(path_array[0])
+	im.add_vertex(path_array[path_array.size() - 1])
+	im.end()
+	im.begin(Mesh.PRIMITIVE_LINE_STRIP, null)
+	for x in path_array:
+		im.add_vertex(x)
+	im.end()

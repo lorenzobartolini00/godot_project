@@ -11,22 +11,10 @@ var spawn_timer = Timer.new()
 
 func _ready():
 	get_tree().get_root().call_deferred("add_child", spawn_timer)
-	spawn_timer.wait_time = 5
+	spawn_timer.wait_time = 1
 	spawn_timer.one_shot = false
 	spawn_timer.autostart = true
 	spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout")
-	
-#	GameEvents.connect("play", self, "_on_play")
-#	GameEvents.connect("died", self, "_on_died")
-
-#
-#func _on_play(_index: int):
-#	update_total_enemies()
-#
-#
-#func _on_died(character):
-#	if character is Enemy or character is Spawner:
-#		update_total_enemies()
 
 
 func _on_spawn_timer_timeout():

@@ -103,9 +103,6 @@ func keep_distance(delta) -> void:
 		direction.y = 0
 		
 		character.set_velocity(direction*speed, accel, delta)
-		
-#		character.velocity = character.velocity.linear_interpolate(direction*speed, delta * accel)
-#		self.character.velocity = self.character.move_and_slide(velocity, Vector3.UP)
 
 
 func brake(delta) -> void:
