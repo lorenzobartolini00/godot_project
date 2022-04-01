@@ -1,13 +1,11 @@
 extends Spatial
 
 export(NodePath) onready var animation_tree = get_node(animation_tree) as AnimationTree
-
-export(Array, NodePath) onready var meshes
+export(NodePath) onready var skeleton_ik = get_node(skeleton_ik) as SkeletonIK
 
 
 func _ready():
-	for mesh in meshes:
-		mesh = get_node(mesh) as MeshInstance 
+	skeleton_ik.start(false)
 
 
 func get_root_motion_transform() -> Transform:
