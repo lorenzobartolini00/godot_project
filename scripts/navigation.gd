@@ -32,7 +32,9 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 			var look_at_point = character.translation + direction.normalized()
 			var turning_speed: float = character.get_statistics().turning_speed
 			
-			character.transform = character.smooth_look_at(character, look_at_point, turning_speed, delta)
+			if character.get_runtime_data().current_ai_state != Enums.AIState.AIMING \
+			and character.get_runtime_data().current_ai_state != Enums.AIState.TARGET_AQUIRED:
+				character.transform = character.smooth_look_at(character, look_at_point, turning_speed, delta)
 			
 			if character.get_runtime_data().current_ai_state == Enums.AIState.SEARCHING:
 				var upper_part: Spatial = character.get_upper_part()

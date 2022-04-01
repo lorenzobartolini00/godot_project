@@ -41,7 +41,7 @@ func _physics_process(delta):
 	
 	set_vertical_velocity(delta)
 	
-	enemy_model.set_walk_animation(self.transform, velocity)
+	enemy_model.set_walk_animation(self.transform, velocity, delta)
 
 
 func set_vertical_velocity(delta):

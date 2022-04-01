@@ -11,7 +11,10 @@ var target_timer: Timer
 var path: PoolVector3Array = []
 
 var update_path_timer: Timer
+var update_random_path_timer: Timer
 var close_character_list: Array = []
+
+var never_reached_last_seen_position: bool = true
 
 func _ready():
 	set_aim_target_timer()
@@ -21,6 +24,7 @@ func _ready():
 	GameEvents.connect("character_shot", self, "_on_character_shot")
 	target_timer.connect("timeout", self, "_on_target_timer_timeout")
 	update_path_timer.connect("timeout", self, "_on_update_path_timer_timeout")
+	update_random_path_timer.connect("timeout", self, "_on_update_random_path_timer_timeout")
 	change_state(Enums.AIState.IDLE)
 	
 	call_deferred("set_view_distance")
@@ -37,6 +41,7 @@ func _physics_process(delta):
 			
 			if is_target_in_direct_sight():
 				target_timer.start()
+				never_reached_last_seen_position = true
 				update_last_seen_position()
 				
 				if is_target_in_shoot_range() and is_weapon_sight_free():
@@ -47,32 +52,45 @@ func _physics_process(delta):
 					else:
 						change_state(Enums.AIState.AIMING)
 					
-					if path.size() > 0:
-						path = []
-				elif not is_target_too_close():
-					if has_reach_last_seen_position():
-						update_last_seen_position()
+					if not is_target_too_close():
+						follow_path(delta)
+					else:
+						update_path_to_random(target.translation, 3, true)
 					
+				elif not is_target_too_close():
 					change_state(Enums.AIState.APPROACHING)
-
-					move(delta)
+					
+					move_toward_target(delta)
 				
 				aim(delta)
 				
-			elif not is_target_too_close():
-				if not has_reach_last_seen_position():
-					change_state(Enums.AIState.SEARCHING)
-					
-					move(delta)
+			else:
+				change_state(Enums.AIState.SEARCHING)
+				
+				if never_reached_last_seen_position:
+					if not has_reached_last_seen_position():
+						move_toward_target(delta)
+					else:
+						never_reached_last_seen_position = false
+				
+				elif not never_reached_last_seen_position:
+					move_to_random_position(last_seen_position, 5, delta)
 			
 			keep_distance(delta)
-		
+		else:
+			change_state(Enums.AIState.IDLE)
+			
+			keep_distance(delta)
+			move_to_random_position(character.translation, 20, delta)
 
 
-func move(delta) -> void:
-	if path.size() == 0:
-		update_navigation_path(last_seen_position)
+func move_toward_target(delta, override: bool = false) -> void:
+	update_path_to_target(override)
 	
+	follow_path(delta)
+
+
+func follow_path(delta) -> void:
 	var navigation: Navigation = character.get_navigation()
 	path = navigation.navigate(character, path, delta)
 
@@ -82,8 +100,14 @@ func aim(delta) -> void:
 	var upper_part: Spatial = character.get_upper_part()
 	
 	upper_part.set_as_toplevel(true)
-	upper_part.transform = character.smooth_look_at(upper_part, target.transform.origin, turning_speed, delta)
+	upper_part.transform = character.smooth_look_at(upper_part, target.global_transform.origin, turning_speed, delta)
 	upper_part.set_as_toplevel(false)
+
+
+func move_to_random_position(initial_position: Vector3, radius: float, delta) -> void:
+	update_path_to_random(initial_position, radius)
+	
+	follow_path(delta)
 
 
 func keep_distance(delta) -> void:
@@ -117,11 +141,14 @@ func brake(delta) -> void:
 	character.set_velocity(new_velocity, accel, delta)
 
 
-func has_reach_last_seen_position() -> bool:
-	var distance: float = (last_seen_position - character.translation).length()
+func has_reached_last_seen_position() -> bool:
+	var distance: Vector3 = last_seen_position - character.translation
+	distance.y = 0
+	var horizontal_distance = distance.length()
+	
 	var tollerance: float = character.get_statistics().max_distance_tollerance
 	
-	return distance < tollerance
+	return horizontal_distance < tollerance
 
 
 func is_target_in_direct_sight() -> bool:
@@ -180,7 +207,26 @@ func update_last_seen_position():
 		last_seen_position = target.translation
 
 
-func update_navigation_path(target: Vector3) -> void:
+func update_path_to_target(override: bool = false) -> void:
+	if override or path.size() == 0:
+		set_path(last_seen_position)
+
+
+func update_path_to_random(initial_position: Vector3, radius: float, override: bool = false) -> void:
+	if override or path.size() == 0:
+		var min_distance: float = character.get_statistics().min_distance
+		
+		Util.rng.randomize()
+		var random_position = initial_position + Vector3(Util.rng.randf_range(-radius, radius), 0, Util.rng.randf_range(-radius, radius)) 
+		
+		if random_position.distance_to(initial_position) < min_distance:
+			var buffer: Vector3 = (random_position - initial_position).normalized() * min_distance
+			random_position += buffer
+		
+		set_path(random_position)
+
+
+func set_path(target: Vector3) -> void:
 	if target:
 		var navigation: Navigation = character.get_navigation()
 		path = navigation.get_points(character, target)
@@ -221,13 +267,23 @@ func set_aim_target_timer():
 
 
 func set_update_path_timer():
+	var update_path_time: float = character.get_statistics().update_path_time
+	var update_random_path_time: float = character.get_statistics().update_random_path_time
+	
 	update_path_timer = Timer.new()
 	call_deferred("add_child", update_path_timer)
 	
-	update_path_timer.wait_time = 2
+	update_random_path_timer = Timer.new()
+	call_deferred("add_child", update_random_path_timer)
+	
+	update_path_timer.wait_time = update_path_time
 	update_path_timer.autostart = true
 	update_path_timer.one_shot = false
-
+	
+	update_random_path_timer.wait_time = update_random_path_time
+	update_random_path_timer.autostart = true
+	update_random_path_timer.one_shot = false
+	
 
 func get_current_ai_state() -> int:
 	return runtime_data.current_ai_state
@@ -240,8 +296,13 @@ func _on_target_timer_timeout():
 
 func _on_update_path_timer_timeout():
 	if runtime_data.current_ai_state == Enums.AIState.APPROACHING:
-		update_navigation_path(target.translation)
-		pass
+		update_path_to_target(true)
+
+
+func _on_update_random_path_timer_timeout():
+	if runtime_data.current_ai_state == Enums.AIState.AIMING\
+	or runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED: 
+		update_path_to_random(target.translation, 5, true)
 
 
 func _on_character_shot(_character):
@@ -259,6 +320,8 @@ func _on_character_shot(_character):
 func _on_target_changed(_target, _character):
 	if _character == character:
 		target = _target
+		
+		path = []
 		update_last_seen_position()
 
 
