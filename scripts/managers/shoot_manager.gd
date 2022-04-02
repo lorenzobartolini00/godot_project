@@ -56,15 +56,18 @@ func shoot(delta) -> void:
 		
 		_current_weapon.shoot(character)
 	else:
-		if character.is_in_group("player"):
-			if character.reload_manager.need_reload():
-				if character.reload_manager.can_reload():
-					GameEvents.emit_signal("warning", "Need reload")
-				else:
-					GameEvents.emit_signal("warning", "No ammo")
-		
-		if is_shoot_timer_timeout():
-			_play_empty_weapon_sound()
+		if character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK:
+			if character.is_in_group("player"):
+				if character.reload_manager.need_reload():
+					if character.reload_manager.can_reload():
+						GameEvents.emit_signal("warning", "Need reload")
+					else:
+						GameEvents.emit_signal("warning", "No ammo")
+			
+			if character.reload_manager.can_reload():
+				character.reload_manager.reload()
+			else:
+				_play_empty_weapon_sound()
 
 
 func rotate_weapon(delta) -> void:
@@ -115,5 +118,5 @@ func _play_empty_weapon_sound() -> void:
 	var weapon_stream_player: AudioStreamPlayer3D = character.get_weapon_audio_stream_player()
 	
 	var loop: bool = false
-	var cut: bool = true
+	var cut: bool = false
 	Util.play_random_sound_from_name("empty_shoot", sound_list, weapon_stream_player, loop, cut)
