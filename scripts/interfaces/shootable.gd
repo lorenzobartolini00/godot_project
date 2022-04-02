@@ -2,7 +2,7 @@ extends Area
 
 class_name Shootable
 
-export(NodePath) onready var character = get_node(character)
+export(NodePath) onready var character = get_node(character) as Character
 
 
 func _get_configuration_warning() -> String:

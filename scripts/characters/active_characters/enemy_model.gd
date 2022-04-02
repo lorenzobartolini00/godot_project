@@ -4,7 +4,6 @@ export(NodePath) onready var animation_tree = get_node(animation_tree) as Animat
 export(NodePath) onready var skeleton_ik = get_node(skeleton_ik) as SkeletonIK
 
 export(Array, NodePath) onready var meshes
-export(NodePath) onready var label = get_node(label) as Label
 
 onready var character = get_parent() as Character
 
@@ -57,4 +56,4 @@ func rotate_mesh(mesh: MeshInstance, xz_velocity: Vector3, reverse_factor: int, 
 		mesh.transform = character.smooth_look_at(mesh, look_at_target, speed, delta)
 		mesh.set_as_toplevel(false)
 	
-	label.text = String("look at: " + str(look_at_target) + " velocity: " + str(xz_velocity) + " front: " + str(mesh.global_transform.origin))
+#	label.text = String("look at: " + str(look_at_target) + " velocity: " + str(xz_velocity) + " front: " + str(mesh.global_transform.origin))

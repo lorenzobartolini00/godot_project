@@ -54,6 +54,12 @@ func add_node_to_scene(node: Node, position: Vector3) -> void:
 	
 	node.translation = position
 
+
+func add_node_as_child(node: Node, parent: Node, position: Vector3) -> void:
+	parent.add_child(node)
+	
+	node.translation = position
+
 #--Audio section--
 
 #Riproduce suono sullo stream player fornito e si assicura che non sia impostato su loop

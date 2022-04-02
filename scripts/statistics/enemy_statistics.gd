@@ -19,7 +19,7 @@ export(float) var idle_point_radius:= 20
 export(float) var small_random_point_radius:= 2
 export(float) var big_random_point_radius:= 4
 export(float) var wait_to_shoot_time:= 1.5
-export(float) var unable_to_fight_threshold:= 0.2
+export(float, 0, 1) var unable_to_fight_threshold:= 0.2
 #Array di due dimensioni: la prima dimensione sono le tipologie di suono che il character deve emettere quando passa in uno degli stati
 #elencati in Enums.AIState. La seconda dimensione contiene delle varianti del suono stesso(Es: laugh1, laugh2, ...)
 export(Array, Array, AudioStream) var ai_sound_list

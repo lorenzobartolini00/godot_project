@@ -46,7 +46,7 @@ func shoot(_delta) -> void:
 		#Setta can_shoot a false finchè non è passato un tempo pari a shoot_time
 		_set_shoot_timer()
 		
-		print(character.name + " has " +str(_current_weapon.current_ammo) + " ammo left")
+#		print(character.name + " has " +str(_current_weapon.current_ammo) + " ammo left")
 		
 		_play_weapon_sound()
 		

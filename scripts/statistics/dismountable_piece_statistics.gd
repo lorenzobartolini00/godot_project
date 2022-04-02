@@ -1,0 +1,4 @@
+extends PassiveCharacterStatistics
+
+class_name DismountablePieceStatistics
+
