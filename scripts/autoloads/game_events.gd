@@ -48,6 +48,8 @@ signal target_acquired(character, target_tipology)
 signal state_changed(character, new_state)
 # warning-ignore:unused_signal
 signal character_shot(character)
+# warning-ignore:unused_signal
+signal piece_ripped(character, piece)
 
 # warning-ignore:unused_signal
 signal tab_selected(tab)

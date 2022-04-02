@@ -16,6 +16,8 @@ export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
 onready var navigation = get_parent() as Navigation
 
 export(bool) onready var is_able_to_fight = true
+export(bool) onready var is_able_to_shoot = true
+export(bool) onready var is_able_to_move = true
 
 
 func _ready():
@@ -108,3 +110,18 @@ func get_is_able_to_fight() -> bool:
 func set_is_able_to_fight(_is_able_to_fight: bool):
 	is_able_to_fight = _is_able_to_fight
 
+
+func get_is_able_to_shoot() -> bool:
+	return is_able_to_shoot
+
+
+func set_is_able_to_shoot(_is_able_to_shoot: bool):
+	is_able_to_shoot = _is_able_to_shoot
+
+
+func get_is_able_to_move() -> bool:
+	return is_able_to_move
+
+
+func set_is_able_to_move(_is_able_to_move: bool):
+	is_able_to_move = _is_able_to_move
