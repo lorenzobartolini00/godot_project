@@ -234,7 +234,11 @@ func is_target_too_close() -> bool:
 
 func is_life_too_low() -> bool:
 	var current_life: int = character.get_current_life()
-	return current_life < 30
+	var max_life: int = character.get_life().max_life
+	var relative_threshold: float = character.get_statistics().unable_to_fight_threshold
+	var threshold: float = max_life * relative_threshold
+	
+	return current_life < threshold
 
 
 func update_last_seen_position():

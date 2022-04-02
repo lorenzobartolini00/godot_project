@@ -11,7 +11,8 @@ func set_up_timer():
 	despawn_timer.one_shot = true
 	self.add_child(despawn_timer)
 	
-	despawn_timer.connect("timeout", self, "_on_despawn_timer_timeout")
+	if despawn_timer.connect("timeout", self, "_on_despawn_timer_timeout") != OK:
+		print("failure")
 
 
 func set_despawn_time(time: int) -> void:
