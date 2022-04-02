@@ -23,7 +23,7 @@ func initialize(start_position: Vector3, character):
 	set_as_toplevel(true)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if _weapon:
 		
 		var direction: Vector3 = -transform.basis.z.normalized()
@@ -70,7 +70,7 @@ func spawn_explosion() -> void:
 	Util.set_node_despawnable(explosion, 8, true)
 
 
-func _on_CollisionArea_body_entered(body):
+func _on_CollisionArea_body_entered(_body):
 	spawn_explosion()
 	
 	queue_free()

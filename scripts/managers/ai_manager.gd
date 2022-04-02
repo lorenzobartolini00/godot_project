@@ -23,13 +23,19 @@ var can_shoot: bool = true
 func _ready():
 	setup_all_timers() 
 	
-	GameEvents.connect("target_changed", self, "_on_target_changed")
-	GameEvents.connect("character_shot", self, "_on_character_shot")
+	if GameEvents.connect("target_changed", self, "_on_target_changed") != OK:
+		print("failure")
+	if GameEvents.connect("character_shot", self, "_on_character_shot") != OK:
+		print("failure")
 	
-	lost_target_timer.connect("timeout", self, "_on_target_timer_timeout")
-	update_path_timer.connect("timeout", self, "_on_update_path_timer_timeout")
-	update_random_path_timer.connect("timeout", self, "_on_update_random_path_timer_timeout")
-	wait_to_shoot_timer.connect("timeout", self, "_on_wait_to_shoot_timer_timeout")
+	if lost_target_timer.connect("timeout", self, "_on_target_timer_timeout") != OK:
+		print("failure")
+	if update_path_timer.connect("timeout", self, "_on_update_path_timer_timeout") != OK:
+		print("failure")
+	if update_random_path_timer.connect("timeout", self, "_on_update_random_path_timer_timeout") != OK:
+		print("failure")
+	if wait_to_shoot_timer.connect("timeout", self, "_on_wait_to_shoot_timer_timeout") != OK:
+		print("failure")
 	
 	change_state(Enums.AIState.IDLE)
 	
@@ -140,7 +146,7 @@ func keep_distance(delta) -> void:
 #		var velocity: Vector3 = character.velocity
 		var speed: float = self.character.get_statistics().move_speed
 		var accel: float = self.character.get_statistics().keep_distance_accel
-		var force_sum: Vector3
+		var force_sum: Vector3 = Vector3()
 		
 		for _character in close_character_list:
 			if is_instance_valid(character):
@@ -177,7 +183,7 @@ func has_reached_last_seen_position() -> bool:
 
 func is_target_in_direct_sight() -> bool:
 	var collider = character.get_line_of_sight_raycast().get_collider()
-	var weapon_collider = character.get_weapon_line_of_sight_raycast().get_collider()
+#	var weapon_collider = character.get_weapon_line_of_sight_raycast().get_collider()
 	
 	if collider:
 		if collider == target:
@@ -255,10 +261,10 @@ func update_path_to_random(initial_position: Vector3, radius: float, override: b
 		set_path(random_position)
 
 
-func set_path(target: Vector3) -> void:
-	if target:
+func set_path(_target: Vector3) -> void:
+	if _target:
 		var navigation: Navigation = character.get_navigation()
-		path = navigation.get_points(character, target)
+		path = navigation.get_points(character, _target)
 	else:
 		path = []
 
@@ -294,7 +300,7 @@ func setup_all_timers():
 	
 	lost_target_timer = Util.setup_timer(lost_target_timer, self, lost_target_time, false, true)
 	update_path_timer = Util.setup_timer(update_path_timer, self, update_path_time)
-	update_random_path_timer = Util.setup_timer(update_random_path_timer, self, update_path_time)
+	update_random_path_timer = Util.setup_timer(update_random_path_timer, self, update_random_path_time)
 	wait_to_shoot_timer = Util.setup_timer(wait_to_shoot_timer, self, wait_to_shoot_time)
 
 

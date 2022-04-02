@@ -3,7 +3,6 @@ extends Navigation
 
 func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector3Array:
 	var direction = Vector3()
-	var velocity: Vector3 = character.velocity
 	var speed: float = character.get_statistics().move_speed
 	var accel: float = character.get_statistics().pathfinding_accel
 	

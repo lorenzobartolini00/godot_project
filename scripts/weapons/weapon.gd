@@ -25,7 +25,7 @@ func use(_character):
 	pass
 
 
-func shoot(character) -> void:
+func shoot(_character) -> void:
 	pass
 
 

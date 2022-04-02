@@ -9,10 +9,13 @@ var _current_slide_index := 0
 
 
 func _ready():
-	GameEvents.connect("advance_slide", self, "_on_advance_slide")
+	if GameEvents.connect("advance_slide", self, "_on_advance_slide") != OK:
+		print("failure")
 	
-	GameEvents.connect("dialogue_initiated", self, "_on_dialogue_initiated")
-	GameEvents.connect("dialogue_finished", self, "_on_dialogue_finished")
+	if GameEvents.connect("dialogue_initiated", self, "_on_dialogue_initiated") != OK:
+		print("failure")
+	if GameEvents.connect("dialogue_finished", self, "_on_dialogue_finished") != OK:
+		print("failure")
 
 
 #func _input(event):

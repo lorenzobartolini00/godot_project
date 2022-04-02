@@ -13,20 +13,23 @@ var need_charge: bool = false
 func connect_signal(_character):
 	if not GameEvents.is_connected("current_weapon_changed", self, "_on_current_weapon_changed") and not GameEvents.is_connected("current_ammo_changed", self, "_on_current_ammo_changed"):
 		character = _character
-		GameEvents.connect("current_ammo_changed", self, "_on_current_ammo_changed")
-		GameEvents.connect("current_weapon_changed", self, "_on_current_weapon_changed")
+		if GameEvents.connect("current_ammo_changed", self, "_on_current_ammo_changed") != OK:
+			print("failure")
+		if GameEvents.connect("current_weapon_changed", self, "_on_current_weapon_changed") != OK:
+			print("failure")
 
 
-func set_up_recharge_timer(character) -> void:
+func set_up_recharge_timer(_character) -> void:
 	if not recharge_timer:
 		recharge_timer = Timer.new()
 		recharge_timer.wait_time = recharge_time
 		recharge_timer.one_shot = false
 		recharge_timer.autostart = false
 		
-		recharge_timer.connect("timeout", self, "on_recharge_timer_timeout")
+		if recharge_timer.connect("timeout", self, "on_recharge_timer_timeout") != OK:
+			print("failure")
 	
-		character.add_child(recharge_timer)
+		_character.add_child(recharge_timer)
 
 
 func _on_current_weapon_changed(_new_weapon: Weapon, _character):
@@ -59,11 +62,11 @@ func is_charged() -> bool:
 		return true
 
 
-func shoot(character):
+func shoot(_character):
 	recharge_timer.start()
 	
 	#Chiamo funzione definita in RayCastWeapon
-	.shoot(character)
+	.shoot(_character)
 
 
 func on_recharge_timer_timeout():

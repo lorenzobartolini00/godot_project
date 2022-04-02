@@ -5,7 +5,8 @@ class_name InventoryManager
 export(Array, String) var path_list
 
 func _ready():
-	GameEvents.connect("add_item_to_inventory", self, "_on_add_item_to_inventory")
+	if GameEvents.connect("add_item_to_inventory", self, "_on_add_item_to_inventory") != OK:
+		print("failure")
 	set_up_inventory()
 
 
@@ -38,7 +39,7 @@ func _on_add_item_to_inventory(_item: Item, _quantity: int):
 
 func initialize_inventory() -> void:
 	var inventory: Inventory = character.get_inventory()
-	var resource_list: Array 
+	var resource_list: Array = []
 
 	for path in path_list:
 		var partial_resource_list: Array = Util.load_folder(path, true)
@@ -57,7 +58,7 @@ func scan_for_unlocked_items() -> void:
 	#viene emesso quando gli strumenti vengono raccolti per la prima volta.
 	
 	var inventory: Inventory = character.get_inventory()
-	var index_array: Array
+	var index_array: Array = []
 	
 	#Al momento gli unici elementi di cui bisogna comunicare la presenza nell'inventario sono le armi e le bombe(non ancora implementate)
 	index_array.append(Enums.ItemTipology.WEAPON)

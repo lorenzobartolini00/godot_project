@@ -9,8 +9,10 @@ func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	GameEvents.connect("pause_game", self, "_on_game_paused")
-	GameEvents.connect("resume_game", self, "_on_game_resumed")
+	if GameEvents.connect("pause_game", self, "_on_game_paused") != OK:
+		print("failure")
+	if GameEvents.connect("resume_game", self, "_on_game_resumed") != OK:
+		print("failure")
 	
 	GameEvents.emit_signal("resume_game")
 

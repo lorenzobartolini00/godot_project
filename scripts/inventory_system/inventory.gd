@@ -67,7 +67,6 @@ func add_item(item: Item, quantity: int):
 
 
 func get_item_quantity(_item: Item) -> int:
-	var _items: Array = get_items()
 	var _item_list: Array
 	var _tipology: int = _item.tipology
 	
@@ -83,7 +82,6 @@ func get_item_quantity(_item: Item) -> int:
 
 
 func set_item_quantity(_item: Item, _quantity: int) -> void:
-	var _items: Array = get_items()
 	var _item_list: Array
 	var _tipology: int = _item.tipology
 	
@@ -105,7 +103,6 @@ func set_item_quantity(_item: Item, _quantity: int) -> void:
 
 
 func get_dictionary_item(_item_name: String, _tipology: int) -> Dictionary:
-	var _items: Array = get_items()
 	var _item_list: Array
 	
 	if _items.size() > _tipology:

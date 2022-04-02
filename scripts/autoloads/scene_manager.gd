@@ -23,11 +23,17 @@ func _ready():
 	level_list = Util.list_folder(level_list_path)
 	option_tab_list = option_tab_list_resource.option_tab_list_reference
 	
-	GameEvents.connect("play", self, "_on_play")
-	GameEvents.connect("options", self, "_on_options")
-	GameEvents.connect("back", self, "_on_back")
-	GameEvents.connect("win", self, "_on_win")
-	GameEvents.connect("exit", self, "_on_exit")
+	
+	if GameEvents.connect("play", self, "_on_play") != OK:
+		print("failure")
+	if GameEvents.connect("options", self, "_on_options") != OK:
+		print("failure")
+	if GameEvents.connect("back", self, "_on_back") != OK:
+		print("failure")
+	if GameEvents.connect("win", self, "_on_win") != OK:
+		print("failure")
+	if GameEvents.connect("exit", self, "_on_exit") != OK:
+		print("failure")
 
 
 func _process(_delta):

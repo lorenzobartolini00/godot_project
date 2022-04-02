@@ -8,7 +8,8 @@ export(Resource) var description = description as Slide
 func _ready():
 	spawn_player()
 	
-	GameEvents.connect("died", self, "_on_died")
+	if GameEvents.connect("died", self, "_on_died") != OK:
+		print("failure")
 	
 	GameEvents.emit_signal("new_mission", self)
 	

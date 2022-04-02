@@ -9,7 +9,8 @@ export(int) var quantity
 onready var _set: bool = false
 
 func _ready():
-	GameEvents.connect("collected", self, "_on_collected")
+	if GameEvents.connect("collected", self, "_on_collected") != OK:
+		print("failure")
 
 
 func _process(_delta):

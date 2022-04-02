@@ -37,7 +37,6 @@ func remove_spawner(spawner: Spawner) -> void:
 
 func spawn():
 	var spawner: Spawner
-	var try: int = 0
 		
 	if total_enemies_in_scene < total_enemies:
 		if spawner_list.size() > 0:

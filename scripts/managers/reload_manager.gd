@@ -9,7 +9,8 @@ func _ready():
 	add_child(_reload_timer)
 	_reload_timer.one_shot = true
 	
-	_reload_timer.connect("timeout", self, "_on_reload_timer_timeout")
+	if _reload_timer.connect("timeout", self, "_on_reload_timer_timeout") != OK:
+		print("failure")
 
 
 func can_reload() -> bool:

@@ -8,7 +8,8 @@ var current_weapon_index: int
 
 
 func _ready():
-	GameEvents.connect("change_current_weapon", self, "_on_change_current_weapon")
+	if GameEvents.connect("change_current_weapon", self, "_on_change_current_weapon") != OK:
+		print("failure")
 
 
 func _on_change_current_weapon(_new_weapon: Weapon, _character):

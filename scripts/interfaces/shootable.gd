@@ -14,7 +14,8 @@ func _get_configuration_warning() -> String:
 
 
 func _ready():
-	GameEvents.connect("hit", self, "_on_hit")
+	if GameEvents.connect("hit", self, "_on_hit") != OK:
+		print("failure")
 
 
 func _on_hit(area_hit: Shootable, damage: int) -> void:

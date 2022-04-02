@@ -3,7 +3,8 @@ extends Tab
 func _ready():
 	self.visible = false
 	
-	GameEvents.connect("died", self, "_on_died")
+	if GameEvents.connect("died", self, "_on_died") != OK:
+		print("failure")
 
 
 func _on_died(character):

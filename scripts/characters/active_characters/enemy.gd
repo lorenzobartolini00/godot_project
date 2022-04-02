@@ -48,7 +48,6 @@ func _physics_process(delta):
 
 func set_vertical_velocity(delta):
 	var y_movement = velocity.y
-	var new_velocity: Vector3
 	
 	if not is_on_floor():
 		y_movement = lerp(y_movement, y_movement + _gravity, delta * _vertical_acceleration)
@@ -57,7 +56,7 @@ func set_vertical_velocity(delta):
 		y_movement = -0.1
 	
 	velocity.y = y_movement
-	move_and_slide(velocity, Vector3.UP)
+	velocity = move_and_slide(velocity, Vector3.UP)
 
 
 #Override

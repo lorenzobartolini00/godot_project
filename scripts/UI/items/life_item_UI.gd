@@ -6,7 +6,8 @@ export(NodePath) onready var texture_progress = get_node(texture_progress) as Te
 
 
 func _ready():
-	GameEvents.connect("current_life_changed", self, "_on_current_life_changed")
+	if GameEvents.connect("current_life_changed", self, "_on_current_life_changed") != OK:
+		print("failure")
 
 
 func setup(_item: Item, _inventory: Inventory):

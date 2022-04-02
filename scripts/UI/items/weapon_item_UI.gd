@@ -7,7 +7,8 @@ export(NodePath) onready var name_label = get_node(name_label) as Label
 
 
 func _ready():
-	GameEvents.connect("current_ammo_changed", self, "_on_current_ammo_changed")
+	if GameEvents.connect("current_ammo_changed", self, "_on_current_ammo_changed") != OK:
+		print("failure")
 
 
 func setup(_weapon_item: Item, _inventory: Inventory):

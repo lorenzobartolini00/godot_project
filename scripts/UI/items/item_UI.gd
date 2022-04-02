@@ -6,7 +6,8 @@ var local_item: Item
 var inventory: Inventory
 
 func _ready():
-	GameEvents.connect("inventory_changed", self, "_on_inventory_changed")
+	if GameEvents.connect("inventory_changed", self, "_on_inventory_changed") != OK:
+		print("failure")
 
 
 func setup(_item: Item, _inventory: Inventory):

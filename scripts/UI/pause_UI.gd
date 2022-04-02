@@ -3,8 +3,10 @@ extends Tab
 func _ready():
 	self.visible = false
 	
-	GameEvents.connect("pause_game", self, "_on_game_paused")
-	GameEvents.connect("resume_game", self, "_on_game_resumed")
+	if GameEvents.connect("pause_game", self, "_on_game_paused") != OK:
+		print("failure")
+	if GameEvents.connect("resume_game", self, "_on_game_resumed") != OK:
+		print("failure")
 	
 	add_to_stack()
 

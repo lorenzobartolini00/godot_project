@@ -13,14 +13,16 @@ func _ready():
 	add_child(speak_timer)
 	speak_timer.one_shot = true
 	
-	speak_timer.connect("timeout", self, "_on_speak_timer_timeout")
-	GameEvents.connect("hit", self, "_on_hit")
+	if speak_timer.connect("timeout", self, "_on_speak_timer_timeout") != OK:
+		print("failure")
+	if GameEvents.connect("hit", self, "_on_hit") != OK:
+		print("failure")
 	
 	if character.is_in_group("Enemy"):
 		start_speak_timer()
 
 
-func _on_hit(area_hit: Shootable, damage: int) -> void:
+func _on_hit(area_hit: Shootable, _damage: int) -> void:
 	if area_hit == character.damage_area:
 		play_on_character_stream_player("hit")
 

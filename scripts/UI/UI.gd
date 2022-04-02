@@ -17,11 +17,15 @@ onready var life_item_UI = preload("res://nodes/UI/life_item_UI.tscn")
 export var _max_weapon_item_UI: int = 3
 
 func _ready():
-	GameEvents.connect("reload", self, "_on_reloading")
-	GameEvents.connect("warning", self, "_on_warning")
+	if GameEvents.connect("reload", self, "_on_reloading") != OK:
+		print("failure")
+	if GameEvents.connect("warning", self, "_on_warning") != OK:
+		print("failure")
 	
-	GameEvents.connect("inventory_changed", self, "_on_inventory_changed")
-	GameEvents.connect("current_weapon_changed", self, "_on_current_weapon_changed")
+	if GameEvents.connect("inventory_changed", self, "_on_inventory_changed") != OK:
+		print("failure")
+	if GameEvents.connect("current_weapon_changed", self, "_on_current_weapon_changed") != OK:
+		print("failure")
 	
 	_warning_label.visible = false
 

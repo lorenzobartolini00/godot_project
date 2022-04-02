@@ -5,7 +5,8 @@ export(NodePath) onready var cross_air_color_rect = get_node(cross_air_color_rec
 
 
 func _ready():
-	GameEvents.connect("target_acquired", self, "_on_target_acquired")
+	if GameEvents.connect("target_acquired", self, "_on_target_acquired") != OK:
+		print("failure")
 
 
 func _on_target_acquired(_character: Character, target_tipology: int):

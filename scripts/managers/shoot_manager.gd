@@ -9,7 +9,8 @@ func _ready():
 	add_child(shoot_timer)
 	shoot_timer.one_shot = true
 	
-	shoot_timer.connect("timeout", self, "_on_shoot_timer_timeout")
+	if shoot_timer.connect("timeout", self, "_on_shoot_timer_timeout") != OK:
+		print("failure")
 
 
 func _physics_process(delta):
@@ -35,7 +36,7 @@ func can_shoot() -> bool:
 		return false
 
 
-func shoot(delta) -> void:
+func shoot(_delta) -> void:
 	if can_shoot():
 #		print(character.name + " has shot")
 		var _current_weapon: Weapon = character.get_current_weapon()
@@ -81,7 +82,7 @@ func rotate_weapon(delta) -> void:
 		var aim_speed: float = character.get_statistics().aim_speed
 		
 		weapon_position.set_as_toplevel(true)
-		weapon_position.transform = character.smooth_look_at(weapon_position, target, 20, delta)
+		weapon_position.transform = character.smooth_look_at(weapon_position, target, aim_speed, delta)
 		weapon_position.set_as_toplevel(false)
 	
 

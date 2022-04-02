@@ -9,10 +9,14 @@ func _ready():
 	
 	self.visible = false
 	
-	GameEvents.connect("found_new_item", self, "_on_found_new_item")
-	GameEvents.connect("resume_game", self, "_on_game_resumed")
-	GameEvents.connect("died", self, "_on_died")
-	GameEvents.connect("new_mission", self, "_on_new_mission")
+	if GameEvents.connect("found_new_item", self, "_on_found_new_item") != OK:
+		print("failure")
+	if GameEvents.connect("resume_game", self, "_on_game_resumed") != OK:
+		print("failure")
+	if GameEvents.connect("died", self, "_on_died") != OK:
+		print("failure")
+	if GameEvents.connect("new_mission", self, "_on_new_mission") != OK:
+		print("failure")
 
 
 func free_queue():

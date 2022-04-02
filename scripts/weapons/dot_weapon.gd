@@ -8,7 +8,7 @@ export(bool) var is_shoot_timer_timeout = true
 export(float) var max_distance:= 20
 export(float) var vertical_spawn_offset:= 0.35
 
-var muzzle
+#var muzzle
 
 func get_muzzle_position() -> Vector3:
 	var weapon_mesh: Mesh = self.get_mesh()
