@@ -6,7 +6,7 @@ onready var runtime_data = character.get_runtime_data() as RuntimeData
 
 var target
 var last_seen_position: Vector3
-var target_timer: Timer
+var lost_target_timer: Timer
 
 var path: PoolVector3Array = []
 
@@ -16,15 +16,21 @@ var close_character_list: Array = []
 
 var never_reached_last_seen_position: bool = true
 
+var wait_to_shoot_timer: Timer
+var can_shoot: bool = true
+
+
 func _ready():
-	set_aim_target_timer()
-	set_update_path_timer()
+	setup_all_timers() 
 	
 	GameEvents.connect("target_changed", self, "_on_target_changed")
 	GameEvents.connect("character_shot", self, "_on_character_shot")
-	target_timer.connect("timeout", self, "_on_target_timer_timeout")
+	
+	lost_target_timer.connect("timeout", self, "_on_target_timer_timeout")
 	update_path_timer.connect("timeout", self, "_on_update_path_timer_timeout")
 	update_random_path_timer.connect("timeout", self, "_on_update_random_path_timer_timeout")
+	wait_to_shoot_timer.connect("timeout", self, "_on_wait_to_shoot_timer_timeout")
+	
 	change_state(Enums.AIState.IDLE)
 	
 	call_deferred("set_view_distance")
@@ -40,7 +46,7 @@ func _physics_process(delta):
 			character.get_line_of_sight_raycast().set_as_toplevel(false)
 			
 			if is_target_in_direct_sight():
-				target_timer.start()
+				lost_target_timer.start()
 				never_reached_last_seen_position = true
 				update_last_seen_position()
 				
@@ -48,14 +54,18 @@ func _physics_process(delta):
 					brake(delta)
 					
 					if is_target_aquired():
-						change_state(Enums.AIState.TARGET_AQUIRED)
+						if can_shoot:
+							change_state(Enums.AIState.TARGET_AQUIRED)
+						else:
+							change_state(Enums.AIState.WAITING)
 					else:
 						change_state(Enums.AIState.AIMING)
 					
 					if not is_target_too_close():
 						follow_path(delta)
 					else:
-						update_path_to_random(target.translation, 3, true)
+						var small_random_point_radius: float = character.get_statistics().small_random_point_radius
+						update_path_to_random(target.translation, small_random_point_radius, true)
 					
 				elif not is_target_too_close():
 					change_state(Enums.AIState.APPROACHING)
@@ -74,14 +84,17 @@ func _physics_process(delta):
 						never_reached_last_seen_position = false
 				
 				elif not never_reached_last_seen_position:
-					move_to_random_position(last_seen_position, 5, delta)
+					var big_random_point_radius: float = character.get_statistics().big_random_point_radius
+					move_to_random_position(last_seen_position, big_random_point_radius, delta)
 			
 			keep_distance(delta)
 		else:
 			change_state(Enums.AIState.IDLE)
 			
 			keep_distance(delta)
-			move_to_random_position(character.translation, 20, delta)
+			
+			var idle_point_radius: float = character.get_statistics().idle_point_radius
+			move_to_random_position(character.translation, idle_point_radius, delta)
 
 
 func move_toward_target(delta, override: bool = false) -> void:
@@ -256,34 +269,18 @@ func set_min_distance():
 	character.get_min_distance_area().get_child(0).shape.radius = min_distance
 
 
-func set_aim_target_timer():
-	target_timer = Timer.new()
-	call_deferred("add_child", target_timer)
-	var lost_target_time: float = character.get_statistics().lost_target_time
-	
-	target_timer.wait_time = lost_target_time
-	target_timer.autostart = false
-	target_timer.one_shot = true
-
-
-func set_update_path_timer():
+func setup_all_timers():
 	var update_path_time: float = character.get_statistics().update_path_time
 	var update_random_path_time: float = character.get_statistics().update_random_path_time
+	var lost_target_time: float = character.get_statistics().lost_target_time
+	var wait_to_shoot_time: float = character.get_statistics().wait_to_shoot_time
 	
-	update_path_timer = Timer.new()
-	call_deferred("add_child", update_path_timer)
 	
-	update_random_path_timer = Timer.new()
-	call_deferred("add_child", update_random_path_timer)
-	
-	update_path_timer.wait_time = update_path_time
-	update_path_timer.autostart = true
-	update_path_timer.one_shot = false
-	
-	update_random_path_timer.wait_time = update_random_path_time
-	update_random_path_timer.autostart = true
-	update_random_path_timer.one_shot = false
-	
+	lost_target_timer = Util.setup_timer(lost_target_timer, self, lost_target_time, false, true)
+	update_path_timer = Util.setup_timer(update_path_timer, self, update_path_time)
+	update_random_path_timer = Util.setup_timer(update_random_path_timer, self, update_path_time)
+	wait_to_shoot_timer = Util.setup_timer(wait_to_shoot_timer, self, wait_to_shoot_time)
+
 
 func get_current_ai_state() -> int:
 	return runtime_data.current_ai_state
@@ -301,8 +298,19 @@ func _on_update_path_timer_timeout():
 
 func _on_update_random_path_timer_timeout():
 	if runtime_data.current_ai_state == Enums.AIState.AIMING\
-	or runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED: 
-		update_path_to_random(target.translation, 5, true)
+	or runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
+		var small_random_point_radius: float = character.get_statistics().small_random_point_radius
+		 
+		update_path_to_random(target.translation, small_random_point_radius, true)
+
+
+func _on_wait_to_shoot_timer_timeout():
+	if runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED\
+	or runtime_data.current_ai_state == Enums.AIState.WAITING\
+	or runtime_data.current_ai_state == Enums.AIState.AIMING:
+		can_shoot = not can_shoot
+	else:
+		can_shoot = true
 
 
 func _on_character_shot(_character):

@@ -125,5 +125,13 @@ func play_random_sound_from_name(sound_name: String, sound_list: Dictionary, aud
 			Util.play_sound(audio_stream_player, sound, loop, cut)
 
 
-
+func setup_timer(timer: Timer, parent: Node, wait_time: float, autostart: bool = true, one_shot: bool = false) -> Timer:
+	timer = Timer.new()
+	parent.call_deferred("add_child", timer)
+	
+	timer.wait_time = wait_time
+	timer.autostart = autostart
+	timer.one_shot = one_shot
+	
+	return timer
 
