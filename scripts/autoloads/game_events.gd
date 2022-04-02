@@ -6,6 +6,8 @@ signal setup(statistics)
 # warning-ignore:unused_signal
 signal hit(area_hit, damage)
 # warning-ignore:unused_signal
+signal set_damage_area(character, is_disabled)
+# warning-ignore:unused_signal
 signal collected(object_collected)
 
 # warning-ignore:unused_signal

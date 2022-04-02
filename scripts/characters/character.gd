@@ -10,7 +10,7 @@ export(NodePath) onready var audio_stream_player = get_node(audio_stream_player)
 export(NodePath) onready var life_manager = get_node(life_manager) as LifeManager
 export(NodePath) onready var sound_manager = get_node(sound_manager) as SoundManager
 
-export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
+#export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
 
 export(Resource) onready var current_life = current_life as Life
 
@@ -36,8 +36,9 @@ func _on_died(character) -> void:
 
 
 func set_damage_area_off() -> void:
-	var collision_shape: CollisionShape = damage_area.get_child(0)
-	collision_shape.set_deferred("disabled", true)
+	GameEvents.emit_signal("set_damage_area", self, true)
+#	var collision_shape: CollisionShape = damage_area.get_child(0)
+#	collision_shape.set_deferred("disabled", true)
 
 
 func dismount() -> void:
