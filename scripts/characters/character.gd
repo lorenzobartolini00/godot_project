@@ -17,6 +17,7 @@ export(Resource) onready var current_life = current_life as Life
 export(Array, Resource) onready var mesh_list
 export(Resource) onready var explosion_reference = preload("res://nodes/visual_effects/explosion.tscn")
 
+export(bool) onready var is_alive:= true
 
 var rng = RandomNumberGenerator.new()
 var despawn_timer = Timer.new()
@@ -111,11 +112,11 @@ func get_current_life() -> int:
 
 
 func set_is_alive(_is_alive: bool) -> void:
-	statistics.is_alive = _is_alive
+	is_alive = _is_alive
 
 
 func get_is_alive() -> bool:
-	return statistics.is_alive
+	return is_alive
 
 
 func get_audio_stream_player() -> AudioStreamPlayer:
@@ -128,6 +129,8 @@ func set_audio_stream_player(_audio_stream_player) -> void:
 
 func get_runtime_data() -> RuntimeData:
 	return _runtime_data
+
+
 
 func set_statistics(_statistics: Statistics) -> void:
 	statistics = _statistics
