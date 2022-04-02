@@ -39,62 +39,73 @@ func _ready():
 
 func _physics_process(delta):
 	if character.get_is_alive():
-		if target and is_instance_valid(target):
-			
-			character.get_line_of_sight_raycast().set_as_toplevel(true)
-			character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
-			character.get_line_of_sight_raycast().set_as_toplevel(false)
-			
-			if is_target_in_direct_sight():
-				lost_target_timer.start()
-				never_reached_last_seen_position = true
-				update_last_seen_position()
+		if character.get_is_able_to_fight():
+			if target and is_instance_valid(target):
+				if is_life_too_low():
+					character.set_is_able_to_fight(false)
 				
-				if is_target_in_shoot_range() and is_weapon_sight_free():
-					brake(delta)
+				
+				character.get_line_of_sight_raycast().set_as_toplevel(true)
+				character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
+				character.get_line_of_sight_raycast().set_as_toplevel(false)
+				
+				if is_target_in_direct_sight():
+					lost_target_timer.start()
+					never_reached_last_seen_position = true
+					update_last_seen_position()
 					
-					if is_target_aquired():
-						if can_shoot:
-							change_state(Enums.AIState.TARGET_AQUIRED)
+					if is_target_in_shoot_range() and is_weapon_sight_free():
+						brake(delta)
+						
+						if is_target_aquired():
+							if can_shoot:
+								change_state(Enums.AIState.TARGET_AQUIRED)
+							else:
+								change_state(Enums.AIState.WAITING)
 						else:
-							change_state(Enums.AIState.WAITING)
-					else:
-						change_state(Enums.AIState.AIMING)
-					
-					if not is_target_too_close():
-						follow_path(delta)
-					else:
-						var small_random_point_radius: float = character.get_statistics().small_random_point_radius
-						update_path_to_random(target.translation, small_random_point_radius, true)
-					
-				elif not is_target_too_close():
-					change_state(Enums.AIState.APPROACHING)
-					
-					move_toward_target(delta)
-				
-				aim(delta)
-				
-			else:
-				change_state(Enums.AIState.SEARCHING)
-				
-				if never_reached_last_seen_position:
-					if not has_reached_last_seen_position():
+							change_state(Enums.AIState.AIMING)
+						
+						if not is_target_too_close():
+							follow_path(delta)
+						else:
+							var small_random_point_radius: float = character.get_statistics().small_random_point_radius
+							update_path_to_random(target.translation, small_random_point_radius, true)
+						
+					elif not is_target_too_close():
+						change_state(Enums.AIState.APPROACHING)
+						
 						move_toward_target(delta)
-					else:
-						never_reached_last_seen_position = false
+					
+					aim(delta)
+					
+				else:
+					change_state(Enums.AIState.SEARCHING)
+					
+					if never_reached_last_seen_position:
+						if not has_reached_last_seen_position():
+							move_toward_target(delta)
+						else:
+							never_reached_last_seen_position = false
+					
+					elif not never_reached_last_seen_position:
+						var big_random_point_radius: float = character.get_statistics().big_random_point_radius
+						move_to_random_position(last_seen_position, big_random_point_radius, delta)
 				
-				elif not never_reached_last_seen_position:
-					var big_random_point_radius: float = character.get_statistics().big_random_point_radius
-					move_to_random_position(last_seen_position, big_random_point_radius, delta)
-			
-			keep_distance(delta)
+				keep_distance(delta)
+			else:
+				change_state(Enums.AIState.IDLE)
+				
+				keep_distance(delta)
+				
+				var idle_point_radius: float = character.get_statistics().idle_point_radius
+				move_to_random_position(character.translation, idle_point_radius, delta)
 		else:
-			change_state(Enums.AIState.IDLE)
-			
+			change_state(Enums.AIState.HURT)
+				
 			keep_distance(delta)
-			
-			var idle_point_radius: float = character.get_statistics().idle_point_radius
-			move_to_random_position(character.translation, idle_point_radius, delta)
+				
+			var big_random_point_radius: float = character.get_statistics().big_random_point_radius
+			move_to_random_position(character.translation, big_random_point_radius, delta)
 
 
 func move_toward_target(delta, override: bool = false) -> void:
@@ -213,6 +224,11 @@ func is_target_too_close() -> bool:
 	var min_distance: float = self.character.get_statistics().min_distance
 	
 	return distance < min_distance
+
+
+func is_life_too_low() -> bool:
+	var current_life: int = character.get_current_life()
+	return current_life < 30
 
 
 func update_last_seen_position():

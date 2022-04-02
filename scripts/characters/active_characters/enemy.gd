@@ -15,6 +15,8 @@ export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
 
 onready var navigation = get_parent() as Navigation
 
+export(bool) onready var is_able_to_fight = true
+
 
 func _ready():
 	choose_random_weapon()
@@ -98,3 +100,12 @@ func get_upper_part() -> Spatial:
 
 func get_ai_audio_stream_player() -> AudioStreamPlayer3D:
 	return ai_audio_stream_player
+
+
+func get_is_able_to_fight() -> bool:
+	return is_able_to_fight
+
+
+func set_is_able_to_fight(_is_able_to_fight: bool):
+	is_able_to_fight = _is_able_to_fight
+
