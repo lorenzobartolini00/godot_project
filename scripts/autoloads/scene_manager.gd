@@ -44,9 +44,12 @@ func _process(_delta):
 
 func _on_play(level_index: int):
 	if level_index < level_list.size():
-		get_tree().change_scene(level_list[level_index])
+		if get_tree().change_scene(level_list[level_index]) != OK:
+			print("unable to change scene")
 	else:
-		get_tree().change_scene_to(win_screen)
+		if get_tree().change_scene_to(win_screen) != OK:
+			print("unable to change scene")
+		
 		current_level_index = 0
 
 

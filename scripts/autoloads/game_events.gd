@@ -1,53 +1,86 @@
 extends Node
 
+# warning-ignore:unused_signal
 signal setup(statistics)
 
+# warning-ignore:unused_signal
 signal hit(area_hit, damage)
+# warning-ignore:unused_signal
 signal collected(object_collected)
 
+# warning-ignore:unused_signal
 signal reload
+# warning-ignore:unused_signal
 signal add_item_to_inventory(item, quantity)
+# warning-ignore:unused_signal
 signal change_current_weapon(new_weapon)
+# warning-ignore:unused_signal
 signal change_current_life(additional_amount, to_max)
 
+# warning-ignore:unused_signal
 signal warning(text)
 
+# warning-ignore:unused_signal
 signal current_life_changed(new_life, character)
+# warning-ignore:unused_signal
 signal current_weapon_changed(new_current_weapon, character)
+# warning-ignore:unused_signal
 signal current_ammo_changed(weapon, new_current_ammo, character)
 
+# warning-ignore:unused_signal
 signal show_weapon_list(weapon_list)
 
+# warning-ignore:unused_signal
 signal inventory_changed(inventory, item_changed)
+# warning-ignore:unused_signal
 signal found_new_item(new_item)
 
+# warning-ignore:unused_signal
 signal new_mission(level)
 
+# warning-ignore:unused_signal
 signal target_changed(target, character)
+# warning-ignore:unused_signal
 signal target_acquired(character, target_tipology)
+# warning-ignore:unused_signal
 signal state_changed(character, new_state)
+# warning-ignore:unused_signal
 signal character_shot(character)
 
+# warning-ignore:unused_signal
 signal tab_selected(tab)
 
+# warning-ignore:unused_signal
 signal dialogue_initiated(slides)
+# warning-ignore:unused_signal
 signal dialogue_finished
 
+# warning-ignore:unused_signal
 signal spawn_enemy(spawner)
+# warning-ignore:unused_signal
 signal died
 
 signal button_selected(button)
+# warning-ignore:unused_signal
 signal button_pressed(button)
 
+# warning-ignore:unused_signal
 signal play
+# warning-ignore:unused_signal
 signal options
+# warning-ignore:unused_signal
 signal back
+# warning-ignore:unused_signal
 signal resume_game
+# warning-ignore:unused_signal
 signal advance_slide
+# warning-ignore:unused_signal
 signal exit
 
+# warning-ignore:unused_signal
 signal pause_game
 
+# warning-ignore:unused_signal
 signal win
 
 func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> void:
