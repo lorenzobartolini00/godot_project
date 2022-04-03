@@ -50,7 +50,9 @@ func set_node_despawnable(node: Node, despawn_time: int, start: bool) -> void:
 
 
 func add_node_to_scene(node: Node, position: Vector3) -> void:
-	get_tree().get_root().add_child(node)
+	var main_scene: Spatial = SceneManager.get_main_scene()
+	
+	main_scene.add_child(node)
 	
 	node.translation = position
 
@@ -141,3 +143,14 @@ func setup_timer(timer: Timer, parent: Node, wait_time: float, autostart: bool =
 	
 	return timer
 
+
+func move_node(node: Node, new_target: Node):
+	var parent: Node = node.get_parent()
+	parent.remove_child(node)
+	new_target.add_child(node)
+#	node.set_owner(new_target)
+
+
+func move_nodes(node_list: Array, new_target: Node):
+	for node in node_list:
+		move_node(node, new_target)

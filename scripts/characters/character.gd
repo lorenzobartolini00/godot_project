@@ -48,7 +48,7 @@ func dismount() -> void:
 			var new_collision_shape: CollisionShape = CollisionShape.new()
 			var new_mesh_instance: MeshInstance = MeshInstance.new()
 			
-			Util.add_node_to_scene(new_rigid_body, self.translation)
+			Util.add_node_to_scene(new_rigid_body, self.translation+ Vector3.UP * 2)
 			
 			new_mesh_instance.mesh = mesh
 			

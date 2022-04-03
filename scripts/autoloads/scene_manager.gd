@@ -44,7 +44,9 @@ func _process(_delta):
 
 func _on_play(level_index: int):
 	if level_index < level_list.size():
-		if get_tree().change_scene(level_list[level_index]) != OK:
+		var main_scene = level_list[level_index]
+		
+		if get_tree().change_scene(main_scene) != OK:
 			print("unable to change scene")
 	else:
 		if get_tree().change_scene_to(win_screen) != OK:
@@ -91,3 +93,7 @@ func add_tab_to_stack(reference: PackedScene, instance: Tab) -> void:
 	instance = instance}
 		
 	tab_stack.append(dicionary_element)
+
+
+func get_main_scene() -> Node:
+	return get_tree().get_root().get_node("Level")

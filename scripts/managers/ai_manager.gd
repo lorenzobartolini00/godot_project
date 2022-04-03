@@ -366,7 +366,7 @@ func _on_piece_ripped(_character, piece: DismountablePiece):
 		var piece_tipology: int = piece.get_piece_tipology()
 		match piece_tipology:
 			Enums.PieceTipology.HEAD:
-				character.set_is_able_to_fight(false)
+				character.set_is_able_to_shoot(false)
 			Enums.PieceTipology.WEAPON:
 				character.set_is_able_to_shoot(false)
 			Enums.PieceTipology.LEG:

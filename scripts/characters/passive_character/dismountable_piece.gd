@@ -5,7 +5,9 @@ class_name DismountablePiece
 export(Mesh) onready var mesh_reference
 
 export(NodePath) onready var mesh_to_replace = get_node(mesh_to_replace) as MeshInstance
-export(NodePath) onready var character = get_node(character) as Character
+export(NodePath) onready var character_owner = get_node(character_owner) as Character
+export(NodePath) onready var attachment = get_node(attachment) as RigidBody
+export(Array, NodePath) onready var node_to_move
 export(Array, NodePath) onready var linked_pieces
 
 export(Enums.PieceTipology) onready var piece_tipology
@@ -16,9 +18,13 @@ var local_rigidbody: RigidBody = null
 var local_joint: PinJoint = null
 
 
-#func _ready():
-#	if GameEvents.connect("piece_ripped", self, "_on_piece_ripped") != OK:
-#		print("failure")
+func _ready():
+	var node_list: Array = []
+	for node in node_to_move:
+		node = get_node(node) as Node
+		node_list.append(node)
+	
+	node_to_move = node_list
 
 
 func _on_died(_character) -> void:
@@ -28,7 +34,7 @@ func _on_died(_character) -> void:
 		
 		delete_mesh_to_replace()
 		
-	elif _character == character:
+	elif _character == character_owner:
 		delete_joint_and_rigidbody()
 
 
@@ -38,7 +44,9 @@ func generate_chain():
 	var previous_rigid_body: RigidBody
 	previous_rigid_body = generate_piece(priority)
 	
-	GameEvents.emit_signal("piece_ripped", character, self)
+	Util.move_nodes(node_to_move, previous_rigid_body)
+	
+	GameEvents.emit_signal("piece_ripped", character_owner, self)
 	
 	priority += 1
 	
@@ -53,8 +61,9 @@ func generate_chain():
 		
 		piece.delete_mesh_to_replace()
 		piece.set_is_alive(false)
+		piece.set_damage_area_off()
 		
-		GameEvents.emit_signal("piece_ripped", piece.character, piece)
+		GameEvents.emit_signal("piece_ripped", piece.character_owner, piece)
 		
 		priority += 1
 
@@ -62,39 +71,41 @@ func generate_chain():
 func generate_piece(priority: int, previous_rigid_body: RigidBody = null) -> RigidBody:
 	var joint: PinJoint = PinJoint.new()
 	var mesh_instance: MeshInstance = MeshInstance.new()
+	var collision_shape: CollisionShape = CollisionShape.new()
+	var rigid_body: RigidBody = RigidBody.new()
 	
 	if use_replace_mesh_reference:
 		mesh_instance.mesh = mesh_to_replace.mesh
 	else:
 		mesh_instance.mesh = mesh_reference
 	
-	var collision_shape: CollisionShape = CollisionShape.new()
-	collision_shape.shape = SphereShape.new()
-	collision_shape.shape.radius = 0.8
 	
-	var rigid_body: RigidBody = RigidBody.new()
+	
 	rigid_body.add_child(mesh_instance)
 	rigid_body.add_child(collision_shape)
+	collision_shape.make_convex_from_brothers()
 	
 	local_rigidbody = rigid_body
 	local_joint = joint
 	
-	Util.add_node_to_scene(joint, self.get_global_transform().origin)
-	Util.add_node_to_scene(rigid_body, self.get_global_transform().origin + offset)
-	
-	var node_a: Node
-	
+	var target: Node
 	if previous_rigid_body:
-		node_a = previous_rigid_body
-	else:
-		node_a = character
+		target = previous_rigid_body
+	elif attachment:
+		target = attachment
 	
-	joint.set_node_a(node_a.get_path())
+	Util.add_node_as_child(joint, character_owner.get_parent(), self.get_global_transform().origin)
+	Util.add_node_as_child(rigid_body, character_owner.get_parent(), self.get_global_transform().origin + offset)
+	
+	rigid_body.transform = self.get_global_transform()
+	
+	joint.set_node_a(target.get_path())
 	joint.set_node_b(rigid_body.get_path())
 	
 	joint.set_solver_priority(priority)
 	
 	return rigid_body
+
 
 
 func delete_joint_and_rigidbody():
