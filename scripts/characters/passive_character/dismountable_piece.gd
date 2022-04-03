@@ -16,6 +16,8 @@ export(Vector3) onready var offset
 
 var local_rigidbody: RigidBody = null
 var local_joint: PinJoint = null
+var my_priority: int = 1
+var ripped: bool = false
 
 
 func _ready():
@@ -25,50 +27,45 @@ func _ready():
 		node_list.append(node)
 	
 	node_to_move = node_list
+	
+	if GameEvents.connect("piece_ripped", self, "_on_piece_ripped") != OK:
+		print("failure")
+
+
+func _on_piece_ripped(_character, piece):
+	if _character == character_owner:
+		if piece == self:
+			delete_joint_and_rigidbody()
+			piece.set_is_alive(false)
+			piece.set_damage_area_off()
+			piece.delete_mesh_to_replace()
+			
+			local_rigidbody = generate_piece(my_priority, attachment)
+			ripped = true
+			
+			Util.move_nodes(node_to_move, local_rigidbody)
+			
+			generate_chain()
 
 
 func _on_died(_character) -> void:
 	if _character == self:
-		self.set_damage_area_off()
-		generate_chain()
-		
-		delete_mesh_to_replace()
-		
+		GameEvents.emit_signal("piece_ripped", character_owner, self)
 	elif _character == character_owner:
 		delete_joint_and_rigidbody()
 
 
 func generate_chain():
-	var priority: int = 1
-	
-	var previous_rigid_body: RigidBody
-	previous_rigid_body = generate_piece(priority)
-	
-	Util.move_nodes(node_to_move, previous_rigid_body)
-	
-	GameEvents.emit_signal("piece_ripped", character_owner, self)
-	
-	priority += 1
-	
 	for piece in linked_pieces:
 		piece = get_node(piece) as DismountablePiece
 		
-		#Se il pezzo era già stato rotto, devo eliminare il joint e il rigidbody preesistente per poter formare una catena senza ripetizioni
-		piece.delete_joint_and_rigidbody()
-		
-		#Genero un nuovo elemento della catena, concatenato al primo
-		previous_rigid_body = piece.generate_piece(priority, previous_rigid_body)
-		
-		piece.delete_mesh_to_replace()
-		piece.set_is_alive(false)
-		piece.set_damage_area_off()
+		piece.set_attachment(local_rigidbody)
+		piece.set_priority(my_priority + 1)
 		
 		GameEvents.emit_signal("piece_ripped", piece.character_owner, piece)
-		
-		priority += 1
 
 
-func generate_piece(priority: int, previous_rigid_body: RigidBody = null) -> RigidBody:
+func generate_piece(priority: int, target: Node) -> RigidBody:
 	var joint: PinJoint = PinJoint.new()
 	var mesh_instance: MeshInstance = MeshInstance.new()
 	var collision_shape: CollisionShape = CollisionShape.new()
@@ -79,20 +76,12 @@ func generate_piece(priority: int, previous_rigid_body: RigidBody = null) -> Rig
 	else:
 		mesh_instance.mesh = mesh_reference
 	
-	
-	
 	rigid_body.add_child(mesh_instance)
 	rigid_body.add_child(collision_shape)
 	collision_shape.make_convex_from_brothers()
 	
 	local_rigidbody = rigid_body
 	local_joint = joint
-	
-	var target: Node
-	if previous_rigid_body:
-		target = previous_rigid_body
-	elif attachment:
-		target = attachment
 	
 	Util.add_node_as_child(joint, character_owner.get_parent(), self.get_global_transform().origin)
 	Util.add_node_as_child(rigid_body, character_owner.get_parent(), self.get_global_transform().origin + offset)
@@ -107,6 +96,10 @@ func generate_piece(priority: int, previous_rigid_body: RigidBody = null) -> Rig
 	return rigid_body
 
 
+#func retarget_joint():
+#	local_joint.set_node_a(attachment.get_path())
+#	pass
+
 
 func delete_joint_and_rigidbody():
 	if local_joint:
@@ -119,11 +112,21 @@ func delete_mesh_to_replace():
 	mesh_to_replace.visible = false
 
 
-
 func get_piece_tipology() -> int:
 	return piece_tipology
 
 
 func set_piece_tipology(type: int) -> void:
 	piece_tipology = type
+
+
+func set_attachment(_attachment: Node) -> void:
+	attachment = _attachment
+
+
+func set_priority(_my_priority: int) -> void:
+	my_priority = _my_priority
+
+
+
 
