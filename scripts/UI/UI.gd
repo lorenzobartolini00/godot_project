@@ -11,14 +11,11 @@ export(NodePath) onready var _current_life_container = get_node(_current_life_co
 #debug
 export(Resource) onready var runtime_data = runtime_data as RuntimeData
 
-#onready var weapon_item_UI = preload("res://nodes/UI/weapon_item_UI.tscn")
 onready var life_item_UI = preload("res://nodes/UI/life_item_UI.tscn")
 
 export var _max_weapon_item_UI: int = 3
 
 func _ready():
-#	if GameEvents.connect("reload", self, "_on_reloading") != OK:
-#		print("failure")
 	if GameEvents.connect("warning", self, "_on_warning") != OK:
 		print("failure")
 	
@@ -78,16 +75,6 @@ func _on_warning(_text: String) -> void:
 		_warning_animation_player.play("RESET")
 	
 	_warning_animation_player.play("warning")
-
-
-#func _on_reloading(character: Character):
-#	if character is Player:
-#		if _warning_label.visible == false:
-#			_warning_label.visible = true
-#
-#		_warning_label.text = "Reloading..."
-#		if not _warning_animation_player.is_playing():
-#			_warning_animation_player.play("warning")
 
 
 func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionary):
