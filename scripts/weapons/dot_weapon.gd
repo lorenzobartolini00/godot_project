@@ -3,7 +3,7 @@ extends Weapon
 class_name DotWeapon
 
 
-export(int) var ammo_in_mag
+export(int) var ammo_in_mag = mag_size
 export(int) var mag_size
 export(int) var ammo_per_shot
 export(float) var reload_time
@@ -12,7 +12,10 @@ export(bool) var is_shoot_timer_timeout = true
 export(float) var max_distance:= 20
 export(float) var vertical_spawn_offset:= 0.35
 
-#var muzzle
+
+func is_fully_loaded() -> bool:
+	return ammo_in_mag == mag_size
+
 
 func get_muzzle_position() -> Vector3:
 	var weapon_mesh: Mesh = self.get_mesh()
@@ -31,25 +34,6 @@ func add_muzzle_flash(character) -> void:
 	weapon_position.add_child(muzzle)
 	muzzle.translation = self.get_muzzle_position()
 	muzzle.name = "MuzzleFlash"
-	
-#	var already_here: bool = true
-#	var muzzle: Spatial
-#
-#	var children: Array = weapon_position.get_children()
-#	for child in children:
-#		if child.name == "MuzzleFlash":
-#			muzzle = child
-#
-#	if not muzzle:
-#		muzzle = self.muzzle_flash.instance()
-#
-#		weapon_position.add_child(muzzle)
-#		muzzle.translation = self.get_muzzle_position()
-#		muzzle.name = "MuzzleFlash"
-#
-#	self.muzzle = muzzle
-#
-#	muzzle.visible = true
 
 
 func delete_muzzle(character) -> void:

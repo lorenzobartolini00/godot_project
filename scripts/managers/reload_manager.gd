@@ -17,14 +17,14 @@ func can_reload() -> bool:
 	var _is_left_in_stock = true
 	var _is_weapon_auto_rechargeable: bool = false
 	var is_freewalk_state: bool = true
+	var _is_fully_loaded: bool = true
 	
 	_is_left_in_stock = _is_left_in_stock()
-		
 	_is_weapon_auto_rechargeable = character.get_current_weapon() is Blaster
-	
 	is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
+	_is_fully_loaded = character.get_current_weapon().is_fully_loaded()
 	
-	return is_freewalk_state and _is_left_in_stock and not _is_weapon_auto_rechargeable
+	return is_freewalk_state and _is_left_in_stock and not _is_weapon_auto_rechargeable and not _is_fully_loaded
 
 
 func need_reload():
@@ -40,7 +40,10 @@ func reload() -> void:
 		var _current_weapon = character.get_current_weapon()
 		if _current_weapon:
 			play_reload_sound()
+			
 			print(character.name + " is reloading...")
+			
+			GameEvents.emit_signal("warning", "Reloading")
 			
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.RELOADING
 			
@@ -75,10 +78,6 @@ func _on_reload_timer_timeout():
 		var _ammo: Ammo = character.get_current_weapon().get_ammo()
 		
 		if _ammo:
-			
-			GameEvents.emit_signal("warning", "Reloading")
-#			GameEvents.emit_signal("reload", character)
-			
 			character.ammo_manager.update_ammo("reload")
 	
 	character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK

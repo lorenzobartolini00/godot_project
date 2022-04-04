@@ -58,13 +58,6 @@ func shoot(_delta) -> void:
 		_current_weapon.shoot(character)
 	else:
 		if character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK:
-			if character.is_in_group("player"):
-				if character.reload_manager.need_reload():
-					if character.reload_manager.can_reload():
-						GameEvents.emit_signal("warning", "Need reload")
-					else:
-						GameEvents.emit_signal("warning", "No ammo")
-			
 			if character.reload_manager.can_reload():
 				character.reload_manager.reload()
 			else:
