@@ -17,7 +17,7 @@ export(Vector3) onready var offset
 var local_rigidbody: RigidBody = null
 var local_joint: PinJoint = null
 var my_priority: int = 1
-var ripped: bool = false
+#var ripped: bool = false
 
 
 func _ready():
@@ -41,7 +41,7 @@ func _on_piece_ripped(_character, piece):
 			piece.delete_mesh_to_replace()
 			
 			local_rigidbody = generate_piece(my_priority, attachment)
-			ripped = true
+#			ripped = true
 			
 			Util.move_nodes(node_to_move, local_rigidbody)
 			

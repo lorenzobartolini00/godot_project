@@ -5,7 +5,6 @@ class_name Weapon
 
 export(int) var damage
 export(Resource) var ammo = ammo as Ammo
-export(int) var current_ammo
 export(PackedScene) var muzzle_flash = preload("res://nodes/muzzle_flash.tscn")
 export(Dictionary) onready var sound_list = {
 	"shoot": [preload("res://assets/my_assets/sounds/cut_sounds/pistol.wav")],

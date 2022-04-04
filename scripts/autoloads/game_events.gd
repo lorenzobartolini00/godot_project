@@ -27,7 +27,7 @@ signal current_life_changed(new_life, character)
 # warning-ignore:unused_signal
 signal current_weapon_changed(new_current_weapon, character)
 # warning-ignore:unused_signal
-signal current_ammo_changed(weapon, new_current_ammo, character)
+signal ammo_changed(weapon, character)
 
 # warning-ignore:unused_signal
 signal show_weapon_list(weapon_list)

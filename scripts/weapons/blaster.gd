@@ -11,9 +11,9 @@ var need_charge: bool = false
 
 
 func connect_signal(_character):
-	if not GameEvents.is_connected("current_weapon_changed", self, "_on_current_weapon_changed") and not GameEvents.is_connected("current_ammo_changed", self, "_on_current_ammo_changed"):
+	if not GameEvents.is_connected("current_weapon_changed", self, "_on_current_weapon_changed") and not GameEvents.is_connected("ammo_changed", self, "_on_ammo_changed"):
 		character = _character
-		if GameEvents.connect("current_ammo_changed", self, "_on_current_ammo_changed") != OK:
+		if GameEvents.connect("ammo_changed", self, "_on_ammo_changed") != OK:
 			print("failure")
 		if GameEvents.connect("current_weapon_changed", self, "_on_current_weapon_changed") != OK:
 			print("failure")
@@ -39,25 +39,22 @@ func _on_current_weapon_changed(_new_weapon: Weapon, _character):
 			set_up_recharge_timer(_character)
 		
 			recharge_timer.start()
-#		else:
-#			recharge_timer.stop()
 
 
-func _on_current_ammo_changed(_weapon: Weapon, _ammo: Ammo, _character):
+func _on_ammo_changed(_weapon: Weapon, _character):
 	if character == _character:
 		if _weapon == self:
-			if self.current_ammo == 0:
+			if self.ammo_in_mag == 0:
 				need_charge = true
 
 
 func is_charged() -> bool:
 	if need_charge:
-		var _ammo: Ammo = self.ammo
-		var _current_ammo: int = self.current_ammo
-		var _max_ammo: int = _ammo.max_ammo
-		var threshold: int = _max_ammo * relative_threshold
+		var _ammo_in_mag: int = self.ammo_in_mag
+		var mag_size: int = self.mag_size
+		var threshold: int = mag_size * relative_threshold
 	
-		return _current_ammo > threshold
+		return _ammo_in_mag > threshold
 	else:
 		return true
 
@@ -71,14 +68,12 @@ func shoot(_character):
 
 func on_recharge_timer_timeout():
 	var _ammo: Ammo = self.get_ammo()
-	var _max_ammo: int = _ammo.max_ammo
-	var _ammo_per_shot: int = _ammo.ammo_per_shot
+	var mag_size: int = self.mag_size
 	
-	self.current_ammo = clamp(self.current_ammo + _ammo_per_shot, 0, _max_ammo)
-	GameEvents.emit_signal("current_ammo_changed", self, _ammo, character)
+	character.ammo_manager.update_ammo("recover", self)
 	
-	var _current_ammo: int = self.current_ammo
-	var threshold: int = _max_ammo * relative_threshold
+	var _ammo_in_mag: int = self.ammo_in_mag
+	var threshold: int = mag_size * relative_threshold
 	
-	if self.current_ammo > threshold:
+	if self.ammo_in_mag > threshold:
 		need_charge = false

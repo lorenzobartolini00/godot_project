@@ -12,16 +12,17 @@ func setup(_weapon_item: Item, _inventory: Inventory):
 		
 		self.name_label.text = _weapon_item.name
 		self.weapon_avatar.texture = _weapon_item.avatar
-		_update_UI(_weapon_item, _weapon_item.get_ammo())
+		_update_UI(_weapon_item)
 
 
-func _update_UI(_weapon: Weapon, _ammo: Ammo) -> void:
-	if _ammo:
-		var _ammo_in_stock: int = inventory.get_item_quantity(_ammo)
+func _update_UI(_weapon: Weapon) -> void:
+	var ammo: Ammo = _weapon.get_ammo()
+	if ammo:
+		var _ammo_in_stock: int = inventory.get_item_quantity(ammo)
 		
-		var _current_ammo: int = _weapon.current_ammo
-		var _max_ammo: int = _ammo.max_ammo
+		var _ammo_in_mag: int = _weapon.ammo_in_mag
+		var mag_size: int = _weapon.mag_size
 		
-		self.progress_bar.value = _current_ammo
-		self.progress_bar.max_value = _max_ammo
+		self.progress_bar.value = _ammo_in_mag
+		self.progress_bar.max_value = mag_size
 	

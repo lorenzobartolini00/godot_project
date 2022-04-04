@@ -16,14 +16,13 @@ func _ready():
 func can_reload() -> bool:
 	var _is_left_in_stock = true
 	var _is_weapon_auto_rechargeable: bool = false
+	var is_freewalk_state: bool = true
 	
-	if character.is_in_group("player"):
-		_is_left_in_stock = _is_left_in_stock()
+	_is_left_in_stock = _is_left_in_stock()
 		
-	if character.get_current_weapon() is Blaster:
-		_is_weapon_auto_rechargeable = true
+	_is_weapon_auto_rechargeable = character.get_current_weapon() is Blaster
 	
-	var is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
+	is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 	
 	return is_freewalk_state and _is_left_in_stock and not _is_weapon_auto_rechargeable
 
@@ -31,9 +30,9 @@ func can_reload() -> bool:
 func need_reload():
 	var weapon: Weapon = character.get_current_weapon()
 	if weapon:
-		var current_ammo: int = weapon.current_ammo
+		var ammo_in_mag: int = weapon.ammo_in_mag
 		
-		return current_ammo == 0
+		return ammo_in_mag == 0
 
 
 func reload() -> void:
@@ -41,8 +40,6 @@ func reload() -> void:
 		var _current_weapon = character.get_current_weapon()
 		if _current_weapon:
 			play_reload_sound()
-			
-			GameEvents.emit_signal("reload", character)
 			print(character.name + " is reloading...")
 			
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.RELOADING
@@ -50,9 +47,10 @@ func reload() -> void:
 			_reload_timer.wait_time = character.get_current_weapon().reload_time
 			_reload_timer.start()
 	else:
-		if character.is_in_group("player"):
-			if not _is_left_in_stock():
-				GameEvents.emit_signal("warning", "Can't reload")
+		if character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK:
+			if character.is_in_group("player"):
+				if not _is_left_in_stock():
+					GameEvents.emit_signal("warning", "Can't reload")
 			 
 
 
@@ -77,14 +75,13 @@ func _on_reload_timer_timeout():
 		var _ammo: Ammo = character.get_current_weapon().get_ammo()
 		
 		if _ammo:
-			character.ammo_manager.max_ammo(_current_weapon, _ammo)
 			
-			if character.is_in_group("player"):
-				character.ammo_manager.consume_ammo_in_stock(1)
+			GameEvents.emit_signal("warning", "Reloading")
+#			GameEvents.emit_signal("reload", character)
 			
-		
-			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
-#			print(character.name + " finished reloading")
+			character.ammo_manager.update_ammo("reload")
+	
+	character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
 
 
 func play_reload_sound() -> void:

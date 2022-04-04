@@ -7,7 +7,7 @@ export(NodePath) onready var name_label = get_node(name_label) as Label
 
 
 func _ready():
-	if GameEvents.connect("current_ammo_changed", self, "_on_current_ammo_changed") != OK:
+	if GameEvents.connect("ammo_changed", self, "_on_ammo_changed") != OK:
 		print("failure")
 
 
@@ -16,7 +16,7 @@ func setup(_weapon_item: Item, _inventory: Inventory):
 		pass
 
 
-func _update_UI(_weapon: Weapon, _ammo: Ammo) -> void:
+func _update_UI(_weapon: Weapon) -> void:
 	pass
 
 
@@ -27,11 +27,11 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 		if _item.name == self.name_label.text + "_ammo":
 			var weapon: Weapon = self.local_item
 			
-			_update_UI(weapon, _item)
+			_update_UI(weapon)
 
 
-func _on_current_ammo_changed(_weapon: Weapon, _ammo: Ammo, character: Character):
+func _on_ammo_changed(_weapon: Weapon, character: Character):
 	if character is Player:
-		if _ammo.name == self.name_label.text + "_ammo":
-			_update_UI(_weapon, _ammo)
+		if _weapon.name == self.name_label.text:
+			_update_UI(_weapon)
 

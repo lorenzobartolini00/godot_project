@@ -2,6 +2,10 @@ extends Weapon
 
 class_name DotWeapon
 
+
+export(int) var ammo_in_mag
+export(int) var mag_size
+export(int) var ammo_per_shot
 export(float) var reload_time
 export(float) var shoot_time
 export(bool) var is_shoot_timer_timeout = true

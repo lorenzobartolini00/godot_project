@@ -13,21 +13,22 @@ func setup(_weapon_item: Item, _inventory: Inventory):
 		
 		self.weapon_avatar.texture = _weapon_item.get_avatar()
 		self.name_label.text = _weapon_item.name
-		_update_UI(_weapon_item, _weapon_item.get_ammo())
+		_update_UI(_weapon_item)
 
 
-func _update_UI(_weapon: Weapon, _ammo: Ammo) -> void:
-	if _ammo:
-		var _ammo_in_stock: int = inventory.get_item_quantity(_ammo)
+func _update_UI(_weapon: Weapon) -> void:
+	var ammo: Ammo = _weapon.get_ammo()
+	if _weapon.get_ammo():
+		var _ammo_in_stock: int = inventory.get_item_quantity(ammo)
 		
-		var _current_ammo: String = String(_weapon.current_ammo)
-		var _remaining_ammo: String = String(_ammo.max_ammo * _ammo_in_stock)
+		var _ammo_in_mag: String = String(_weapon.ammo_in_mag)
+		var _remaining_ammo: String = String(_ammo_in_stock)
 		
-		var _new_description_text: String = _current_ammo\
+		var _new_description_text: String = _ammo_in_mag\
 			+ "/"\
 			+ _remaining_ammo
 		
 		self.description_label.text = _new_description_text
-		self.ammo_avatar.texture = _ammo.get_avatar()
+		self.ammo_avatar.texture = ammo.get_avatar()
 	else:
 		self.description_label.text = String("0")+"/"+String("0")

@@ -22,7 +22,7 @@ func can_shoot() -> bool:
 	if _current_weapon:
 		var _ammo: Ammo = character.get_current_weapon().get_ammo()
 		if _ammo:
-			var _has_ammo: bool = character.get_current_weapon().current_ammo > 0
+			var _has_ammo: bool = character.get_current_weapon().ammo_in_mag > 0
 			var _is_shoot_timer_timeout: bool = is_shoot_timer_timeout()
 			var _is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 			var is_charged: bool = true
@@ -41,12 +41,12 @@ func shoot(_delta) -> void:
 #		print(character.name + " has shot")
 		var _current_weapon: Weapon = character.get_current_weapon()
 		
-		character.ammo_manager.consume_current_ammo()
+		character.ammo_manager.update_ammo("consume")
 			
 		#Setta can_shoot a false finchè non è passato un tempo pari a shoot_time
 		_set_shoot_timer()
 		
-#		print(character.name + " has " +str(_current_weapon.current_ammo) + " ammo left")
+#		print(character.name + " has " +str(_current_weapon.ammo_in_mag) + " ammo left")
 		
 		_play_weapon_sound()
 		
