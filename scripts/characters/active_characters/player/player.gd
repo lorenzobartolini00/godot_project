@@ -4,8 +4,10 @@ class_name Player
 
 export(Resource) var global_runtime_data = global_runtime_data as RuntimeData
 
+export(NodePath) onready var interaction_raycast = get_node(interaction_raycast) as RayCast
 export(NodePath) onready var inventory_manager = get_node(inventory_manager) as InventoryManager
 export(NodePath) onready var camera = get_node(camera) as Camera
+
 
 export(Resource) var inventory = inventory as Inventory
 
@@ -15,8 +17,8 @@ onready var _life_slot = preload("res://my_resources/life_statistics/life_slot.t
 func _ready() -> void:
 	self._move_speed = statistics.move_speed
 	
-	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon(), 1)
-	GameEvents.emit_signal("add_item_to_inventory", get_current_weapon().get_ammo(), 0)
+	GameEvents.emit_signal("add_item_to_inventory",self, get_current_weapon(), 1)
+	GameEvents.emit_signal("add_item_to_inventory",self, get_current_weapon().get_ammo(), 0)
 	
 	#Da sostituire quando verrà implementato il salvataggio
 	self.get_inventory().set_item_quantity(_life_slot, 10)
@@ -40,8 +42,12 @@ func _physics_process(delta):
 		
 		if Input.is_action_just_pressed("change_weapon"):
 			weapon_manager.shift_current_weapon(1)
+		
+		if Input.is_action_just_pressed("interact"):
+			check_interaction()
 	
 	check_target()
+	
 
 
 func _input(event) -> void:
@@ -74,7 +80,18 @@ func get_camera() -> Camera:
 	return camera
 
 
+func get_interaction_raycast() -> RayCast:
+	return interaction_raycast	
+
+
 func _on_CollectingArea_area_entered(area):
 	if area is Collectable:
 			GameEvents.emit_signal("collected", area, area.get_item(), area.get_quantity(), self)
 			print(area.get_item().name + " collected")
+
+
+func check_interaction():
+	var collider = interaction_raycast.get_collider()
+	
+	if collider is Interactable:
+		GameEvents.emit_signal("interact", self, collider)

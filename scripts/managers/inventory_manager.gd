@@ -29,12 +29,18 @@ func set_up_inventory():
 #	SaveManager.set_inventory(inventory)
 
 
-func _on_add_item_to_inventory(_item: Item, _quantity: int):
-	var inventory: Inventory = character.get_inventory()
-	
-	if _item is Stockable:
-		if _item.store_when_collected:
-			inventory.add_item(_item, _quantity)
+func _on_add_item_to_inventory(_character, _item: Item, _quantity: int):
+	if _character == character:
+		var inventory: Inventory = character.get_inventory()
+		
+		if _item is Stockable:
+			if _item.store_when_collected:
+				inventory.add_item(_item, _quantity)
+		
+		if _item is Usable:
+				_item.use(_character)
+			
+		GameEvents.emit_signal("warning", _item.display_name +" found!")
 
 
 func initialize_inventory() -> void:

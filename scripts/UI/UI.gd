@@ -15,6 +15,8 @@ onready var life_item_UI = preload("res://nodes/UI/life_item_UI.tscn")
 
 export var _max_weapon_item_UI: int = 3
 
+onready var warning_queue: Array = []
+
 func _ready():
 	if GameEvents.connect("warning", self, "_on_warning") != OK:
 		print("failure")
@@ -33,7 +35,8 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 
 
 func _process(_delta):
-	get_node("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/Debug").text = String(runtime_data.current_gameplay_state)
+	show_warning()
+	
 
 
 func _on_current_weapon_changed(_weapon: Weapon, character: Character):
@@ -66,15 +69,21 @@ func update_panel_visibility():
 
 
 func _on_warning(_text: String) -> void:
-	if _warning_label.visible == false:
-		_warning_label.visible = true
-	
 	var previous_text: String = _warning_label.text
-	_warning_label.text = _text
-	if _warning_animation_player.is_playing() and not previous_text == _text:
-		_warning_animation_player.play("RESET")
 	
-	_warning_animation_player.play("warning")
+	if not previous_text == _text:
+		warning_queue.append(_text)
+
+
+func show_warning():
+	if warning_queue.size() > 0 and not _warning_animation_player.is_playing():
+		var warning_text: String = warning_queue.pop_back()
+		_warning_label.text = warning_text
+		if _warning_label.visible == false:
+			_warning_label.visible = true
+		
+		_warning_animation_player.play("RESET")
+		_warning_animation_player.play("warning")
 
 
 func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionary):

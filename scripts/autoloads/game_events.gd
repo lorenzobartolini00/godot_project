@@ -9,11 +9,13 @@ signal hit(area_hit, damage)
 signal set_damage_area(character, is_disabled)
 # warning-ignore:unused_signal
 signal collected(object_collected)
+# warning-ignore:unused_signal
+signal interact(character, interactable_object)
 
 # warning-ignore:unused_signal
 signal reload
 # warning-ignore:unused_signal
-signal add_item_to_inventory(item, quantity)
+signal add_item_to_inventory(character, item, quantity)
 # warning-ignore:unused_signal
 signal change_current_weapon(new_weapon)
 # warning-ignore:unused_signal

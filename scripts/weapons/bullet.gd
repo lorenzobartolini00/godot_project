@@ -15,7 +15,7 @@ func initialize(start_position: Vector3, character):
 	_weapon = character.get_current_weapon()
 	_character = character
 	
-	mesh_instance.mesh = _weapon.get_ammo().get_mesh()
+	mesh_instance.mesh = _weapon.get_ammo().get_bullet_mesh()
 	self.transform.origin = start_position
 	
 	setup_despawn_timer()

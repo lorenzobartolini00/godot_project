@@ -6,7 +6,7 @@ export(String) var name
 export(String) var display_name = name
 export(Texture) var avatar
 export(Resource) var description = preload("res://my_resources/slides/no_description.tres") as Slide
-export(Mesh) var mesh
+export(Mesh) var display_mesh
 export(bool) var is_unique
 export(int) var max_quantity
 export(Enums.ItemTipology) var tipology
@@ -17,4 +17,4 @@ func get_avatar() -> Texture:
 
 
 func get_mesh() -> Mesh:
-	return mesh
+	return display_mesh

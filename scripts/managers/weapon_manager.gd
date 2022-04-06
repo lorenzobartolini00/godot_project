@@ -58,7 +58,7 @@ func change_current_weapon(_new_current_weapon: Weapon):
 		
 		GameEvents.emit_signal("current_weapon_changed", character.get_current_weapon(), character)
 
-		character.set_current_weapon_mesh(_new_current_weapon.mesh)
+		character.set_current_weapon_mesh(_new_current_weapon.get_mesh())
 
 		if character.is_in_group("player"):
 			character.ammo_manager.set_ammo_for_weapon(_new_current_weapon)
