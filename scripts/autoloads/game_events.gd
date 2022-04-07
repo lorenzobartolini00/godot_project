@@ -81,10 +81,14 @@ signal resume_game
 # warning-ignore:unused_signal
 signal advance_slide
 # warning-ignore:unused_signal
+signal title_screen
+# warning-ignore:unused_signal
 signal exit
 
 # warning-ignore:unused_signal
 signal pause_game
+# warning-ignore:unused_signal
+signal toggle_full_screen
 
 # warning-ignore:unused_signal
 signal win

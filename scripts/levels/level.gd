@@ -12,6 +12,8 @@ func spawn_player() -> void:
 	var player_instance: Player = player_reference.instance()
 	add_child(player_instance)
 	
+	global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
+	
 	player_instance.translation = player_spawn_position.translation
 
 

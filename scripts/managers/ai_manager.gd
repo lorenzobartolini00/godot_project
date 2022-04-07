@@ -27,7 +27,6 @@ func _ready():
 		print("failure")
 	if GameEvents.connect("character_shot", self, "_on_character_shot") != OK:
 		print("failure")
-	
 	if lost_target_timer.connect("timeout", self, "_on_target_timer_timeout") != OK:
 		print("failure")
 	if update_path_timer.connect("timeout", self, "_on_update_path_timer_timeout") != OK:
@@ -37,6 +36,8 @@ func _ready():
 	if wait_to_shoot_timer.connect("timeout", self, "_on_wait_to_shoot_timer_timeout") != OK:
 		print("failure")
 	if GameEvents.connect("piece_ripped", self, "_on_piece_ripped") != OK:
+		print("failure")
+	if GameEvents.connect("died", self, "_on_died") != OK:
 		print("failure")
 	
 	change_state(Enums.AIState.IDLE)
@@ -51,7 +52,6 @@ func _physics_process(delta):
 			if target and is_instance_valid(target):
 				if is_life_too_low():
 					character.set_is_able_to_fight(false)
-				
 				
 				character.get_line_of_sight_raycast().set_as_toplevel(true)
 				character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
@@ -354,8 +354,14 @@ func _on_character_shot(_character):
 
 
 func _on_target_changed(_target, _character):
+	var new_target = null
+	
 	if _character == character:
-		target = _target
+		if _target:
+			if _target.get_is_alive():
+				new_target = _target
+		
+		target = new_target
 		
 		path = []
 		update_last_seen_position()
@@ -371,6 +377,11 @@ func _on_piece_ripped(_character, piece: DismountablePiece):
 				character.set_is_able_to_shoot(false)
 			Enums.PieceTipology.LEG:
 				character.set_is_able_to_move(false)
+
+
+func _on_died(_character):
+	if _character == target:
+		GameEvents.emit_signal("target_changed", null, self.character)
 
 
 func _on_ViewArea_body_entered(body):
@@ -390,3 +401,4 @@ func _on_MinDistanceArea_body_exited(body):
 		
 		if index >= 0:
 			close_character_list.remove(index)
+

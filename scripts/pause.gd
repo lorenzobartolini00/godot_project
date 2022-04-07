@@ -1,14 +1,9 @@
 extends Node
 
-export(Resource)var runtime_data = runtime_data as RuntimeData
+export(Resource)var global_runtime_data = global_runtime_data as RuntimeData
 
 
 func _ready():
-	runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
-	
-	pause_mode = Node.PAUSE_MODE_PROCESS
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
 	if GameEvents.connect("pause_game", self, "_on_game_paused") != OK:
 		print("failure")
 	if GameEvents.connect("resume_game", self, "_on_game_resumed") != OK:
@@ -21,8 +16,9 @@ func _ready():
 
 func _input(_event):
 	if Input.is_action_just_pressed("pause") \
-	and runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG \
-	and runtime_data.current_gameplay_state != Enums.GamePlayState.DIED:
+	and global_runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG \
+	and global_runtime_data.current_gameplay_state != Enums.GamePlayState.DIED\
+	and is_scene_pausable():
 		toggle_pause()
 
 
@@ -31,25 +27,31 @@ func toggle_pause() -> void:
 			GameEvents.emit_signal("resume_game")
 			TabManager.clear_tab_stack_to_root()
 		else:
-			runtime_data.current_gameplay_state = Enums.GamePlayState.PAUSED
+			global_runtime_data.current_gameplay_state = Enums.GamePlayState.PAUSED
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			GameEvents.emit_signal("pause_game")
 			GameEvents.emit_signal("change_tab_to", "pause")
 
 
 func _on_back():
-	if TabManager.is_current_tab_root():
+	if TabManager.is_current_tab_root()\
+	and is_scene_pausable():
 		toggle_pause()
 
 
 func _on_game_paused() -> void:
-	get_tree().paused = true
+	if is_scene_pausable():
+		get_tree().paused = true
 
 
 func _on_game_resumed() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if is_scene_pausable():
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+		global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
 	
 	get_tree().paused = false
-	runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
 
 
+func is_scene_pausable() -> bool:
+	return get_parent() is Level

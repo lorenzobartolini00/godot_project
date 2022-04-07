@@ -204,11 +204,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/managers/manager.gd"
 }, {
-"base": "Resource",
-"class": "OptionTabList",
-"language": "GDScript",
-"path": "res://scripts/UI/tabs/option_tab_list.gd"
-}, {
 "base": "InteractionTab",
 "class": "OptionsTab",
 "language": "GDScript",
@@ -389,7 +384,6 @@ _global_script_class_icons={
 "LifeManager": "",
 "LifeSlot": "",
 "Manager": "",
-"OptionTabList": "",
 "OptionsTab": "",
 "PassiveCharacter": "",
 "PassiveCharacterStatistics": "",

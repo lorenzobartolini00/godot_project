@@ -6,8 +6,8 @@ export(String) onready var level_list_path = "res://scenes/levels/"
 export(int) onready var current_level_index = 0
 
 
-export(PackedScene) onready var title_screen = preload("res://scenes/title_screen.tscn")
-export(PackedScene) onready var win_screen = preload("res://scenes/win_screen.tscn")
+export(String) onready var title_screen = "res://scenes/title_screen.tscn"
+export(String) onready var win_screen = "res://scenes/win_screen.tscn"
 
 
 func _ready():
@@ -17,9 +17,10 @@ func _ready():
 		print("failure")
 	if GameEvents.connect("win", self, "_on_win") != OK:
 		print("failure")
+	if GameEvents.connect("title_screen", self, "_on_title_screen") != OK:
+		print("failure")
 	if GameEvents.connect("exit", self, "_on_exit") != OK:
 		print("failure")
-
 
 #Debug
 func _process(_delta):
@@ -44,6 +45,11 @@ func _on_play(level_index: int):
 func _on_win():
 	current_level_index += 1
 	GameEvents.emit_signal("play", current_level_index)
+
+
+func _on_title_screen():
+	if get_tree().change_scene(title_screen) != OK:
+		print("unable to change scene")
 
 
 func _on_exit():

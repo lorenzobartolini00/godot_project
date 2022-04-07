@@ -43,10 +43,10 @@ func _ready():
 
 	GameEvents.emit_tab_selected(self)
 
-	if get_is_root():
-		TabManager.clear_tab_stack()
-
 	TabManager.add_tab_to_stack(self)
+	
+	if get_is_root():
+		TabManager.clear_tab_stack_to_root()
 
 
 func _process(_delta):

@@ -11,3 +11,4 @@ func _ready():
 func _on_died(character: Character):
 	if character is Player:
 		GameEvents.emit_signal("change_tab_to", "game_over")
+		global_runtime_data.current_gameplay_state = Enums.GamePlayState.DIED

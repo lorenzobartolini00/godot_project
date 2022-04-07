@@ -47,8 +47,10 @@ func _on_button_pressed(button):
 				GameEvents.emit_signal("back")
 			Enums.ButtonTipology.ADVANCE_SLIDE:
 				GameEvents.emit_signal("advance_slide")
-			Enums.ButtonTipology.RESUME:
-				GameEvents.emit_resume_game()
+			Enums.ButtonTipology.TOGGLE_FULL_SCREEN:
+				GameEvents.emit_signal("toggle_full_screen")
+			Enums.ButtonTipology.TITLE_SCREEN:
+				GameEvents.emit_signal("title_screen")
 			Enums.ButtonTipology.EXIT:
 				GameEvents.emit_signal("exit")
 

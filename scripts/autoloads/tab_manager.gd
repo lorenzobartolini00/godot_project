@@ -36,12 +36,13 @@ func clear_tab_stack_to_root():
 	var root: Tab
 	
 	for tab in tab_stack:
-		if not tab.get_is_root():
-			tab.queue_free()
-		else:
-			root = tab
+		if is_instance_valid(tab):
+			if not tab.get_is_root():
+				tab.queue_free()
+			else:
+				root = tab
 	
-	GameEvents.emit_signal("tab_selected", root)
+	GameEvents.emit_tab_selected(root)
 	
 	tab_stack.clear()
 	tab_stack.append(root)
