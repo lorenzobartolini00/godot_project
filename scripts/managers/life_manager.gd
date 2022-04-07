@@ -4,7 +4,8 @@ class_name LifeManager
 
 
 func _ready():
-	GameEvents.connect("change_current_life", self, "_on_change_current_life")
+	if GameEvents.connect("change_current_life", self, "_on_change_current_life") != OK:
+		print("failure")
 	
 
 func _on_change_current_life(_value: int, _to_max: bool, _character):

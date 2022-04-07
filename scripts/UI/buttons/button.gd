@@ -48,7 +48,6 @@ func _on_button_pressed(button):
 			Enums.ButtonTipology.ADVANCE_SLIDE:
 				GameEvents.emit_signal("advance_slide")
 			Enums.ButtonTipology.RESUME:
-				GameEvents.emit_signal("back")
 				GameEvents.emit_resume_game()
 			Enums.ButtonTipology.EXIT:
 				GameEvents.emit_signal("exit")

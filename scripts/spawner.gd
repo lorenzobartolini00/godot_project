@@ -16,7 +16,8 @@ export(NodePath) onready var spawn_position = get_node(spawn_position) as Positi
 
 
 func _ready():
-	GameEvents.connect("spawn_enemy", self, "_on_spawn_enemy")
+	if GameEvents.connect("spawn_enemy", self, "_on_spawn_enemy") != OK:
+		print("failure")
 
 	set_prevent_spawn_area()
 	

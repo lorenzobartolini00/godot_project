@@ -11,17 +11,17 @@ func _ready():
 
 
 func _on_back():
-	var current_tab = tab_stack.pop_back()
+	var current_tab: Tab
 	
-	if not current_tab.get_is_root():
-		current_tab.queue_free()
-		
-		var previous_tab
+	if tab_stack.size() > 1:
+		current_tab = tab_stack.pop_back()
 	
-		if tab_stack.size() > 0:
-			previous_tab = tab_stack[tab_stack.size() - 1]
+		if not current_tab.get_is_root():
+			current_tab.queue_free()
 			
-			GameEvents.emit_signal("tab_selected", previous_tab)
+		current_tab = tab_stack[tab_stack.size() - 1]
+				
+		GameEvents.emit_signal("tab_selected", current_tab)
 
 
 func add_tab_to_stack(tab) -> void:
@@ -29,8 +29,29 @@ func add_tab_to_stack(tab) -> void:
 
 
 func clear_tab_stack():
+	tab_stack.clear()
+
+
+func clear_tab_stack_to_root():
+	var root: Tab
+	
 	for tab in tab_stack:
-		if is_instance_valid(tab):
+		if not tab.get_is_root():
 			tab.queue_free()
+		else:
+			root = tab
+	
+	GameEvents.emit_signal("tab_selected", root)
 	
 	tab_stack.clear()
+	tab_stack.append(root)
+
+
+func get_current_tab() -> Tab:
+	if tab_stack.size() > 0:
+		return tab_stack[tab_stack.size() - 1]
+	else:
+		return null
+
+func is_current_tab_root() -> bool:
+	return get_current_tab().get_is_root()

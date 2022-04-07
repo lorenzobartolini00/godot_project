@@ -18,10 +18,16 @@ func _ready():
 	_columns = self.columns
 	_lines = buttons.size() / _columns
 	
-	GameEvents.connect("button_selected", self, "_on_button_selected")
+	if GameEvents.connect("button_selected", self, "_on_button_selected") != OK:
+		print("failure")
 	
 	reset_current_button_index()
 	GameEvents.emit_signal("button_selected", buttons[_current_button_index])
+
+
+func _process(delta):
+	if Input.is_action_just_released("ui_select") and active:
+		GameEvents.emit_signal("button_pressed", buttons[_current_button_index])
 
 
 func _input(event):
@@ -47,8 +53,7 @@ func _input(event):
 				elif Input.is_action_just_pressed("ui_left"):
 					_new_column += 1
 					button_selected = true
-				elif Input.is_action_just_pressed("ui_select"):
-					GameEvents.emit_signal("button_pressed", buttons[_current_button_index])
+				
 				
 				_new_column %= _columns
 				

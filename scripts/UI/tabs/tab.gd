@@ -49,6 +49,11 @@ func _ready():
 	TabManager.add_tab_to_stack(self)
 
 
+func _process(_delta):
+	if Input.is_action_just_pressed("back") and self.get_focus():
+		GameEvents.emit_signal("back")
+
+
 func _on_change_tab_to(name: String):
 	if get_focus():
 		var option_tab = self.get_tab_instance(name)

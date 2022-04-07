@@ -41,10 +41,6 @@ func reload() -> void:
 		if _current_weapon:
 			play_reload_sound()
 			
-			print(character.name + " is reloading...")
-			
-			GameEvents.emit_signal("warning", "Reloading")
-			
 			character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.RELOADING
 			
 			_reload_timer.wait_time = character.get_current_weapon().reload_time
