@@ -65,13 +65,14 @@ func shoot(_delta) -> void:
 
 
 func rotate_weapon(delta) -> void:
-	var shooting_raycast: RayCast = character.get_shooting_raycast()
+	var shooting_raycast: RayCast = character.get_aim_raycast()
 	var collider = shooting_raycast.get_collider()
+	var target: Vector3
 
 	if collider is Shootable or collider is StaticBody:
 		#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
 		var weapon_position: Spatial = character.get_weapon_position()
-		var target: Vector3 = shooting_raycast.get_collision_point()
+		target = shooting_raycast.get_collision_point()
 		var aim_speed: float = character.get_statistics().aim_speed
 		
 		weapon_position.set_as_toplevel(true)

@@ -61,6 +61,7 @@ func spawn_enemy() -> void:
 	spawned_enemy = enemy_instance
 	
 	reset_timer.start()
+	busy_spawn_area_timer.stop()
 
 
 func is_spawn_area_free() -> bool:

@@ -12,6 +12,7 @@ const MAX_TERMINAL_VELOCITY: float = 50.0
 var velocity: Vector3
 
 export(NodePath) onready var shooting_raycast = get_node(shooting_raycast) as RayCast
+export(NodePath) onready var aim_raycast = get_node(aim_raycast) as RayCast
 
 export(Resource) onready var current_weapon = current_weapon as Weapon
 export(NodePath) onready var current_weapon_mesh = get_node(current_weapon_mesh) as MeshInstance
@@ -35,7 +36,7 @@ func smooth_look_at(object: Spatial, target_position: Vector3, speed: float, del
 
 
 func check_target():
-	var collider = shooting_raycast.get_collider()
+	var collider = aim_raycast.get_collider()
 	
 	if collider:
 		if collider is Shootable:
@@ -68,6 +69,14 @@ func set_shooting_raycast(raycast: RayCast) -> void:
 
 func get_shooting_raycast() -> RayCast:
 	return shooting_raycast
+
+
+func set_aim_raycast(raycast: RayCast) -> void:
+	aim_raycast = raycast
+
+
+func get_aim_raycast() -> RayCast:
+	return aim_raycast
 
 
 func set_weapon_position(spatial: Spatial) -> void:
