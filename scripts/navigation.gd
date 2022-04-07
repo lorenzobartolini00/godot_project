@@ -35,7 +35,8 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 			and character.get_runtime_data().current_ai_state != Enums.AIState.TARGET_AQUIRED:
 				character.transform = character.smooth_look_at(character, look_at_point, turning_speed, delta)
 			
-			if character.get_runtime_data().current_ai_state == Enums.AIState.SEARCHING:
+			if character.get_runtime_data().current_ai_state == Enums.AIState.SEARCHING\
+			or character.get_runtime_data().current_ai_state == Enums.AIState.IDLE:
 				var upper_part: Spatial = character.get_upper_part()
 				
 				upper_part.set_as_toplevel(true)

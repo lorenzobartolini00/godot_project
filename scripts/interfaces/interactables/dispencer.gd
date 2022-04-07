@@ -6,10 +6,15 @@ export(NodePath) onready var animation_player = get_node(animation_player) as An
 export(Resource) onready var item = item as Item
 export(int) onready var quantity
 export(bool) onready var used = false
-
+export(NodePath) onready var mesh_reference = get_node(mesh_reference) as MeshInstance
+export(float) onready var rotate_speed
 
 func _ready():
-	setup_display_mesh()
+	update_display_mesh()
+
+
+func _process(delta):
+	mesh_reference.rotate_object_local(Vector3.UP, rotate_speed * delta)
 
 
 func _on_interact(character: Character, interactable_object):
@@ -20,7 +25,10 @@ func _on_interact(character: Character, interactable_object):
 			animation_player.play("open")
 			
 			used = true
+			
+			update_display_mesh()
 
 
-func setup_display_mesh():
-	pass
+func update_display_mesh():
+	mesh_reference.mesh = item.display_mesh
+	mesh_reference.visible = not self.used
