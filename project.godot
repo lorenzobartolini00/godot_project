@@ -77,7 +77,7 @@ _global_script_classes=[ {
 "base": "CenterContainer",
 "class": "ButtonUI",
 "language": "GDScript",
-"path": "res://scripts/title_screen/button.gd"
+"path": "res://scripts/UI/buttons/button.gd"
 }, {
 "base": "KinematicBody",
 "class": "Character",
@@ -134,6 +134,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/statistics/explosive_statistics.gd"
 }, {
+"base": "InteractionTab",
+"class": "GameOverTab",
+"language": "GDScript",
+"path": "res://scripts/UI/tabs/game_over_UI.gd"
+}, {
 "base": "WeaponItemUI",
 "class": "GenericWeaponItemUI",
 "language": "GDScript",
@@ -143,6 +148,11 @@ _global_script_classes=[ {
 "class": "Interactable",
 "language": "GDScript",
 "path": "res://scripts/interfaces/interactable.gd"
+}, {
+"base": "Tab",
+"class": "InteractionTab",
+"language": "GDScript",
+"path": "res://scripts/UI/tabs/interaction_tab.gd"
 }, {
 "base": "Resource",
 "class": "Inventory",
@@ -194,15 +204,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/managers/manager.gd"
 }, {
-"base": "Tab",
-"class": "OptionTab",
-"language": "GDScript",
-"path": "res://scripts/UI/tabs/options_UI.gd"
-}, {
 "base": "Resource",
 "class": "OptionTabList",
 "language": "GDScript",
 "path": "res://scripts/UI/tabs/option_tab_list.gd"
+}, {
+"base": "InteractionTab",
+"class": "OptionsTab",
+"language": "GDScript",
+"path": "res://scripts/UI/tabs/options_UI.gd"
 }, {
 "base": "Character",
 "class": "PassiveCharacter",
@@ -213,6 +223,11 @@ _global_script_classes=[ {
 "class": "PassiveCharacterStatistics",
 "language": "GDScript",
 "path": "res://scripts/statistics/passive_character_statistics.gd"
+}, {
+"base": "InteractionTab",
+"class": "PauseTab",
+"language": "GDScript",
+"path": "res://scripts/UI/tabs/pause_UI.gd"
 }, {
 "base": "BasicFirstPersonController",
 "class": "Player",
@@ -289,12 +304,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/UI/tabs/tab.gd"
 }, {
-"base": "Tab",
+"base": "InteractionTab",
 "class": "TitleScreen",
 "language": "GDScript",
 "path": "res://scripts/title_screen/title_screen.gd"
 }, {
-"base": "Control",
+"base": "Tab",
 "class": "UI",
 "language": "GDScript",
 "path": "res://scripts/UI/UI.gd"
@@ -308,6 +323,16 @@ _global_script_classes=[ {
 "class": "Usable",
 "language": "GDScript",
 "path": "res://scripts/inventory_system/usable.gd"
+}, {
+"base": "Control",
+"class": "WarningElement",
+"language": "GDScript",
+"path": "res://scripts/UI/warning_element_UI.gd"
+}, {
+"base": "Control",
+"class": "WarningUI",
+"language": "GDScript",
+"path": "res://scripts/UI/warning_UI.gd"
 }, {
 "base": "Usable",
 "class": "Weapon",
@@ -350,8 +375,10 @@ _global_script_class_icons={
 "EnemyStatistics": "",
 "Explosive": "",
 "ExplosiveStatistics": "",
+"GameOverTab": "",
 "GenericWeaponItemUI": "",
 "Interactable": "",
+"InteractionTab": "",
 "Inventory": "",
 "InventoryManager": "",
 "Item": "",
@@ -362,10 +389,11 @@ _global_script_class_icons={
 "LifeManager": "",
 "LifeSlot": "",
 "Manager": "",
-"OptionTab": "",
 "OptionTabList": "",
+"OptionsTab": "",
 "PassiveCharacter": "",
 "PassiveCharacterStatistics": "",
+"PauseTab": "",
 "Player": "",
 "PlayerStatistics": "",
 "ProjectileAmmo": "",
@@ -385,6 +413,8 @@ _global_script_class_icons={
 "UI": "",
 "UIComponent": "",
 "Usable": "",
+"WarningElement": "",
+"WarningUI": "",
 "Weapon": "",
 "WeaponItemUI": "",
 "WeaponManager": ""
@@ -404,6 +434,7 @@ SceneManager="*res://scripts/autoloads/scene_manager.gd"
 Util="*res://scripts/autoloads/util.gd"
 SpawnManager="*res://scripts/autoloads/spawn_manager.gd"
 SaveManager="*res://scripts/autoloads/save_manager.gd"
+TabManager="*res://scripts/autoloads/tab_manager.gd"
 
 [display]
 

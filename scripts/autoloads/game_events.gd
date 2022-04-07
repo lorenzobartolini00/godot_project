@@ -55,6 +55,8 @@ signal piece_ripped(character, piece)
 
 # warning-ignore:unused_signal
 signal tab_selected(tab)
+# warning-ignore:unused_signal
+signal change_tab_to(tab_name)
 
 # warning-ignore:unused_signal
 signal dialogue_initiated(slides)
@@ -72,8 +74,6 @@ signal button_pressed(button)
 
 # warning-ignore:unused_signal
 signal play
-# warning-ignore:unused_signal
-signal options
 # warning-ignore:unused_signal
 signal back
 # warning-ignore:unused_signal
@@ -95,7 +95,7 @@ func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> 
 func emit_resume_game() -> void:
 	call_deferred("emit_signal", "resume_game")
 
-func emit_button_selected(button: ButtonUI) -> void:
+func emit_button_selected(button) -> void:
 	emit_signal("button_selected", button)
 
 func emit_dialog_finished() -> void:
@@ -104,12 +104,11 @@ func emit_dialog_finished() -> void:
 func emit_advance_slide() -> void:
 	call_deferred("emit_signal", "advance_slide")
 
-func emit_button_pressed(button: ButtonUI):
+func emit_button_pressed(button):
 	call_deferred("emit_signal", "button_pressed", button)
 
-func emit_tab_selected(tab: Tab):
+func emit_tab_selected(tab):
 	call_deferred("emit_signal", "tab_selected", tab)
 
-
-func emit_spawn_enemy(spawner: Spawner):
+func emit_spawn_enemy(spawner):
 	call_deferred("emit_signal", "spawn_enemy", spawner)

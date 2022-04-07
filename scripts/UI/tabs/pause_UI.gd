@@ -1,3 +1,5 @@
 extends InteractionTab
 
-class_name OptionsTab
+class_name PauseTab
+
+

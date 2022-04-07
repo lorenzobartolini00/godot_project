@@ -1,4 +1,4 @@
-extends Tab
+extends InteractionTab
 
 class_name TitleScreen
 
@@ -12,9 +12,6 @@ export var rotation_speed: float = 0.2
 func _ready():
 	add_level_to_viewport()
 	
-	GameEvents.emit_signal("tab_selected", self)
-	add_to_stack()
-
 
 func add_level_to_viewport() -> void:
 	var level_list_path: Array = Util.list_folder("res://scenes/mockups/")

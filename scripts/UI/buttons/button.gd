@@ -17,8 +17,10 @@ func _ready():
 	get_node("ColorRect").mouse_filter = Control.MOUSE_FILTER_PASS
 	display_name_label.text = display_name
 	
-	GameEvents.connect("button_pressed", self, "_on_button_pressed")
-	GameEvents.connect("button_selected", self, "_on_button_selected")
+	if GameEvents.connect("button_pressed", self, "_on_button_pressed") != OK:
+		print("failure")
+	if GameEvents.connect("button_selected", self, "_on_button_selected") != OK:
+		print("failure")
 
 
 func _process(_delta):
@@ -34,18 +36,19 @@ func _on_button_pressed(button):
 			Enums.ButtonTipology.PLAY:
 				GameEvents.emit_signal("play", SceneManager.current_level_index)
 			Enums.ButtonTipology.OPTIONS:
-				GameEvents.emit_signal("options", Enums.OptionTab.MAIN)
+				GameEvents.emit_signal("change_tab_to", "options")
 			Enums.ButtonTipology.COMAND_LIST:
-				GameEvents.emit_signal("options", Enums.OptionTab.COMAND_LIST)
+				GameEvents.emit_signal("change_tab_to", "comand_list")
 			Enums.ButtonTipology.AUDIO_SETTINGS:
-				GameEvents.emit_signal("options", Enums.OptionTab.AUDIO_SETTINGS)
+				GameEvents.emit_signal("change_tab_to", "play_settings")
 			Enums.ButtonTipology.PLAY_SETTINGS:
-				GameEvents.emit_signal("options", Enums.OptionTab.PLAY_SETTINGS)
+				GameEvents.emit_signal("change_tab_to", "audio_settings")
 			Enums.ButtonTipology.BACK:
 				GameEvents.emit_signal("back")
 			Enums.ButtonTipology.ADVANCE_SLIDE:
 				GameEvents.emit_signal("advance_slide")
 			Enums.ButtonTipology.RESUME:
+				GameEvents.emit_signal("back")
 				GameEvents.emit_resume_game()
 			Enums.ButtonTipology.EXIT:
 				GameEvents.emit_signal("exit")
