@@ -11,6 +11,7 @@ export var rotation_speed: float = 0.2
 
 func _ready():
 	add_level_to_viewport()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 
 func add_level_to_viewport() -> void:

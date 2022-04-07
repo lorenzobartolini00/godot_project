@@ -35,7 +35,8 @@ func toggle_pause() -> void:
 
 func _on_back():
 	if TabManager.is_current_tab_root()\
-	and is_scene_pausable():
+	and is_scene_pausable()\
+	and get_tree().paused == true:
 		toggle_pause()
 
 

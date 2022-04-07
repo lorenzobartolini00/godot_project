@@ -36,7 +36,7 @@ func _on_play(level_index: int):
 		if get_tree().change_scene(main_scene) != OK:
 			print("unable to change scene")
 	else:
-		if get_tree().change_scene_to(win_screen) != OK:
+		if get_tree().change_scene(win_screen) != OK:
 			print("unable to change scene")
 		
 		current_level_index = 0
