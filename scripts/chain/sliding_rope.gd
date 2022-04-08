@@ -1,17 +1,23 @@
 extends Chain
 
-class_name SlidingRopeChain
+class_name SlidingRope
 
 export(NodePath) onready var slider_joint = get_node(slider_joint) as Joint
 export(NodePath) onready var slider = get_node(slider) as RigidBody
 export(NodePath) onready var remote_transform = get_node(remote_transform) as RemoteTransform
+export(NodePath) onready var enter_area = get_node(enter_area) as Area
 
 export(int) onready var slider_offset
+export(float, 0, 1) onready var relative_slider_limit
 export(Vector3) onready var slider_vector_offset = Vector3.DOWN
+
+onready var sliding_character: ActiveCharacter
 
 
 func _ready():
 	if GameEvents.connect("activate_slider", self, "_on_activate_slider") != OK:
+		print("failure")
+	if GameEvents.connect("stop_sliding", self, "_on_stop_sliding") != OK:
 		print("failure")
 	
 	setup_from_and_to_position()
@@ -21,9 +27,24 @@ func _ready():
 	setup_slider(rigid_body_chain[rigid_body_chain.size() - slider_offset], slider)
 
 
+func _physics_process(delta):
+	if has_slider_reached_end() and sliding_character:
+		GameEvents.emit_signal("activate_slider", self, sliding_character, false)
+	elif not sliding_character:
+		var collider_list: Array = enter_area.get_overlapping_bodies()
+		for collider in collider_list:
+			if collider is Player:
+				var y_velocity: float = collider.velocity.y
+				
+				if y_velocity > 1:
+					GameEvents.emit_signal("activate_slider", self, collider, true)
+					
+					break
+
+
 func setup_rope() -> void:
-	distance = from.transform.origin.distance_to(to.transform.origin)
-	number_of_points = distance/chain_element_length
+	chain_length = from.transform.origin.distance_to(to.transform.origin)
+	number_of_points = chain_length/chain_element_length
 	
 	var index: int = 0
 	
@@ -40,7 +61,7 @@ func setup_slider(target: Node, character: RigidBody):
 	
 	slider_joint.look_at(to_position.get_global_transform().origin, Vector3.UP)
 	slider_joint.look_at(slider_joint.get_global_transform().origin + -slider_joint.get_global_transform().basis.x, slider_joint.get_global_transform().basis.y)
-	slider_joint.set_param(SliderJoint.PARAM_LINEAR_LIMIT_UPPER, distance)
+	slider_joint.set_param(SliderJoint.PARAM_LINEAR_LIMIT_UPPER, chain_length)
 	
 	slider.look_at(to.get_global_transform().origin, Vector3.UP)
 	slider.look_at(slider.get_global_transform().origin + slider.get_global_transform().basis.z, Vector3.UP)
@@ -57,12 +78,36 @@ func set_target_to_slider(node: Node):
 
 func _on_EnterSlider_body_entered(body):
 	if body is Player:
-		GameEvents.emit_signal("activate_slider", body, true)
+		GameEvents.emit_signal("activate_slider",self, body, true)
 
 
-func _on_activate_slider(character: Character, active: bool):
-	if active:
-		set_target_to_slider(character)
-		set_rigid_body_active(slider, true)
-	else:
-		set_target_to_slider(null)
+func _on_activate_slider(sliding_rope, character: Character, active: bool):
+	if sliding_rope == self:
+		if active and not sliding_character:
+			set_target_to_slider(character)
+			set_rigid_body_active(slider, true)
+			
+			sliding_character = character
+			
+			slider.linear_velocity = character.velocity
+			character.velocity = Vector3()
+		else:
+			character.velocity = slider.linear_velocity
+			set_target_to_slider(null)
+			
+			sliding_character = null
+
+
+func _on_stop_sliding(character: ActiveCharacter):
+	if character == sliding_character:
+		GameEvents.emit_signal("activate_slider", self, character, false)
+
+
+func has_slider_reached_end() -> bool:
+	var slider_position: Vector3 = slider.get_global_transform().origin
+	var slider_joint_position: Vector3 = slider_joint.get_global_transform().origin
+	
+	var distance: float = slider_position.distance_to(slider_joint_position)
+	
+	return distance > chain_length * relative_slider_limit
+	

@@ -68,6 +68,8 @@ signal spawn_enemy(spawner)
 # warning-ignore:unused_signal
 signal activate_slider(character, active)
 # warning-ignore:unused_signal
+signal stop_sliding(character)
+# warning-ignore:unused_signal
 signal died
 
 

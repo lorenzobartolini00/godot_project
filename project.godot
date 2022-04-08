@@ -280,7 +280,7 @@ _global_script_classes=[ {
 "path": "res://scripts/slide_system/slide.gd"
 }, {
 "base": "Chain",
-"class": "SlidingRopeChain",
+"class": "SlidingRope",
 "language": "GDScript",
 "path": "res://scripts/chain/sliding_rope.gd"
 }, {
@@ -409,7 +409,7 @@ _global_script_class_icons={
 "ShootManager": "",
 "Shootable": "",
 "Slide": "",
-"SlidingRopeChain": "",
+"SlidingRope": "",
 "SoundManager": "",
 "Spawner": "",
 "Statistics": "",

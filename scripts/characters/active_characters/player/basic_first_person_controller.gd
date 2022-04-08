@@ -43,7 +43,7 @@ func movement(delta) -> void:
 	velocity = lerp(velocity, direction_vector.normalized() * _move_speed, delta * current_acceleration)
 	velocity.y = y_movement
 	
-	velocity = move_and_slide(velocity, Vector3.UP, true)
+	set_velocity(velocity, current_acceleration, delta)
 
 
 func aim(event: InputEvent) -> void:

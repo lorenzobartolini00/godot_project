@@ -8,6 +8,7 @@ export(NodePath) onready var from = get_node(from) as RigidBody
 export(NodePath) onready var to = get_node(to) as RigidBody
 export(NodePath) onready var from_joint = get_node(from_joint) as Joint
 
+export(bool) onready var is_chain_active
 export(float, 0, 5) onready var softness
 export(float, 0, 5) onready var damping
 export(float, 0, 5) onready var restitution
@@ -16,9 +17,13 @@ export(float) onready var chain_element_length: float
 export(PackedScene) onready var chain_element_reference
 
 var number_of_points: int
-var distance: float
+var chain_length: float
 
 onready var rigid_body_chain: Array = []
+
+
+func _ready():
+	call_deferred("set_all_rigid_body_active", rigid_body_chain, is_chain_active)
 
 
 func generate_chain(index: int) -> RigidBody:
@@ -59,7 +64,7 @@ func get_chain_element_position(index: int) -> Vector3:
 	var from_position_vector: Vector3 = from.get_global_transform().origin
 	var to_position_vector: Vector3 = to.get_global_transform().origin
 	var direction: Vector3 = (to_position_vector - from_position_vector).normalized()
-	var distance_between_points: float = distance/(number_of_points+1)
+	var distance_between_points: float = chain_length/(number_of_points+1)
 	
 	return from_position_vector + direction * distance_between_points * index
 

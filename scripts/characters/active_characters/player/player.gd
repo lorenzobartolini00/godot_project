@@ -45,6 +45,9 @@ func _physics_process(delta):
 		
 		if Input.is_action_just_pressed("interact"):
 			check_interaction()
+		
+		if Input.is_action_just_pressed("jump"):
+			GameEvents.emit_signal("stop_sliding", self)
 	
 	check_target()
 	
