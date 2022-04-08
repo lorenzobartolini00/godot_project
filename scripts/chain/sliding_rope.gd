@@ -27,7 +27,7 @@ func _ready():
 	setup_slider(rigid_body_chain[rigid_body_chain.size() - slider_offset], slider)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if has_slider_reached_end() and sliding_character:
 		GameEvents.emit_signal("activate_slider", self, sliding_character, false)
 	elif not sliding_character:
@@ -35,10 +35,10 @@ func _physics_process(delta):
 		for collider in collider_list:
 			if collider is Player:
 				var y_velocity: float = collider.velocity.y
-				
+
 				if y_velocity > 0.5:
 					GameEvents.emit_signal("activate_slider", self, collider, true)
-					
+
 					break
 
 
@@ -77,8 +77,6 @@ func setup_slider(target: Node, character: RigidBody):
 	slider.look_at(slider.get_global_transform().origin + slider.get_global_transform().basis.z, Vector3.UP)
 	
 	setup_joint_nodes(slider_joint, target, character)
-	
-	
 
 
 func set_target_to_slider(node: Node):
@@ -102,9 +100,7 @@ func _on_activate_slider(sliding_rope, character: Character, active: bool):
 			sliding_character = character
 			
 			slider.linear_velocity = character.velocity
-			character.velocity = Vector3()
-			
-			print("slide!")
+			character.velocity = Vector3(0,0,0)
 		else:
 			character.velocity = slider.linear_velocity
 			set_target_to_slider(null)
