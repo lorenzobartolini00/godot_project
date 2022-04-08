@@ -28,13 +28,14 @@ func update_ammo(action: String, _weapon: Weapon = null):
 	
 	var ammo_in_mag: int = _weapon.ammo_in_mag
 	var mag_size: int = _weapon.mag_size
-	var ammo_per_shot: int = _weapon.ammo_per_shot
+	var ammo_consume: int = _weapon.ammo_consume
+	var ammo_recover: int = _weapon.ammo_recover
 	
 	match action:
 		"consume":
-			ammo_in_mag = ammo_in_mag - ammo_per_shot
+			ammo_in_mag = ammo_in_mag - ammo_consume
 		"recover":
-			ammo_in_mag = ammo_in_mag + ammo_per_shot
+			ammo_in_mag = ammo_in_mag + ammo_recover
 		"reload":
 			if character.is_in_group("player"):
 				var inventory: Inventory = character.get_inventory()

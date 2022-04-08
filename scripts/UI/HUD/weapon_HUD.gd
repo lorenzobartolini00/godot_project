@@ -24,7 +24,7 @@ func _on_current_weapon_changed(_weapon: Weapon, character: Character):
 			self.remove_child(_weapon_item_UI)
 			self.add_child_below_node(_last_weapon_item_UI, _weapon_item_UI)
 
-			if self.get_child(0).name_label.text == _weapon.name:
+			if self.get_child(0).weapon_name == _weapon.name:
 				break
 		
 		update_panel_visibility()
@@ -54,7 +54,7 @@ func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionar
 		#Controllo che il pannello che mostra l'arma non sia già stato aggiunto
 		for _weapon_item_UI in _weapon_item_UI_list:
 			_weapon_item_UI = _weapon_item_UI as WeaponItemUI
-			if _weapon_item_UI.name_label.text != _item.name:
+			if _weapon_item_UI.weapon_name != _item.name:
 				continue
 			
 			found = true
@@ -77,7 +77,7 @@ func _update_weapon_container_UI(_inventory: Inventory, _item_changed: Dictionar
 			
 			#Cerco il pannello che contiene l'arma che sta una posizione prima nell'elenco delle armi nell'inventario
 			for _weapon_item_UI in _weapon_item_UI_list:
-				if _weapon_item_UI.name_label.text == _previous_name:
+				if _weapon_item_UI.weapon_name == _previous_name:
 					_previous_weapon_item_UI = _weapon_item_UI
 					break
 			

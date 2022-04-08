@@ -5,16 +5,6 @@ class_name BlasterItemUI
 export(NodePath) onready var progress_bar = get_node(progress_bar) as TextureProgress
 
 
-func setup(_weapon_item: Item, _inventory: Inventory):
-	if _weapon_item is Weapon:
-		self.local_item = _weapon_item
-		self.inventory = _inventory
-		
-		self.name_label.text = _weapon_item.name
-		self.weapon_avatar.texture = _weapon_item.avatar
-		_update_UI(_weapon_item)
-
-
 func _update_UI(_weapon: Weapon) -> void:
 	var ammo: Ammo = _weapon.get_ammo()
 	if ammo:
