@@ -66,7 +66,10 @@ signal dialogue_finished
 # warning-ignore:unused_signal
 signal spawn_enemy(spawner)
 # warning-ignore:unused_signal
+signal activate_slider(character, active)
+# warning-ignore:unused_signal
 signal died
+
 
 signal button_selected(button)
 # warning-ignore:unused_signal

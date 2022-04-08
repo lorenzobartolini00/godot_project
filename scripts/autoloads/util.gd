@@ -144,6 +144,13 @@ func setup_timer(timer: Timer, parent: Node, wait_time: float, autostart: bool =
 	return timer
 
 
+func get_point_in_between(point_a: Vector3, point_b: Vector3, relative: float = 0.5) -> Vector3:
+	var distance_vector: Vector3 = point_b - point_a
+	var point_in_between: Vector3 = point_a + distance_vector * relative
+	
+	return point_in_between
+
+
 func move_node(node: Node, new_target: Node):
 	var parent: Node = node.get_parent()
 	parent.remove_child(node)
