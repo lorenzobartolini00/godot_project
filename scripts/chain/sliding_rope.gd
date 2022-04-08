@@ -8,8 +8,9 @@ export(NodePath) onready var remote_transform = get_node(remote_transform) as Re
 export(NodePath) onready var enter_area = get_node(enter_area) as Area
 
 export(int) onready var slider_offset
-export(float, 0, 1) onready var relative_slider_limit
-export(Vector3) onready var slider_vector_offset = Vector3.DOWN
+export(float, 0, 1) onready var jump_off_relative_limit
+export(int) onready var initial_slider_position
+export(Vector3) onready var offset_from_joint
 
 onready var sliding_character: ActiveCharacter
 
@@ -22,7 +23,6 @@ func _ready():
 	
 	setup_from_and_to_position()
 	setup_rope()
-#	set_all_rigid_body_active(rigid_body_chain)
 	
 	setup_slider(rigid_body_chain[rigid_body_chain.size() - slider_offset], slider)
 
@@ -36,7 +36,7 @@ func _physics_process(delta):
 			if collider is Player:
 				var y_velocity: float = collider.velocity.y
 				
-				if y_velocity > 1:
+				if y_velocity > 0.5:
 					GameEvents.emit_signal("activate_slider", self, collider, true)
 					
 					break
@@ -55,7 +55,17 @@ func setup_rope() -> void:
 
 
 func setup_slider(target: Node, character: RigidBody):
-	slider.transform.origin = from.get_global_transform().origin + slider_vector_offset
+	var start_node
+	
+	if initial_slider_position == 0:
+		start_node = from
+	else:
+		var index: int = clamp(initial_slider_position, 0, rigid_body_chain.size() - 1)
+		
+		index = (rigid_body_chain.size() - 1) - index
+		start_node = rigid_body_chain[index]
+	
+	slider.transform.origin = from.get_global_transform().origin + offset_from_joint
 	
 	slider_joint.transform.origin = from.get_global_transform().origin
 	
@@ -67,6 +77,8 @@ func setup_slider(target: Node, character: RigidBody):
 	slider.look_at(slider.get_global_transform().origin + slider.get_global_transform().basis.z, Vector3.UP)
 	
 	setup_joint_nodes(slider_joint, target, character)
+	
+	
 
 
 func set_target_to_slider(node: Node):
@@ -91,6 +103,8 @@ func _on_activate_slider(sliding_rope, character: Character, active: bool):
 			
 			slider.linear_velocity = character.velocity
 			character.velocity = Vector3()
+			
+			print("slide!")
 		else:
 			character.velocity = slider.linear_velocity
 			set_target_to_slider(null)
@@ -109,5 +123,5 @@ func has_slider_reached_end() -> bool:
 	
 	var distance: float = slider_position.distance_to(slider_joint_position)
 	
-	return distance > chain_length * relative_slider_limit
+	return distance > chain_length * jump_off_relative_limit
 	
