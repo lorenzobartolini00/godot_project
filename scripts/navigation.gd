@@ -47,7 +47,7 @@ func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector
 
 
 func get_points(character: Enemy, target_position: Vector3) -> PoolVector3Array:
-	return  get_simple_path(character.translation, target_position)
+	return  get_simple_path(character.translation, get_closest_point(target_position))
 
 
 #Debug
