@@ -55,15 +55,15 @@ func setup_rope() -> void:
 
 
 func setup_slider(target: Node, character: RigidBody):
-	var start_node
-	
-	if initial_slider_position == 0:
-		start_node = from
-	else:
-		var index: int = clamp(initial_slider_position, 0, rigid_body_chain.size() - 1)
-		
-		index = (rigid_body_chain.size() - 1) - index
-		start_node = rigid_body_chain[index]
+#	var start_node
+#
+#	if initial_slider_position == 0:
+#		start_node = from
+#	else:
+#		var index: int = clamp(initial_slider_position, 0, rigid_body_chain.size() - 1)
+#
+#		index = (rigid_body_chain.size() - 1) - index
+#		start_node = rigid_body_chain[index]
 	
 	slider.transform.origin = from.get_global_transform().origin + offset_from_joint
 	
@@ -101,8 +101,8 @@ func _on_activate_slider(sliding_rope, character: Character, active: bool):
 			
 			slider.linear_velocity = character.velocity
 			character.velocity = Vector3(0,0,0)
-		else:
-			character.velocity = slider.linear_velocity
+		elif sliding_character == character:
+			sliding_character.velocity = slider.linear_velocity
 			set_target_to_slider(null)
 			
 			sliding_character = null

@@ -17,6 +17,7 @@ onready var navigation = get_parent() as Navigation
 
 export(bool) onready var is_able_to_fight = true
 export(bool) onready var is_able_to_shoot = true
+export(bool) onready var is_able_to_aim = true
 export(bool) onready var is_able_to_move = true
 
 
@@ -117,6 +118,14 @@ func get_is_able_to_shoot() -> bool:
 
 func set_is_able_to_shoot(_is_able_to_shoot: bool):
 	is_able_to_shoot = _is_able_to_shoot
+
+
+func get_is_able_to_aim() -> bool:
+	return is_able_to_aim
+
+
+func set_is_able_to_aim(_is_able_to_aim: bool):
+	is_able_to_aim = _is_able_to_aim
 
 
 func get_is_able_to_move() -> bool:

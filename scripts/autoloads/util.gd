@@ -60,7 +60,7 @@ func add_node_to_scene(node: Node, position: Vector3) -> void:
 func add_node_as_child(node: Node, parent: Node, position: Vector3) -> void:
 	parent.add_child(node)
 	
-	node.translation = position
+	node.transform.origin = position
 
 #--Audio section--
 
@@ -151,13 +151,15 @@ func get_point_in_between(point_a: Vector3, point_b: Vector3, relative: float = 
 	return point_in_between
 
 
-func move_node(node: Node, new_target: Node):
-	var parent: Node = node.get_parent()
-	parent.remove_child(node)
-	new_target.add_child(node)
-#	node.set_owner(new_target)
+func move_node(node: Node, new_target: Node, with_remote_transform: bool = true, path: String = ""):
+	if not with_remote_transform:
+		var parent: Node = node.get_parent()
+		parent.remove_child(node)
+		new_target.add_child(node)
+	else:
+		var remote_transform: RemoteTransform = RemoteTransform.new()
+		new_target.add_child(remote_transform)
+		
+		remote_transform.remote_path = path
 
 
-func move_nodes(node_list: Array, new_target: Node):
-	for node in node_list:
-		move_node(node, new_target)

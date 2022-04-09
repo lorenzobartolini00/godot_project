@@ -1,0 +1,420 @@
+[gd_scene load_steps=57 format=2]
+
+[ext_resource path="res://scripts/characters/active_characters/enemy.gd" type="Script" id=1]
+[ext_resource path="res://my_resources/runtime_data/runtime_data.tres" type="Resource" id=2]
+[ext_resource path="res://scripts/interfaces/shootable.gd" type="Script" id=3]
+[ext_resource path="res://my_resources/enemy_statistics/enemy_statistics.tres" type="Resource" id=4]
+[ext_resource path="res://scripts/managers/shoot_manager.gd" type="Script" id=5]
+[ext_resource path="res://scripts/managers/reload_manager.gd" type="Script" id=6]
+[ext_resource path="res://scripts/managers/weapon_manager.gd" type="Script" id=7]
+[ext_resource path="res://scripts/managers/life_manager.gd" type="Script" id=8]
+[ext_resource path="res://scripts/managers/ammo_manager.gd" type="Script" id=9]
+[ext_resource path="res://scripts/managers/ai_manager.gd" type="Script" id=10]
+[ext_resource path="res://scripts/managers/sound_manager.gd" type="Script" id=11]
+[ext_resource path="res://assets/my_assets/models/enemy/meshes/enemy_parts_Cylinder009.tres" type="ArrayMesh" id=12]
+[ext_resource path="res://assets/my_assets/models/enemy/meshes/enemy_parts_Cylinder007.tres" type="ArrayMesh" id=13]
+[ext_resource path="res://my_resources/weapon_statistics/blaster.tres" type="Resource" id=14]
+[ext_resource path="res://my_resources/life_statistics/simple_life.tres" type="Resource" id=15]
+[ext_resource path="res://assets/my_assets/models/enemy/meshes/enemy_parts_Cylinder005.tres" type="ArrayMesh" id=17]
+[ext_resource path="res://assets/my_assets/models/enemy/animations/idle.anim" type="Animation" id=18]
+[ext_resource path="res://assets/my_assets/models/enemy/animations/walking.anim" type="Animation" id=20]
+[ext_resource path="res://assets/my_assets/models/enemy/animations/walking_backward.anim" type="Animation" id=21]
+[ext_resource path="res://assets/my_assets/models/enemy/enemy.glb" type="PackedScene" id=22]
+[ext_resource path="res://scripts/characters/active_characters/enemy_model.gd" type="Script" id=23]
+[ext_resource path="res://assets/my_assets/models/enemy/meshes/enemy_parts_Cube001.tres" type="ArrayMesh" id=24]
+[ext_resource path="res://assets/my_assets/renders/battery_full.png" type="Texture" id=25]
+[ext_resource path="res://scripts/runtime_data.gd" type="Script" id=26]
+[ext_resource path="res://nodes/dismountable_piece.tscn" type="PackedScene" id=27]
+[ext_resource path="res://scripts/life/life.gd" type="Script" id=28]
+[ext_resource path="res://assets/my_assets/models/battery_Cylinder003.mesh" type="ArrayMesh" id=29]
+[ext_resource path="res://assets/my_assets/models/enemy/meshes/enemy_parts_Cylinder006.tres" type="ArrayMesh" id=31]
+
+[sub_resource type="CapsuleShape" id=11]
+radius = 0.398258
+height = 0.0113316
+
+[sub_resource type="SphereShape" id=10]
+radius = 20.0
+
+[sub_resource type="SphereShape" id=12]
+radius = 15.0
+
+[sub_resource type="CylinderShape" id=43]
+height = 0.232916
+radius = 0.323804
+
+[sub_resource type="AnimationNodeBlend2" id=16]
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+animation = "walking_left"
+
+[sub_resource type="AnimationNodeAnimation" id=19]
+animation = "walking_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=20]
+blend_point_0/node = SubResource( 17 )
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource( 18 )
+blend_point_1/pos = -1.0
+blend_point_2/node = SubResource( 19 )
+blend_point_2/pos = 1.0
+
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "walking_forward"
+
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "walking_backward"
+
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "walking_right"
+
+[sub_resource type="AnimationNodeAnimation" id=25]
+animation = "walking_left"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=26]
+blend_point_0/node = SubResource( 21 )
+blend_point_0/pos = Vector2( 0, 0 )
+blend_point_1/node = SubResource( 22 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 23 )
+blend_point_2/pos = Vector2( 0, -1 )
+blend_point_3/node = SubResource( 24 )
+blend_point_3/pos = Vector2( 1, 0 )
+blend_point_4/node = SubResource( 25 )
+blend_point_4/pos = Vector2( -1, 0 )
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=13]
+animation = "walking"
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "walking_backward"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=15]
+blend_point_0/node = SubResource( 9 )
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource( 13 )
+blend_point_1/pos = -1.0
+blend_point_2/node = SubResource( 14 )
+blend_point_2/pos = 1.0
+
+[sub_resource type="AnimationNodeBlendTree" id=7]
+graph_offset = Vector2( -152, 217.5 )
+nodes/Blend2/node = SubResource( 16 )
+nodes/Blend2/position = Vector2( 380, 260 )
+nodes/BlendSpace1D/node = SubResource( 20 )
+nodes/BlendSpace1D/position = Vector2( 40, 360 )
+nodes/BlendSpace2D/node = SubResource( 26 )
+nodes/BlendSpace2D/position = Vector2( 649, 371 )
+nodes/output/position = Vector2( 860, 200 )
+nodes/walking/node = SubResource( 15 )
+nodes/walking/position = Vector2( 20, 200 )
+node_connections = [ "output", 0, "walking" ]
+
+[sub_resource type="Resource" id=30]
+resource_local_to_scene = true
+script = ExtResource( 26 )
+current_gameplay_state = 0
+current_ai_state = 0
+
+[sub_resource type="Resource" id=31]
+resource_local_to_scene = true
+script = ExtResource( 28 )
+name = "small_life"
+display_name = "Small Life"
+avatar = ExtResource( 25 )
+is_unique = false
+max_quantity = 0
+tipology = 2
+store_when_collected = false
+current_life = 10
+max_life = 10
+
+[sub_resource type="CapsuleShape" id=29]
+radius = 0.185547
+height = 0.252317
+
+[sub_resource type="CapsuleShape" id=34]
+radius = 0.406172
+height = 0.578747
+
+[sub_resource type="BoxShape" id=44]
+extents = Vector3( 0.0550419, 0.261176, 0.0487206 )
+
+[sub_resource type="Resource" id=41]
+resource_local_to_scene = true
+script = ExtResource( 26 )
+current_gameplay_state = 0
+current_ai_state = 0
+
+[sub_resource type="Resource" id=42]
+resource_local_to_scene = true
+script = ExtResource( 28 )
+name = "small_life"
+display_name = "Small Life"
+avatar = ExtResource( 25 )
+display_mesh = ExtResource( 29 )
+is_unique = false
+max_quantity = 0
+tipology = 2
+store_when_collected = false
+current_life = 10
+max_life = 10
+
+[sub_resource type="CapsuleShape" id=33]
+radius = 0.0482034
+height = 0.4
+
+[node name="Enemy" type="KinematicBody" groups=["Enemy"]]
+collision_layer = 9
+script = ExtResource( 1 )
+statistics = ExtResource( 4 )
+_runtime_data = ExtResource( 2 )
+audio_stream_player = NodePath("AudioStreamPlayer3D")
+life_manager = NodePath("Life")
+sound_manager = NodePath("Sound")
+current_life = ExtResource( 15 )
+mesh_list = [ ExtResource( 24 ), ExtResource( 17 ), ExtResource( 31 ), ExtResource( 13 ), ExtResource( 12 ) ]
+shooting_raycast = NodePath("UpperPart/Head/ShootRayCast")
+aim_raycast = NodePath("UpperPart/Head/AimRayCast")
+current_weapon = ExtResource( 14 )
+current_weapon_mesh = NodePath("UpperPart/WeaponStand/WeaponMesh")
+weapon_position = NodePath("UpperPart/WeaponStand")
+weapon_manager = NodePath("Weapon")
+ammo_manager = NodePath("Ammo")
+shoot_manager = NodePath("Shoot")
+reload_manager = NodePath("Reload")
+weapon_audio_stream_player = NodePath("UpperPart/WeaponStand/WeaponAudioStreamPlayer3D")
+line_of_sight_raycast = NodePath("LineOfSightRayCast")
+weapon_line_of_sight_raycast = NodePath("UpperPart/WeaponStand/WeaponLineOfSightRayCast")
+view_area = NodePath("ViewArea")
+min_distance_area = NodePath("MinDistanceArea")
+upper_part = NodePath("IKChestControl")
+ai_manager = NodePath("AI")
+ai_audio_stream_player = NodePath("AIAudioStreamPlayer3D")
+enemy_model = NodePath("enemy")
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.40043, 0 )
+shape = SubResource( 11 )
+
+[node name="LineOfSightRayCast" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4736, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -10 )
+
+[node name="ViewArea" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape" type="CollisionShape" parent="ViewArea"]
+shape = SubResource( 10 )
+
+[node name="MinDistanceArea" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape" type="CollisionShape" parent="MinDistanceArea"]
+shape = SubResource( 12 )
+
+[node name="Shoot" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="Reload" type="Node" parent="."]
+script = ExtResource( 6 )
+
+[node name="Weapon" type="Node" parent="."]
+script = ExtResource( 7 )
+
+[node name="Life" type="Node" parent="."]
+script = ExtResource( 8 )
+
+[node name="Ammo" type="Node" parent="."]
+script = ExtResource( 9 )
+
+[node name="AI" type="Node" parent="."]
+script = ExtResource( 10 )
+
+[node name="Sound" type="Node" parent="."]
+script = ExtResource( 11 )
+max_sound_wait = 5
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+max_db = 5.0
+
+[node name="AIAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="IKChestControl" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41398, 0 )
+
+[node name="enemy" parent="." instance=ExtResource( 22 )]
+script = ExtResource( 23 )
+animation_tree = NodePath("AnimationTree")
+skeleton_ik = NodePath("bot_armature/Skeleton/UpperPartAim")
+meshes = [ NodePath("bot_armature/Skeleton/feet"), NodePath("bot_armature/Skeleton/lower_legs"), NodePath("bot_armature/Skeleton/upper_legs") ]
+
+[node name="Skeleton" parent="enemy/bot_armature" index="0"]
+bones/12/bound_children = [ NodePath("Torso") ]
+
+[node name="Torso" type="BoneAttachment" parent="enemy/bot_armature/Skeleton" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35259, 0 )
+bone_name = "torso"
+
+[node name="HeadAttachment" type="RigidBody" parent="enemy/bot_armature/Skeleton/Torso"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.136119, 0 )
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="enemy/bot_armature/Skeleton/Torso/HeadAttachment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.169527, 0 )
+shape = SubResource( 43 )
+disabled = true
+
+[node name="UpperPartRemoteTransform" type="RemoteTransform" parent="enemy/bot_armature/Skeleton/Torso"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+remote_path = NodePath("../../../../../UpperPart")
+
+[node name="UpperPartAim" type="SkeletonIK" parent="enemy/bot_armature/Skeleton" index="6"]
+process_priority = 1
+root_bone = "hip"
+tip_bone = "torso"
+target_node = NodePath("../../../../IKChestControl")
+
+[node name="AnimationPlayer" parent="enemy" index="1"]
+anims/idle = ExtResource( 18 )
+anims/walking = ExtResource( 20 )
+anims/walking_backward = ExtResource( 21 )
+
+[node name="AnimationTree" type="AnimationTree" parent="enemy"]
+tree_root = SubResource( 7 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+root_motion_track = NodePath("bot_armature/Skeleton:root")
+parameters/Blend2/blend_amount = 0
+parameters/BlendSpace1D/blend_position = 0
+parameters/BlendSpace2D/blend_position = Vector2( 0, 0 )
+parameters/walking/blend_position = 0.0
+
+[node name="UpperPart" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35259, 0 )
+
+[node name="Head" type="Spatial" parent="UpperPart"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.144718, 0 )
+
+[node name="ShootRayCast" type="RayCast" parent="UpperPart/Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.256338, -1 )
+enabled = true
+cast_to = Vector3( 0, 0, -5 )
+collision_mask = 3
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="AimRayCast" type="RayCast" parent="UpperPart/Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.256, -1 )
+enabled = true
+exclude_parent = false
+cast_to = Vector3( 0, 0, -1000 )
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="DismountableHead" parent="UpperPart/Head" instance=ExtResource( 27 )]
+transform = Transform( 1, 0, -2.38419e-07, 0, 1, 0, 2.38419e-07, 0, 1, 0, -0.22025, 0 )
+_runtime_data = SubResource( 30 )
+current_life = SubResource( 31 )
+mesh_reference = ExtResource( 24 )
+mesh_to_replace = NodePath("../../../enemy/bot_armature/Skeleton/torso")
+character_owner = NodePath("../../..")
+attachment = NodePath("../../../enemy/bot_armature/Skeleton/Torso/HeadAttachment")
+node_to_move = NodePath("..")
+remote_transform_to_turn_off = [ NodePath("../../../enemy/bot_armature/Skeleton/Torso/UpperPartRemoteTransform") ]
+offset = Vector3( 0, 0.2, 0 )
+
+[node name="Shootable" type="Area" parent="UpperPart/Head/DismountableHead"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 3 )
+character = NodePath("..")
+
+[node name="CollisionShape" type="CollisionShape" parent="UpperPart/Head/DismountableHead/Shootable"]
+transform = Transform( -4.37114e-08, 4.37114e-08, -1, 1, 1.91069e-15, -4.37114e-08, 0, -1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 29 )
+
+[node name="DamageArea" type="Area" parent="UpperPart/Head"]
+transform = Transform( 1, 0, -2.38419e-07, 0, 1, 0, 2.38419e-07, 0, 1, 0, 0.379835, 0 )
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 3 )
+character = NodePath("../../..")
+
+[node name="CollisionShape" type="CollisionShape" parent="UpperPart/Head/DamageArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0967772, 0 )
+shape = SubResource( 34 )
+
+[node name="HeadRemoteTransform" type="RemoteTransform" parent="UpperPart/Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.639516, 0.845554, -0.0802584 )
+remote_path = NodePath("../../WeaponStand")
+
+[node name="HeadRemoteTransform2" type="RemoteTransform" parent="UpperPart/Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.639516, 0.845554, -0.0802584 )
+remote_path = NodePath("../../WeaponAttachment")
+
+[node name="WeaponAttachment" type="RigidBody" parent="UpperPart"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.639516, 0.700836, -0.0802584 )
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="UpperPart/WeaponAttachment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0826961, -0.210875, 0 )
+shape = SubResource( 44 )
+disabled = true
+
+[node name="WeaponStand" type="Spatial" parent="UpperPart"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.639516, 0.700836, -0.0802584 )
+
+[node name="WeaponMesh" type="MeshInstance" parent="UpperPart/WeaponStand"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.90086e-05, 0, 0.00010401 )
+skeleton = NodePath("../../..")
+
+[node name="WeaponAudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="UpperPart/WeaponStand"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.159492, 0, 0.0588481 )
+
+[node name="WeaponLineOfSightRayCast" type="RayCast" parent="UpperPart/WeaponStand"]
+enabled = true
+cast_to = Vector3( 0, 0, -5 )
+
+[node name="DismountableWeapon" parent="UpperPart/WeaponStand" instance=ExtResource( 27 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0785238, -0.247376, 0 )
+_runtime_data = SubResource( 41 )
+current_life = SubResource( 42 )
+mesh_to_replace = NodePath("../WeaponMesh")
+character_owner = NodePath("../../..")
+attachment = NodePath("../../WeaponAttachment")
+node_to_move = NodePath("..")
+remote_transform_to_turn_off = [ NodePath("../../Head/HeadRemoteTransform") ]
+linked_piece = NodePath("../../Head/HeadRemoteTransform2")
+piece_tipology = 1
+use_replace_mesh_reference = true
+offset = Vector3( 0.2, 0, 0 )
+
+[node name="Shootable" type="Area" parent="UpperPart/WeaponStand/DismountableWeapon"]
+transform = Transform( 1, -2.38419e-07, 2.38419e-07, 2.38419e-07, -4.37114e-08, -1, 2.38419e-07, 1, -4.37113e-08, 0, 0, 0 )
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 3 )
+character = NodePath("..")
+
+[node name="CollisionShape" type="CollisionShape" parent="UpperPart/WeaponStand/DismountableWeapon/Shootable"]
+shape = SubResource( 33 )
+
+[connection signal="body_entered" from="ViewArea" to="AI" method="_on_ViewArea_body_entered"]
+[connection signal="body_entered" from="MinDistanceArea" to="AI" method="_on_MinDistanceArea_body_entered"]
+[connection signal="body_exited" from="MinDistanceArea" to="AI" method="_on_MinDistanceArea_body_exited"]
+
+[editable path="enemy"]

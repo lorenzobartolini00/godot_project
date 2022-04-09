@@ -65,19 +65,20 @@ func _physics_process(delta):
 					if is_target_in_shoot_range() and is_weapon_sight_free():
 						brake(delta)
 						
-						if is_target_aquired() and character.get_is_able_to_shoot():
+						if is_target_aquired() and character.get_is_able_to_shoot()\
+						or not character.get_is_able_to_aim():
 							if can_shoot:
 								change_state(Enums.AIState.TARGET_AQUIRED)
 							else:
 								change_state(Enums.AIState.WAITING)
-						else:
+						elif character.get_is_able_to_aim():
 							change_state(Enums.AIState.AIMING)
 						
-						if not is_target_too_close():
-							follow_path(delta)
-						else:
-							var small_random_point_radius: float = character.get_statistics().small_random_point_radius
-							update_path_to_random(target.translation, small_random_point_radius, true)
+#						if not is_target_too_close():
+#							follow_path(delta)
+#						else:
+#							var small_random_point_radius: float = character.get_statistics().small_random_point_radius
+#							update_path_to_random(target.translation, small_random_point_radius, true)
 						
 					elif not is_target_too_close():
 						change_state(Enums.AIState.APPROACHING)
@@ -185,7 +186,6 @@ func has_reached_last_seen_position() -> bool:
 
 func is_target_in_direct_sight() -> bool:
 	var collider = character.get_line_of_sight_raycast().get_collider()
-#	var weapon_collider = character.get_weapon_line_of_sight_raycast().get_collider()
 	
 	if collider:
 		if collider == target:
@@ -203,7 +203,7 @@ func is_weapon_sight_free() -> bool:
 	else:
 		return true
 	
-	return false
+	return not character.get_is_able_to_aim()
 
 
 func is_target_in_shoot_range() -> bool:
@@ -372,7 +372,7 @@ func _on_piece_ripped(_character, piece: DismountablePiece):
 		var piece_tipology: int = piece.get_piece_tipology()
 		match piece_tipology:
 			Enums.PieceTipology.HEAD:
-				character.set_is_able_to_shoot(false)
+				character.set_is_able_to_aim(false)
 			Enums.PieceTipology.WEAPON:
 				character.set_is_able_to_shoot(false)
 			Enums.PieceTipology.LEG:
