@@ -15,8 +15,6 @@ onready var _life_slot = preload("res://my_resources/life_statistics/life_slot.t
 
 
 func _ready() -> void:
-	self._move_speed = statistics.move_speed
-	
 	GameEvents.emit_signal("add_item_to_inventory",self, get_current_weapon(), 1)
 	GameEvents.emit_signal("add_item_to_inventory",self, get_current_weapon().get_ammo(), 0)
 	

@@ -3,7 +3,6 @@ extends ActiveCharacterStatistics
 class_name EnemyStatistics
 
 
-export(bool) var is_able_to_fight:= true
 export(float) var pathfinding_accel:= 10.0
 export(float) var keep_distance_accel:= 5.0
 export(float) var brake_accel:= 20.0
