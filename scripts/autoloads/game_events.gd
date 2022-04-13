@@ -123,3 +123,6 @@ func emit_tab_selected(tab):
 
 func emit_spawn_enemy(spawner):
 	call_deferred("emit_signal", "spawn_enemy", spawner)
+
+func emit_change_controller(controller: Character):
+	call_deferred("emit_signal", "change_controller", controller)

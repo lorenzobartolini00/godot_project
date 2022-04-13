@@ -154,6 +154,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/UI/items/generic_weapon_item_UI.gd"
 }, {
+"base": "Tab",
+"class": "HUD",
+"language": "GDScript",
+"path": "res://scripts/UI/UI.gd"
+}, {
 "base": "Manager",
 "class": "InputManager",
 "language": "GDScript",
@@ -198,6 +203,11 @@ _global_script_classes=[ {
 "class": "Life",
 "language": "GDScript",
 "path": "res://scripts/life/life.gd"
+}, {
+"base": "GridContainer",
+"class": "LifeHUD",
+"language": "GDScript",
+"path": "res://scripts/UI/HUD/life_HUD.gd"
 }, {
 "base": "ItemUI",
 "class": "LifeItemUI",
@@ -329,11 +339,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/title_screen/title_screen.gd"
 }, {
-"base": "Tab",
-"class": "UI",
-"language": "GDScript",
-"path": "res://scripts/UI/UI.gd"
-}, {
 "base": "Node",
 "class": "UIComponent",
 "language": "GDScript",
@@ -358,6 +363,11 @@ _global_script_classes=[ {
 "class": "Weapon",
 "language": "GDScript",
 "path": "res://scripts/weapons/weapon.gd"
+}, {
+"base": "GridContainer",
+"class": "WeaponHUD",
+"language": "GDScript",
+"path": "res://scripts/UI/HUD/weapon_HUD.gd"
 }, {
 "base": "ItemUI",
 "class": "WeaponItemUI",
@@ -399,6 +409,7 @@ _global_script_class_icons={
 "ExplosiveStatistics": "",
 "GameOverTab": "",
 "GenericWeaponItemUI": "",
+"HUD": "",
 "InputManager": "",
 "Interactable": "",
 "InteractionTab": "",
@@ -408,6 +419,7 @@ _global_script_class_icons={
 "ItemUI": "",
 "Level": "",
 "Life": "",
+"LifeHUD": "",
 "LifeItemUI": "",
 "LifeManager": "",
 "LifeSlot": "",
@@ -434,12 +446,12 @@ _global_script_class_icons={
 "Stockable": "",
 "Tab": "",
 "TitleScreen": "",
-"UI": "",
 "UIComponent": "",
 "Usable": "",
 "WarningElement": "",
 "WarningUI": "",
 "Weapon": "",
+"WeaponHUD": "",
 "WeaponItemUI": "",
 "WeaponManager": ""
 }

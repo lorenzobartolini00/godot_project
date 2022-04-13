@@ -13,13 +13,22 @@ export var _joy_sensitivity := 1.3
 
 
 func _ready():
-	if GameEvents.connect("change_controller", self, "_on_change_controller") != OK:
+	if GameEvents.connect("change_controller", self, "_on_controller_changed") != OK:
 		print("failure")
 
 
-func _on_change_controller(new_controller) -> void:
-	is_current_controller = new_controller == self
-	camera.current = new_controller == self
+func _on_controller_changed(new_controller) -> void:
+	if new_controller == self:
+		is_current_controller = true
+		camera.current = true
+			
+		self.add_to_group("resistance")
+	else:
+		is_current_controller = false
+		camera.current = false
+			
+		if self.is_in_group("resistance"):
+			self.remove_from_group("resistance")
 
 
 func _physics_process(delta):
@@ -38,6 +47,8 @@ func player_behaviour(delta):
 	elif Input.is_action_just_pressed("reload"):
 		reload_manager.reload()
 	if Input.is_action_just_pressed("jump"):
+		jump(delta)
+		
 		GameEvents.emit_signal("stop_sliding", self)
 	
 	check_target()
@@ -82,6 +93,14 @@ func movement(delta) -> void:
 	new_velocity = direction_vector.slide(floor_normal).normalized() * move_speed
 	
 	set_velocity(new_velocity, current_acceleration, delta)
+
+
+func jump(delta):
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		var jump_speed: float = self.get_statistics().jump_speed
+		var new_velocity: Vector3 = Vector3(0, jump_speed, 0)
+		
+		set_instant_velocity(new_velocity)
 
 
 func _input(event) -> void:

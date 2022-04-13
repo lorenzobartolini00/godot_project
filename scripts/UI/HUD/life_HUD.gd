@@ -1,5 +1,10 @@
 extends GridContainer
 
+class_name LifeHUD
+
+
+export(NodePath) onready var hud = get_node(hud) as HUD
+
 onready var life_item_UI = preload("res://nodes/UI/life_item_UI.tscn")
 
 

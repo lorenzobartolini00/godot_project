@@ -11,7 +11,6 @@ func _ready():
 
 
 func _on_tab_selected(tab):
-	var is_tab_selected: bool = tab == self
-
-	self.set_focus(is_tab_selected)
-	button_container.set_active(is_tab_selected)
+	._on_tab_selected(tab)
+	
+	button_container.set_active(tab==self)

@@ -51,15 +51,12 @@ func check_target():
 func set_vertical_velocity(delta):
 	var new_velocity: Vector3 = velocity
 	
-	var jump_speed: float = self.get_statistics().jump_speed
 	var gravity: float = self.get_statistics().gravity
 	var vertical_acceleration: float = self.get_statistics().vertical_acceleration
 	
 	var y_movement: float = velocity.y
 	
-	if Input.is_action_just_pressed("jump") and is_on_floor() and self.is_in_group("player"):
-		y_movement = jump_speed
-	elif not is_on_floor():
+	if not is_on_floor():
 		y_movement = lerp(y_movement, y_movement + gravity, delta * vertical_acceleration)
 		y_movement = clamp(y_movement, -MAX_TERMINAL_VELOCITY, MAX_TERMINAL_VELOCITY)
 	else:

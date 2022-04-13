@@ -1,6 +1,11 @@
 extends GridContainer
 
+class_name WeaponHUD
+
+
+export(NodePath) onready var hud = get_node(hud) as HUD
 export var _max_weapon_item_UI: int = 3
+
 
 func _ready():
 	if GameEvents.connect("inventory_changed", self, "_on_inventory_changed") != OK:
@@ -14,7 +19,7 @@ func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
 
 
 func _on_current_weapon_changed(_weapon: Weapon, character: Character):
-	if character is Player:
+	if character == hud.get_character():
 		var _weapon_item_UI_list: Array = self.get_children()
 		var _last_weapon_item_UI: WeaponItemUI
 		

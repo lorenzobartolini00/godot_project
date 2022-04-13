@@ -25,7 +25,8 @@ func _input(_event):
 func toggle_pause() -> void:
 		if get_tree().paused == true:
 			GameEvents.emit_signal("resume_game")
-			TabManager.clear_tab_stack_to_root()
+			
+			GameEvents.emit_signal("tab_selected", TabManager.get_root_tab())
 		else:
 			global_runtime_data.current_gameplay_state = Enums.GamePlayState.PAUSED
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

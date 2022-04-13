@@ -31,6 +31,7 @@ export(Array, Dictionary) onready var tab_reference_list = [
 	
 export(Resource) onready var global_runtime_data = preload("res://my_resources/runtime_data/global_runtime_data.tres") as RuntimeData
 export(String) onready var tab_name
+export(bool) var autoselected
 export(bool) onready var is_root
 export(bool) onready var focus
 
@@ -40,13 +41,9 @@ func _ready():
 		print("failure")
 	if GameEvents.connect("change_tab_to", self, "_on_change_tab_to") != OK:
 		print("failure")
-
-	GameEvents.emit_tab_selected(self)
-
-	TabManager.add_tab_to_stack(self)
-	
-	if get_is_root():
-		TabManager.clear_tab_stack_to_root()
+		
+	if autoselected:
+		GameEvents.emit_tab_selected(self)
 
 
 func _process(_delta):
@@ -65,6 +62,17 @@ func _on_tab_selected(tab):
 	var is_tab_selected: bool = tab == self
 
 	self.set_focus(is_tab_selected)
+	
+	if is_tab_selected:
+		if not TabManager.is_tab_in_stack(self):
+			TabManager.add_tab_to_stack(self)
+		
+		if get_is_root():
+			TabManager.clear_tab_stack_to_root()
+		
+		self.mouse_filter = Control.MOUSE_FILTER_STOP
+	else:
+		self.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func get_tab_reference(name: String) -> Resource:

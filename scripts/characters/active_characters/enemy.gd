@@ -16,6 +16,8 @@ export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
 
 onready var navigation = get_parent() as Navigation
 
+var player_controller
+
 export(bool) onready var asleep
 export(bool) onready var is_able_to_shoot
 export(bool) onready var is_able_to_aim
@@ -54,6 +56,10 @@ func bot_behaviour(delta):
 #Override
 func player_behaviour(delta):
 	.player_behaviour(delta)
+	
+	if Input.is_action_just_pressed("interact"):
+		GameEvents.emit_signal("change_controller", player_controller)
+		player_controller = null
 
 
 #Override
@@ -123,3 +129,13 @@ func get_is_able_to_move() -> bool:
 
 func set_is_able_to_move(_is_able_to_move: bool):
 	is_able_to_move = _is_able_to_move
+
+
+func get_player_controller() -> Node:
+	return player_controller
+
+
+func set_player_controller(controller: Node) -> void:
+	player_controller = controller
+
+
