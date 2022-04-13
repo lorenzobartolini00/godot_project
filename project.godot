@@ -94,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/interfaces/collectable.gd"
 }, {
+"base": "Area",
+"class": "Controllable",
+"language": "GDScript",
+"path": "res://scripts/interfaces/controllable.gd"
+}, {
 "base": "PassiveCharacter",
 "class": "DismountablePiece",
 "language": "GDScript",
@@ -264,6 +269,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/managers/reload_manager.gd"
 }, {
+"base": "ProjectileWeapon",
+"class": "RemoteController",
+"language": "GDScript",
+"path": "res://scripts/weapons/remote_controller.gd"
+}, {
 "base": "Resource",
 "class": "RuntimeData",
 "language": "GDScript",
@@ -377,6 +387,7 @@ _global_script_class_icons={
 "Chain": "",
 "Character": "",
 "Collectable": "",
+"Controllable": "",
 "DismountablePiece": "",
 "DismountablePieceStatistics": "",
 "Dispencer": "",
@@ -411,6 +422,7 @@ _global_script_class_icons={
 "ProjectileWeapon": "",
 "RayCastWeapon": "",
 "ReloadManager": "",
+"RemoteController": "",
 "RuntimeData": "",
 "ShootManager": "",
 "Shootable": "",
@@ -598,6 +610,7 @@ back={
 3d_physics/layer_3="Collectable"
 3d_physics/layer_4="ActiveCharacter"
 3d_physics/layer_5="Interactable"
+3d_physics/layer_6="Controllable"
 
 [physics]
 

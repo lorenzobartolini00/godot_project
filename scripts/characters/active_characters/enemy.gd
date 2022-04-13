@@ -16,9 +16,10 @@ export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
 
 onready var navigation = get_parent() as Navigation
 
-export(bool) onready var is_able_to_shoot = true
-export(bool) onready var is_able_to_aim = true
-export(bool) onready var is_able_to_move = true
+export(bool) onready var asleep
+export(bool) onready var is_able_to_shoot
+export(bool) onready var is_able_to_aim
+export(bool) onready var is_able_to_move
 
 
 func _ready():
@@ -40,13 +41,14 @@ func choose_random_weapon():
 func bot_behaviour(delta):
 	.bot_behaviour(delta)
 	
-	ai_manager.ai_movement(delta)
-	
-	if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
-		shoot_manager.shoot(delta)
-			
-	if reload_manager.need_reload() and reload_manager.can_reload():
-		reload_manager.reload()
+	if not asleep:
+		ai_manager.ai_movement(delta)
+		
+		if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
+			shoot_manager.shoot(delta)
+				
+		if reload_manager.need_reload() and reload_manager.can_reload():
+			reload_manager.reload()
 
 
 #Override

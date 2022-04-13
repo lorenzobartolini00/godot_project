@@ -14,6 +14,11 @@ export(float) var max_distance:= 20
 export(float) var vertical_spawn_offset:= 0.35
 
 
+#Da ridefinire nelle sottoclassi
+func shoot(character):
+	pass
+
+
 func is_fully_loaded() -> bool:
 	return ammo_in_mag == mag_size
 

@@ -18,11 +18,8 @@ func _ready():
 
 
 func _on_change_controller(new_controller) -> void:
-	if new_controller == self:
-		is_current_controller = true
-		camera.current = true
-	else:
-		camera.current = false
+	is_current_controller = new_controller == self
+	camera.current = new_controller == self
 
 
 func _physics_process(delta):
@@ -91,6 +88,7 @@ func _input(event) -> void:
 	if is_current_controller:
 		if self.get_is_alive():
 			aim(event)
+		
 	else:
 		pass
 

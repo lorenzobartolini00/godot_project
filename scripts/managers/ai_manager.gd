@@ -2,8 +2,6 @@ extends Manager
 
 class_name AIManager
 
-export(bool) onready var enable_ai: bool
-
 onready var runtime_data = character.get_runtime_data() as RuntimeData
 
 onready var target: Node = null
@@ -46,7 +44,7 @@ func _ready():
 
 
 func ai_movement(delta):
-	if character.get_is_alive() and enable_ai:
+	if character.get_is_alive():
 		if target and is_instance_valid(target):
 #				if is_life_too_low():
 #					character.set_is_able_to_fight(false)

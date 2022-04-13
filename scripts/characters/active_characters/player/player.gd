@@ -24,6 +24,12 @@ func _ready() -> void:
 	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
 
+func _input(event) -> void:
+	if is_current_controller:
+		if Input.is_action_just_pressed("show_inventory"):
+			get_inventory().show_inventory()
+
+
 #Override
 func player_behaviour(delta):
 	if global_runtime_data.current_gameplay_state == Enums.GamePlayState.PLAY:

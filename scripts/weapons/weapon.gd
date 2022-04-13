@@ -15,9 +15,6 @@ export(Dictionary) onready var sound_list = {
 export(String) var weapon_item_UI_path = "res://nodes/UI/weapon_item_UI.tscn"
 
 
-var explosion_sound: Object = preload("res://assets/my_assets/sounds/pixabay_sound_effects/musket-explosion-6383.mp3")
-
-
 func use(_character):
 #	if _character.is_in_group("player"):
 #		GameEvents.emit_signal("change_current_weapon", self, _character)
