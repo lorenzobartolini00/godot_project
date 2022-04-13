@@ -45,19 +45,17 @@ func _ready():
 	call_deferred("set_min_distance")
 
 
-func _physics_process(delta):
+func ai_movement(delta):
 	if character.get_is_alive() and enable_ai:
 		if target and is_instance_valid(target):
 #				if is_life_too_low():
 #					character.set_is_able_to_fight(false)
 			
 			character.get_line_of_sight_raycast().set_as_toplevel(true)
-			character.get_line_of_sight_raycast().look_at(target.translation, Vector3.UP)
+			character.get_line_of_sight_raycast().look_at(target.translation + Vector3.UP, Vector3.UP)
 			character.get_line_of_sight_raycast().set_as_toplevel(false)
 			
 			if is_target_in_direct_sight():
-				brake(delta)
-				
 				lost_target_timer.start()
 				
 				update_last_seen_position()
@@ -71,7 +69,9 @@ func _physics_process(delta):
 								change_state(Enums.AIState.TARGET_AQUIRED)
 							else:
 								#Shooting
-								pass
+								brake(delta)
+						else:
+							brake(delta)
 					else:
 						if not is_state(Enums.AIState.DODGING):
 							wait_to_shoot_timer.start()
@@ -155,7 +155,7 @@ func look_at_path(delta) -> void:
 		look_at_point.y = character.global_transform.origin.y
 		var turning_speed: float = character.get_statistics().turning_speed
 				
-		if not is_state(Enums.AIState.AIMING) \
+		if not is_state(Enums.AIState.DODGING) \
 		and not is_state(Enums.AIState.TARGET_AQUIRED):
 			character.transform = character.smooth_look_at(character, look_at_point, turning_speed, delta)
 				
@@ -188,7 +188,7 @@ func aim(delta) -> void:
 	var upper_part: Spatial = character.get_upper_part()
 	
 	upper_part.set_as_toplevel(true)
-	upper_part.transform = character.smooth_look_at(upper_part, target.global_transform.origin, turning_speed, delta)
+	upper_part.transform = character.smooth_look_at(upper_part, Vector3.UP + target.global_transform.origin, turning_speed, delta)
 	upper_part.set_as_toplevel(false)
 
 
@@ -390,6 +390,7 @@ func _on_character_shot(_character):
 				GameEvents.emit_signal("target_changed", _character, self.character)
 		else:
 			update_last_seen_position()
+			set_navigation_agent_target(last_seen_position, true)
 
 
 func _on_target_changed(_target, _character):

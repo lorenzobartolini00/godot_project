@@ -2,11 +2,62 @@ extends ActiveCharacter
 
 class_name BasicFirstPersonController
 
+export(NodePath) onready var input_manager = get_node(input_manager) as InputManager
+export(NodePath) onready var camera = get_node(camera) as Camera
+export(NodePath) onready var camera_pivot = get_node(camera_pivot) as Spatial
+
+export(bool) onready var is_current_controller
+
 export var _mouse_sensitivity := 0.1
 export var _joy_sensitivity := 1.3
 
 
+func _ready():
+	if GameEvents.connect("change_controller", self, "_on_change_controller") != OK:
+		print("failure")
+
+
+func _on_change_controller(new_controller) -> void:
+	if new_controller == self:
+		is_current_controller = true
+		camera.current = true
+	else:
+		camera.current = false
+
+
+func _physics_process(delta):
+	if get_is_alive():
+		if is_current_controller:
+			player_behaviour(delta)
+		else:
+			bot_behaviour(delta)
+
+
+#Definisce la logica da utilizzare quando il character 
+#viene controllato dal giocatore
+func player_behaviour(delta):
+	if Input.is_action_pressed("shoot"):
+		shoot_manager.shoot(delta)
+	elif Input.is_action_just_pressed("reload"):
+		reload_manager.reload()
+	if Input.is_action_just_pressed("jump"):
+		GameEvents.emit_signal("stop_sliding", self)
+	
+	check_target()
+	
+	movement(delta)
+	joy_aim()
+
+
+#Definisce la logica da utilizzare quando il character 
+#è un bot
+func bot_behaviour(delta):
+	pass
+
+
 func movement(delta) -> void:
+	var input_direction: Vector2 = input_manager.get_input_movement_direction()
+	
 	var direction_vector: Vector3 = Vector3()
 	var new_velocity: Vector3 = Vector3()
 	
@@ -14,26 +65,34 @@ func movement(delta) -> void:
 	var ground_acceleration: float = self.get_statistics().ground_acceleration
 	var air_acceleration: float = self.get_statistics().air_acceleration
 	
-	if self.get_is_alive():
-		if Input.is_action_pressed("move_forward"):
-			direction_vector -= transform.basis.z
-		elif Input.is_action_pressed("move_backward"):
-			direction_vector += transform.basis.z
-		if Input.is_action_pressed("move_left"):
-			direction_vector -= transform.basis.x
-		elif Input.is_action_pressed("move_right"):
-			direction_vector += transform.basis.x
-	
 	var current_acceleration: float
 	
 	if is_on_floor():
 		current_acceleration = ground_acceleration
 	else:
 		current_acceleration = air_acceleration
-	
-	new_velocity = direction_vector.normalized() * move_speed
+		
+	# Floor normal.
+	var floor_normal: Vector3 = floor_raycast.get_collision_normal()
+	if floor_normal.length_squared() < 0.001:
+		# Set normal to Y+ if on air.
+		floor_normal = Vector3(0, 1, 0)
+		
+	direction_vector += input_direction.y*transform.basis.z
+	direction_vector += input_direction.x*transform.basis.x
+				
+	# Calculate the velocity.
+	new_velocity = direction_vector.slide(floor_normal).normalized() * move_speed
 	
 	set_velocity(new_velocity, current_acceleration, delta)
+
+
+func _input(event) -> void:
+	if is_current_controller:
+		if self.get_is_alive():
+			aim(event)
+	else:
+		pass
 
 
 func aim(event: InputEvent) -> void:
@@ -50,9 +109,9 @@ func aim(event: InputEvent) -> void:
 		
 		rotation_degrees.y -= x_motion
 	
-		var current_camera_rotation = $Camera.rotation_degrees.x
+		var current_camera_rotation = camera_pivot.rotation_degrees.x
 		current_camera_rotation -= y_motion
-		$Camera.rotation_degrees.x = clamp(current_camera_rotation, -90, 90)
+		camera_pivot.rotation_degrees.x = clamp(current_camera_rotation, -90, 90)
 
 
 func joy_aim():
@@ -64,9 +123,9 @@ func joy_aim():
 		
 	#Rotazione Camera attorno all'asse X
 	
-	var current_camera_rotation = $Camera.rotation_degrees.x
+	var current_camera_rotation = camera_pivot.rotation_degrees.x
 	current_camera_rotation += _joy_sensitivity*y_axis
-	$Camera.rotation_degrees.x = clamp(current_camera_rotation, -90, 90)
+	camera_pivot.rotation_degrees.x = clamp(current_camera_rotation, -90, 90)
 
 
 

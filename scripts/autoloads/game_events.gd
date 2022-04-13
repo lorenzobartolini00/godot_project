@@ -53,6 +53,8 @@ signal character_shot(character)
 # warning-ignore:unused_signal
 signal piece_ripped(character, piece)
 
+signal change_controller(new_character_controller)
+
 # warning-ignore:unused_signal
 signal tab_selected(tab)
 # warning-ignore:unused_signal

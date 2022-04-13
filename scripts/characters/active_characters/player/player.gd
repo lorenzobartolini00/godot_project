@@ -6,7 +6,6 @@ export(Resource) var global_runtime_data = global_runtime_data as RuntimeData
 
 export(NodePath) onready var interaction_raycast = get_node(interaction_raycast) as RayCast
 export(NodePath) onready var inventory_manager = get_node(inventory_manager) as InventoryManager
-export(NodePath) onready var camera = get_node(camera) as Camera
 
 
 export(Resource) var inventory = inventory as Inventory
@@ -25,39 +24,21 @@ func _ready() -> void:
 	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
 
-func _physics_process(delta):
-	if self.get_is_alive() and global_runtime_data.current_gameplay_state == Enums.GamePlayState.PLAY:
-		movement(delta)
-		joy_aim()
-		
-		if reload_manager.need_reload():
-			pass
-		
-		if Input.is_action_pressed("shoot"):
-			shoot_manager.shoot(delta)
-		elif Input.is_action_just_pressed("reload"):
-			reload_manager.reload()
+#Override
+func player_behaviour(delta):
+	if global_runtime_data.current_gameplay_state == Enums.GamePlayState.PLAY:
+		.player_behaviour(delta)
 		
 		if Input.is_action_just_pressed("change_weapon"):
 			weapon_manager.shift_current_weapon(1)
 		
 		if Input.is_action_just_pressed("interact"):
 			check_interaction()
-		
-		if Input.is_action_just_pressed("jump"):
-			GameEvents.emit_signal("stop_sliding", self)
-	
-	check_target()
-	
 
 
-func _input(event) -> void:
-	if self.get_is_alive():
-		aim(event)
-		
-		if Input.is_action_just_pressed("show_inventory"):
-			get_inventory().show_inventory()
-			print(get_life().get_current_life())
+#Override
+func bot_behaviour(delta):
+	pass
 
 
 #Override

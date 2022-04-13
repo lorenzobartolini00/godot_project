@@ -1,10 +1,9 @@
-extends ActiveCharacter
+extends BasicFirstPersonController
 
 class_name Enemy
 
 export(NodePath) onready var line_of_sight_raycast = get_node(line_of_sight_raycast) as RayCast
 export(NodePath) onready var weapon_line_of_sight_raycast = get_node(weapon_line_of_sight_raycast) as RayCast
-export(NodePath) onready var floor_raycast = get_node(floor_raycast) as RayCast
 export(NodePath) onready var view_area = get_node(view_area) as Area
 export(NodePath) onready var min_distance_area = get_node(min_distance_area) as Area
 export(NodePath) onready var upper_part = get_node(upper_part) as Spatial
@@ -37,14 +36,22 @@ func choose_random_weapon():
 	GameEvents.emit_signal("change_current_weapon", weapon, self)
 
 
-func _physics_process(delta):
-	if get_is_alive():
-		if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
-			shoot_manager.shoot(delta)
-		
-		if reload_manager.need_reload() and reload_manager.can_reload():
-			reload_manager.reload()
+#Override
+func bot_behaviour(delta):
+	.bot_behaviour(delta)
 	
+	ai_manager.ai_movement(delta)
+	
+	if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
+		shoot_manager.shoot(delta)
+			
+	if reload_manager.need_reload() and reload_manager.can_reload():
+		reload_manager.reload()
+
+
+#Override
+func player_behaviour(delta):
+	.player_behaviour(delta)
 
 
 #Override
@@ -71,9 +78,6 @@ func get_line_of_sight_raycast() -> RayCast:
 
 func get_weapon_line_of_sight_raycast() -> RayCast:
 	return weapon_line_of_sight_raycast
-
-func get_floor_raycast() -> RayCast:
-	return floor_raycast
 
 
 func get_navigation_agent() -> NavigationAgent:

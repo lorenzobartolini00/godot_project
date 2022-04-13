@@ -8,6 +8,7 @@ var velocity: Vector3
 
 export(NodePath) onready var shooting_raycast = get_node(shooting_raycast) as RayCast
 export(NodePath) onready var aim_raycast = get_node(aim_raycast) as RayCast
+export(NodePath) onready var floor_raycast = get_node(floor_raycast) as RayCast
 
 export(Resource) onready var current_weapon = current_weapon as Weapon
 export(NodePath) onready var current_weapon_mesh = get_node(current_weapon_mesh) as MeshInstance
@@ -124,3 +125,7 @@ func set_instant_velocity(new_velocity: Vector3) -> void:
 	velocity = new_velocity
 	
 	move_and_slide(new_velocity, Vector3.UP)
+
+
+func get_floor_raycast() -> RayCast:
+	return floor_raycast
