@@ -39,7 +39,7 @@ func _ready():
 	if GameEvents.connect("died", self, "_on_died") != OK:
 		print("failure")
 	
-	change_state(Enums.AIState.SEARCHING)
+	change_state(Enums.AIState.START)
 	
 	call_deferred("set_view_distance")
 	call_deferred("set_min_distance")
@@ -87,13 +87,14 @@ func _physics_process(delta):
 							move_agent(delta)
 					
 				else:
-					change_state(Enums.AIState.APPROACHING)
-					if is_target_far_from_final_location():
-						var navigation_agent: NavigationAgent = character.get_navigation_agent()
-						if navigation_agent.is_navigation_finished():
-							set_navigation_agent_target(last_seen_position)
-					
-					move_agent(delta)
+					if not is_state(Enums.AIState.APPROACHING):
+						set_navigation_agent_target(last_seen_position)
+						
+						change_state(Enums.AIState.APPROACHING)
+					elif is_target_far_from_final_location():
+						set_navigation_agent_target(last_seen_position)
+					else:
+						move_agent(delta)
 				
 				aim(delta)
 			else:
@@ -101,11 +102,7 @@ func _physics_process(delta):
 					set_navigation_agent_target(last_seen_position)
 					change_state(Enums.AIState.SEARCHING)
 				else:
-					var navigation_agent: NavigationAgent = character.get_navigation_agent()
-					if navigation_agent.is_navigation_finished() or not navigation_agent.is_target_reachable():
-						brake(delta)
-					else:
-						move_agent(delta)
+					move_agent(delta)
 		else:
 			var radius: float = character.get_statistics().idle_point_radius
 			var random_location: Vector3 = get_random_location_from(spawn_position, radius)
@@ -127,23 +124,23 @@ func move_agent(delta) -> void:
 		var move_speed: float = character.get_statistics().move_speed
 		var ground_acceleration: float = character.get_statistics().ground_acceleration
 		
-		if navigation_agent.is_target_reachable():
-			if not navigation_agent.is_target_reached():
-				# Query the `NavigationAgent` to know the next free to reach location.
-				var target_location = navigation_agent.get_next_location()
-				var character_location = character.get_global_transform().origin
+		if navigation_agent.is_target_reachable()\
+		and not navigation_agent.is_target_reached():
+			# Query the `NavigationAgent` to know the next free to reach location.
+			var target_location = navigation_agent.get_next_location()
+			var character_location = character.get_global_transform().origin
+			
+			# Floor normal.
+			var floor_normal: Vector3 = floor_raycast.get_collision_normal()
+			if floor_normal.length_squared() < 0.001:
+				# Set normal to Y+ if on air.
+				floor_normal = Vector3(0, 1, 0)
 				
-				# Floor normal.
-				var floor_normal: Vector3 = floor_raycast.get_collision_normal()
-				if floor_normal.length_squared() < 0.001:
-					# Set normal to Y+ if on air.
-					floor_normal = Vector3(0, 1, 0)
-					
-				# Calculate the velocity.
-				var velocity: Vector3 = (target_location - character_location).slide(floor_normal).normalized() * move_speed
-				
-				look_at_path(delta)
-				navigation_agent.set_velocity(velocity)
+			# Calculate the velocity.
+			var velocity: Vector3 = (target_location - character_location).slide(floor_normal).normalized() * move_speed
+			
+			look_at_path(delta)
+			navigation_agent.set_velocity(velocity)
 		else:
 			brake(delta)
 
@@ -171,8 +168,13 @@ func look_at_path(delta) -> void:
 				upper_part.set_as_toplevel(false)
 
 
-func set_navigation_agent_target(target_location: Vector3, override: bool = true) -> void:
+func set_navigation_agent_target(target_location: Vector3, override: bool = true, closest: bool = true) -> void:
 	var navigation_agent: NavigationAgent = character.get_navigation_agent()
+	
+	if closest:
+		var navigation: Navigation = navigation_agent.get_navigation()
+		target_location = navigation.get_closest_point(target_location)
+		
 	
 	if override\
 	or navigation_agent.is_navigation_finished()\
@@ -296,21 +298,13 @@ func is_target_far_from_final_location() -> bool:
 	var target_location: Vector3 = target.global_transform.origin
 	var final_agent_location: Vector3
 	
-	if navigation_agent.is_target_reachable():
-		final_agent_location = navigation_agent.get_final_location()
-	else:
-		final_agent_location = character.global_transform.origin
+	var distance: float = 0
+	var max_distance_tollerance: float = character.get_statistics().max_distance_from_final_location
 	
-	var max_distance_from_final_location: float = character.get_statistics().max_distance_from_final_location
+	final_agent_location = navigation_agent.get_target_location()
 	
-	var distance: float = target_location.distance_to(final_agent_location)
-	return distance > max_distance_from_final_location
-
-
-func is_target_reachable() -> bool:
-	var navigation_agent: NavigationAgent = character.get_navigation_agent()
-	
-	return navigation_agent.is_target_reachable()
+	distance = target_location.distance_to(final_agent_location)
+	return distance > max_distance_tollerance
 
 
 func update_last_seen_position():
@@ -320,12 +314,9 @@ func update_last_seen_position():
 
 func get_random_location_from(initial_location: Vector3, radius: float) -> Vector3:
 	var navigation_agent: NavigationAgent = character.get_navigation_agent()
-	var navigation: Navigation = navigation_agent.get_navigation()
 	
 	Util.rng.randomize()
 	var random_location = initial_location + Vector3(Util.rng.randf_range(-radius, radius), character.global_transform.origin.y, Util.rng.randf_range(-radius, radius)) 
-	
-	random_location = navigation.get_closest_point(random_location)
 	
 	return random_location
 
