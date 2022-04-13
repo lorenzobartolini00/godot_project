@@ -9,6 +9,13 @@ onready var character = get_parent() as Character
 
 var meshes_to_rotate: Array
 
+func _physics_process(delta):
+	var character_transform: Transform = character.transform
+	var character_velocity: Vector3 = character.get_velocity()
+	
+	set_walk_animation(character_transform, character_velocity, delta)
+
+
 func _ready():
 	skeleton_ik.start(false)
 	

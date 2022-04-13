@@ -1,55 +1,6 @@
 extends Navigation
 
 
-func navigate(character: Character, path: PoolVector3Array, delta) -> PoolVector3Array:
-	var direction = Vector3()
-	var speed: float = character.get_statistics().move_speed
-	var accel: float = character.get_statistics().pathfinding_accel
-	
-	local_path = path
-	
-	var step_size: float = speed
-
-	if path.size() > 0:
-		
-		var destination: Vector3 = path[0]
-		destination.y = character.translation.y
-		
-		direction = destination - character.translation
-		
-#		print("previous step: " + str(step_size))
-		if direction.length() < step_size:
-			step_size = direction.length()
-			
-			path.remove(0)
-#		print("next step: " + str(step_size))
-		
-		character.set_velocity(direction.normalized() * step_size, accel, delta)
-		
-		direction.y = 0
-		if direction:
-			var look_at_point = character.translation + direction.normalized()
-			var turning_speed: float = character.get_statistics().turning_speed
-			
-			if character.get_runtime_data().current_ai_state != Enums.AIState.AIMING \
-			and character.get_runtime_data().current_ai_state != Enums.AIState.TARGET_AQUIRED:
-				character.transform = character.smooth_look_at(character, look_at_point, turning_speed, delta)
-			
-			if character.get_runtime_data().current_ai_state == Enums.AIState.SEARCHING\
-			or character.get_runtime_data().current_ai_state == Enums.AIState.IDLE:
-				var upper_part: Spatial = character.get_upper_part()
-				
-				upper_part.set_as_toplevel(true)
-				upper_part.transform = character.smooth_look_at(upper_part, Vector3(look_at_point.x, upper_part.transform.origin.y, look_at_point.z), turning_speed, delta)
-				upper_part.set_as_toplevel(false)
-			
-	return path
-
-
-func get_points(character: Enemy, target_position: Vector3) -> PoolVector3Array:
-	return  get_simple_path(character.translation, get_closest_point(target_position))
-
-
 #Debug
 var m = SpatialMaterial.new()
 var local_path = []

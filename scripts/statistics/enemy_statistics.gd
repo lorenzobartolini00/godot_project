@@ -11,6 +11,7 @@ export(float) var max_alert_distance:= 10.0
 export(float) var max_distance_tollerance:= 1.0	#distanza al di sotto della quale due punti sono considerati coincidenti
 export(float) var lost_target_time:= 60.0
 export(float) var max_hear_distance:= 30.0
+export(float) var max_distance_from_final_location:= 3.0
 export(float) var min_distance:= 5.0
 export(float) var update_path_time:= 3.0
 export(float) var update_random_path_time:= 7.0

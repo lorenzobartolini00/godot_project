@@ -9,21 +9,20 @@ export var _joy_sensitivity := 1.3
 func movement(delta) -> void:
 	var direction_vector: Vector3 = Vector3()
 	var new_velocity: Vector3 = Vector3()
-	var y_movement: float
 	
 	var move_speed: float = self.get_statistics().move_speed
-	var jump_speed: float = self.get_statistics().jump_speed
 	var ground_acceleration: float = self.get_statistics().ground_acceleration
 	var air_acceleration: float = self.get_statistics().air_acceleration
 	
-	if Input.is_action_pressed("move_forward"):
-		direction_vector -= transform.basis.z
-	elif Input.is_action_pressed("move_backward"):
-		direction_vector += transform.basis.z
-	if Input.is_action_pressed("move_left"):
-		direction_vector -= transform.basis.x
-	elif Input.is_action_pressed("move_right"):
-		direction_vector += transform.basis.x
+	if self.get_is_alive():
+		if Input.is_action_pressed("move_forward"):
+			direction_vector -= transform.basis.z
+		elif Input.is_action_pressed("move_backward"):
+			direction_vector += transform.basis.z
+		if Input.is_action_pressed("move_left"):
+			direction_vector -= transform.basis.x
+		elif Input.is_action_pressed("move_right"):
+			direction_vector += transform.basis.x
 	
 	var current_acceleration: float
 	

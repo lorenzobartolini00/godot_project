@@ -2,7 +2,7 @@ extends Statistics
 
 class_name ActiveCharacterStatistics
 
-export(float) var move_speed:= 5.0
+export(float) var move_speed:= 0.5
 export(float) var turning_speed:= 3.0
 export(float) var aim_speed:= 5.0
 export(float) var jump_speed:= 10.0

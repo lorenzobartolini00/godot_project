@@ -10,9 +10,8 @@ export(NodePath) onready var audio_stream_player = get_node(audio_stream_player)
 export(NodePath) onready var life_manager = get_node(life_manager) as LifeManager
 export(NodePath) onready var sound_manager = get_node(sound_manager) as SoundManager
 
-#export(NodePath) onready var damage_area = get_node(damage_area) as Shootable
-
 export(Resource) onready var current_life = current_life as Life
+export(bool) onready var is_invulnerable
 
 export(Array, Resource) onready var mesh_list
 export(Resource) onready var explosion_reference = preload("res://nodes/visual_effects/explosion.tscn")
@@ -27,8 +26,6 @@ func _ready():
 	_runtime_data.setup_local_to_scene()
 	if GameEvents.connect("died", self, "_on_died") != OK:
 		print("failure")
-	
-#	set_up_despawn_timer()
 
 
 func _on_died(character) -> void:
@@ -38,8 +35,6 @@ func _on_died(character) -> void:
 
 func set_damage_area_off() -> void:
 	GameEvents.emit_signal("set_damage_area", self, true)
-#	var collision_shape: CollisionShape = damage_area.get_child(0)
-#	collision_shape.set_deferred("disabled", true)
 
 
 func dismount() -> void:
@@ -81,22 +76,6 @@ func spawn_explosion() -> void:
 	Util.set_node_despawnable(explosion, 8, true)
 
 
-#func set_up_despawn_timer():
-#	add_child(despawn_timer)
-#
-#	despawn_timer.wait_time = 0.1
-#	despawn_timer.one_shot = true
-#	despawn_timer.autostart = false
-#	despawn_timer.connect("timeout", self, "_on_despawn_timer_timeout")
-#
-#
-#func _on_despawn_timer_timeout():
-#	dismount()
-#	spawn_explosion()
-#
-#	queue_free()
-
-
 func set_life(_life: Life) -> void:
 	current_life = _life
 
@@ -131,7 +110,6 @@ func set_audio_stream_player(_audio_stream_player) -> void:
 
 func get_runtime_data() -> RuntimeData:
 	return _runtime_data
-
 
 
 func set_statistics(_statistics: Statistics) -> void:

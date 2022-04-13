@@ -116,6 +116,10 @@ func set_velocity(new_velocity: Vector3, accel: float, delta: float) -> void:
 	move_and_slide(self.velocity, Vector3.UP)
 
 
+func get_velocity() -> Vector3:
+	return velocity
+
+
 func set_instant_velocity(new_velocity: Vector3) -> void:
 	velocity = new_velocity
 	

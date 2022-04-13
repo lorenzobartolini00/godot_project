@@ -22,7 +22,6 @@ func _ready():
 	set_prevent_spawn_area()
 	
 	SpawnManager.add_spawner(self)
-	print(self.get_is_alive())
 
 
 func set_prevent_spawn_area() -> void:
@@ -48,7 +47,7 @@ func _on_spawn_enemy(spawner: Spawner) -> void:
 		if spawner == self and active:
 			if is_spawn_area_free():
 				spawn_enemy()
-			else:
+			elif active:
 				busy_spawn_area_timer.start()
 
 

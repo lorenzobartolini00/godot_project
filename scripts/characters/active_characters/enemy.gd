@@ -4,9 +4,11 @@ class_name Enemy
 
 export(NodePath) onready var line_of_sight_raycast = get_node(line_of_sight_raycast) as RayCast
 export(NodePath) onready var weapon_line_of_sight_raycast = get_node(weapon_line_of_sight_raycast) as RayCast
+export(NodePath) onready var floor_raycast = get_node(floor_raycast) as RayCast
 export(NodePath) onready var view_area = get_node(view_area) as Area
 export(NodePath) onready var min_distance_area = get_node(min_distance_area) as Area
 export(NodePath) onready var upper_part = get_node(upper_part) as Spatial
+export(NodePath) onready var navigation_agent = get_node(navigation_agent) as NavigationAgent
 
 export(NodePath) onready var ai_manager = get_node(ai_manager) as AIManager
 
@@ -15,7 +17,6 @@ export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
 
 onready var navigation = get_parent() as Navigation
 
-export(bool) onready var is_able_to_fight = true
 export(bool) onready var is_able_to_shoot = true
 export(bool) onready var is_able_to_aim = true
 export(bool) onready var is_able_to_move = true
@@ -38,13 +39,12 @@ func choose_random_weapon():
 
 func _physics_process(delta):
 	if get_is_alive():
-		if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED and shoot_manager.can_shoot():
+		if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
 			shoot_manager.shoot(delta)
 		
 		if reload_manager.need_reload() and reload_manager.can_reload():
 			reload_manager.reload()
 	
-	enemy_model.set_walk_animation(self.transform, velocity, delta)
 
 
 #Override
@@ -59,7 +59,6 @@ func _on_died(character) -> void:
 		spawn_explosion()
 		
 		queue_free()
-#		self.despawn_timer.start()
 
 
 func get_navigation() -> Navigation:
@@ -72,6 +71,13 @@ func get_line_of_sight_raycast() -> RayCast:
 
 func get_weapon_line_of_sight_raycast() -> RayCast:
 	return weapon_line_of_sight_raycast
+
+func get_floor_raycast() -> RayCast:
+	return floor_raycast
+
+
+func get_navigation_agent() -> NavigationAgent:
+	return navigation_agent
 
 
 func get_view_area() -> Area:
@@ -87,14 +93,6 @@ func get_upper_part() -> Spatial:
 
 func get_ai_audio_stream_player() -> AudioStreamPlayer3D:
 	return ai_audio_stream_player
-
-
-func get_is_able_to_fight() -> bool:
-	return is_able_to_fight
-
-
-func set_is_able_to_fight(_is_able_to_fight: bool):
-	is_able_to_fight = _is_able_to_fight
 
 
 func get_is_able_to_shoot() -> bool:
