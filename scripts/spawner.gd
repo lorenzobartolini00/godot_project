@@ -2,65 +2,73 @@ extends PassiveCharacter
 
 class_name Spawner
 
-export(PackedScene) onready var enemy
-export(float) onready var prevent_spawn_radius
-export(bool) onready var active
 
-var spawned_enemy: Enemy
+export(bool) onready var is_active
 
 export(NodePath) onready var prevent_spawn_area = get_node(prevent_spawn_area) as Area
 export(NodePath) onready var spawn_parent = get_node(spawn_parent) as Node
-export(NodePath) onready var busy_spawn_area_timer = get_node(busy_spawn_area_timer) as Timer
-export(NodePath) onready var reset_timer = get_node(reset_timer) as Timer
+export(NodePath) onready var spawn_timer = get_node(spawn_timer) as Timer
 export(NodePath) onready var spawn_position = get_node(spawn_position) as Position3D
+
+export(Dictionary) var enemy_properties = {
+	"is_alive" : true,
+	"is_invulnerable" : false,
+	"is_asleep" : false,
+	"is_able_to_move" : true,
+	"is_able_to_aim" : true,
+	"is_able_to_shoot" : true,
+	}
+
+
+var spawned_enemy: Enemy
 
 
 func _ready():
-	if GameEvents.connect("spawn_enemy", self, "_on_spawn_enemy") != OK:
+	if spawn_timer.connect("timeout", self, "_on_spawn_timer_timeout") != OK:
 		print("failure")
-
-	set_prevent_spawn_area()
 	
-	SpawnManager.add_spawner(self)
+	spawn_timer.wait_time = self.get_statistics().spawn_time
+	spawn_timer.start()
+	
+	set_prevent_spawn_area()
+
+
+func spawn() -> void:
+	if get_is_active():
+		if is_spawn_area_free() and not spawned_enemy:
+			var enemy_reference: PackedScene = self.get_statistics().enemy_reference
+			var enemy_instance = enemy_reference.instance()
+			var spawn_location: Vector3 = spawn_position.global_transform.origin
+			
+			Util.add_node_as_child(enemy_instance, spawn_parent, spawn_location)
+			
+			spawned_enemy = enemy_instance
+			
+			set_properties()
+		
+			spawn_timer.stop()
+		else:
+			spawn_timer.start()
 
 
 func set_prevent_spawn_area() -> void:
 	var collision_shape: CollisionShape = prevent_spawn_area.get_child(0)
 	var shape: Shape = collision_shape.shape
 	
-	shape.radius = prevent_spawn_radius
+	shape.radius = self.get_statistics().prevent_spawn_radius
 
 
 func _on_died(character) -> void:
 	if character == self:
 		self.set_is_alive(false)
-		set_damage_area_off()
-		active = false
-		
-		SpawnManager.remove_spawner(self)
+		self.set_damage_area_off()
+		self.set_is_active(false)
 		
 		spawn_explosion()
-
-
-func _on_spawn_enemy(spawner: Spawner) -> void:
-	if self.get_is_alive():
-		if spawner == self and active:
-			if is_spawn_area_free():
-				spawn_enemy()
-			elif active:
-				busy_spawn_area_timer.start()
-
-
-func spawn_enemy() -> void:
-	var enemy_instance = enemy.instance()
-	
-	spawn_parent.add_child(enemy_instance)
-	
-	enemy_instance.translation = spawn_position.get_global_transform().origin
-	spawned_enemy = enemy_instance
-	
-	reset_timer.start()
-	busy_spawn_area_timer.stop()
+	elif character == spawned_enemy:
+		spawned_enemy = null
+		
+		spawn_timer.start()
 
 
 func is_spawn_area_free() -> bool:
@@ -73,18 +81,22 @@ func is_spawn_area_free() -> bool:
 	return true
 
 
-func _on_BusySpawnAreaTimer_timeout():
-	GameEvents.emit_signal("spawn_enemy", self)
+func set_properties() -> void:
+	var property_list: Array = enemy_properties.keys()
+	
+	for prop in property_list:
+		var value = enemy_properties.get(prop)
+		
+		spawned_enemy.set(prop, value)
 
 
-func _on_PreventSpawnArea_body_exited(body):
-	if self.get_is_alive():
-		if body == spawned_enemy:
-			SpawnManager.add_spawner(self)
-			spawned_enemy = null
+func _on_spawn_timer_timeout():
+	spawn()
 
 
-func _on_ResetTimer_timeout():
-	if self.get_is_alive():
-		if is_spawn_area_free():
-			SpawnManager.add_spawner(self)
+func get_is_active() -> bool:
+	return is_active
+
+
+func set_is_active(_is_active: bool) -> void:
+	is_active =  _is_active

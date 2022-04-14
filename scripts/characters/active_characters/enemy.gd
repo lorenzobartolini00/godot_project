@@ -15,19 +15,14 @@ export(NodePath) onready var ai_audio_stream_player = get_node(ai_audio_stream_p
 export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
 export(Resource) onready var life_slot = life_slot as LifeSlot
 
-onready var navigation = get_parent() as Navigation
-
-var player_controller
-
-export(bool) onready var asleep
+export(bool) onready var is_asleep
 export(bool) onready var is_able_to_shoot
 export(bool) onready var is_able_to_aim
 export(bool) onready var is_able_to_move
 
+onready var navigation = get_parent() as Navigation
 
-func _ready():
-#	choose_random_weapon()
-	SpawnManager.total_enemies_in_scene += 1
+var player_controller
 
 
 func choose_random_weapon():
@@ -44,7 +39,7 @@ func choose_random_weapon():
 func bot_behaviour(delta):
 	.bot_behaviour(delta)
 	
-	if not asleep:
+	if not get_is_asleep():
 		ai_manager.ai_movement(delta)
 		
 		if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
@@ -68,11 +63,12 @@ func _on_died(character) -> void:
 	if character == self:
 		character.set_is_alive(false)
 		
-		SpawnManager.total_enemies_in_scene -= 1
-		
 		set_damage_area_off()
 		dismount()
 		spawn_explosion()
+		
+		if is_current_controller:
+			GameEvents.emit_change_controller(get_player_controller())
 		
 		queue_free()
 
@@ -108,6 +104,19 @@ func get_ai_audio_stream_player() -> AudioStreamPlayer3D:
 	return ai_audio_stream_player
 
 
+func get_player_controller() -> Node:
+	return player_controller
+
+
+func set_player_controller(controller: Node) -> void:
+	player_controller = controller
+
+
+func get_life_slot() -> LifeSlot:
+	return life_slot
+
+
+#Properties
 func get_is_able_to_shoot() -> bool:
 	return is_able_to_shoot
 
@@ -132,14 +141,11 @@ func set_is_able_to_move(_is_able_to_move: bool):
 	is_able_to_move = _is_able_to_move
 
 
-func get_player_controller() -> Node:
-	return player_controller
+func get_is_asleep() -> bool:
+	return is_asleep
 
 
-func set_player_controller(controller: Node) -> void:
-	player_controller = controller
+func set_is_asleep(_is_asleep: bool):
+	is_asleep = _is_asleep
 
-
-func get_life_slot() -> LifeSlot:
-	return life_slot
 
