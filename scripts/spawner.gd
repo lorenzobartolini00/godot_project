@@ -13,7 +13,7 @@ export(NodePath) onready var spawn_position = get_node(spawn_position) as Positi
 export(Dictionary) var enemy_properties = {
 	"is_alive" : true,
 	"is_invulnerable" : false,
-	"is_asleep" : false,
+	"is_active" : false,
 	"is_able_to_move" : true,
 	"is_able_to_aim" : true,
 	"is_able_to_shoot" : true,

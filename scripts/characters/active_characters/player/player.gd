@@ -6,8 +6,6 @@ export(Resource) var global_runtime_data = global_runtime_data as RuntimeData
 
 export(NodePath) onready var interaction_raycast = get_node(interaction_raycast) as RayCast
 export(NodePath) onready var inventory_manager = get_node(inventory_manager) as InventoryManager
-
-
 export(Resource) var inventory = inventory as Inventory
 
 onready var _life_slot = preload("res://my_resources/life_statistics/life_slot.tres") as LifeSlot

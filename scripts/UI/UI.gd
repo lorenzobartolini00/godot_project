@@ -13,7 +13,7 @@ func _ready():
 		print("failure")
 
 
-func _on_controller_changed(new_character: Character):
+func _on_controller_changed(new_character: Character, _old_character: Character):
 	if new_character == character:
 		GameEvents.emit_tab_selected(self)
 		

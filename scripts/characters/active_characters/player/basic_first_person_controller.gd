@@ -5,11 +5,13 @@ class_name BasicFirstPersonController
 export(NodePath) onready var input_manager = get_node(input_manager) as InputManager
 export(NodePath) onready var camera = get_node(camera) as Camera
 export(NodePath) onready var camera_pivot = get_node(camera_pivot) as Spatial
-
-export(bool) onready var is_current_controller
+export(bool) onready var is_active
 
 export var _mouse_sensitivity := 0.1
 export var _joy_sensitivity := 1.3
+
+var is_current_controller: bool = false
+var is_jumping: bool = false
 
 
 func _ready():
@@ -20,11 +22,11 @@ func _ready():
 	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
 
-func _on_controller_changed(new_controller) -> void:
+func _on_controller_changed(new_controller, _old_controller) -> void:
 	if new_controller == self:
 		is_current_controller = true
 		camera.current = true
-			
+		
 		self.add_to_group("resistance")
 	else:
 		is_current_controller = false
@@ -36,6 +38,8 @@ func _on_controller_changed(new_controller) -> void:
 
 func _physics_process(delta):
 	if get_is_alive():
+		set_is_jumping(false)
+		
 		if is_current_controller:
 			player_behaviour(delta)
 		else:
@@ -104,6 +108,9 @@ func jump(delta):
 		var new_velocity: Vector3 = Vector3(0, jump_speed, 0)
 		
 		set_instant_velocity(new_velocity)
+		
+		set_is_jumping(true)
+		
 
 
 func _input(event) -> void:
@@ -147,5 +154,28 @@ func joy_aim():
 	current_camera_rotation += _joy_sensitivity*y_axis
 	camera_pivot.rotation_degrees.x = clamp(current_camera_rotation, -90, 90)
 
+
+func get_is_active() -> bool:
+	return is_active
+
+
+func set_is_active(_is_active: bool):
+	is_active = _is_active
+
+
+func get_is_jumping() -> bool:
+	return is_jumping
+
+
+func set_is_jumping(_is_jumping) -> void:
+	is_jumping = _is_jumping
+
+
+func get_is_current_controller() -> bool:
+	return is_current_controller
+
+
+func set_is_current_controller(_is_current_controller) -> void:
+	is_current_controller = _is_current_controller
 
 

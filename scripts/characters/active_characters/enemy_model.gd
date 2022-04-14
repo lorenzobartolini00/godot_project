@@ -13,7 +13,25 @@ func _physics_process(delta):
 	var character_transform: Transform = character.transform
 	var character_velocity: Vector3 = character.get_velocity()
 	
-	set_walk_animation(character_transform, character_velocity, delta)
+	var is_character_active: bool = character.get_is_active()
+	var is_character_current_controller: bool = character.get_is_current_controller()
+	
+	var is_model_active: bool = is_character_active or is_character_current_controller
+	
+	var is_jumping: bool = character.get_is_jumping()
+	
+	if is_character_active and not is_character_current_controller:
+		skeleton_ik.start()
+	else:
+		skeleton_ik.stop()
+	
+	animation_tree.set("parameters/conditions/active", is_model_active)
+	animation_tree.set("parameters/conditions/deactive", not is_model_active)
+	
+	animation_tree.set("parameters/conditions/jump", is_jumping)
+	
+	if is_model_active:
+		set_walk_animation(character_transform, character_velocity, delta)
 
 
 func _ready():
@@ -22,6 +40,7 @@ func _ready():
 	for mesh in meshes:
 		mesh = get_node(mesh)
 		meshes_to_rotate.append(mesh)
+
 
 
 func get_root_motion_transform() -> Transform:
@@ -43,7 +62,7 @@ func set_walk_animation(transform: Transform, velocity: Vector3, delta) -> void:
 	
 	blend_position = clamp(reverse_factor * xz_velocity.length(), -1, 1)
 	
-	animation_tree.set("parameters/walking/blend_position", blend_position)
+	animation_tree.set("parameters/FreeWalk/blend_position", blend_position)
 
 
 func rotate_mesh(mesh: MeshInstance, xz_velocity: Vector3, reverse_factor: int, delta: float) -> void:

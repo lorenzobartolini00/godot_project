@@ -2,25 +2,34 @@ extends Manager
 
 class_name AIManager
 
+export(float) var player_offset
+export(float) var enemy_offset
+export(float) var view_offset
+
+var offset: Vector3
+var view_offset_vector: Vector3
+
 onready var runtime_data = character.get_runtime_data() as RuntimeData
 
 onready var target: Node = null
-onready var last_seen_position: Vector3
-onready var lost_target_timer: Timer
 
-onready var path: PoolVector3Array = []
+onready var last_seen_position: Vector3
+
+onready var wait_to_shoot_timer: Timer
+onready var lost_target_timer: Timer
+onready var boot_up_timer: Timer
 
 onready var close_character_list: Array = []
 
-onready var never_reached_last_seen_position: bool = true
-
-onready var wait_to_shoot_timer: Timer
 onready var can_shoot: bool = true
 onready var spawn_position: Vector3
 
 
 func _ready():
 	setup_all_timers() 
+	
+	offset = Vector3(0, player_offset, 0)
+	view_offset_vector = Vector3(0, view_offset, 0)
 	
 	spawn_position = character.global_transform.origin
 	
@@ -31,6 +40,8 @@ func _ready():
 	if lost_target_timer.connect("timeout", self, "_on_target_timer_timeout") != OK:
 		print("failure")
 	if wait_to_shoot_timer.connect("timeout", self, "_on_wait_to_shoot_timer_timeout") != OK:
+		print("failure")
+	if GameEvents.connect("change_controller", self, "_on_controller_changed") != OK:
 		print("failure")
 	if GameEvents.connect("piece_ripped", self, "_on_piece_ripped") != OK:
 		print("failure")
@@ -44,13 +55,13 @@ func _ready():
 
 
 func ai_movement(delta):
-	if character.get_is_alive():
+	if character.get_is_alive() and boot_up_timer.is_stopped():
 		if target and is_instance_valid(target):
 #				if is_life_too_low():
 #					character.set_is_able_to_fight(false)
 			
 			character.get_line_of_sight_raycast().set_as_toplevel(true)
-			character.get_line_of_sight_raycast().look_at(target.translation + Vector3.UP, Vector3.UP)
+			character.get_line_of_sight_raycast().look_at(view_offset_vector + target.global_transform.origin, Vector3.UP)
 			character.get_line_of_sight_raycast().set_as_toplevel(false)
 			
 			if is_target_in_direct_sight():
@@ -104,7 +115,6 @@ func ai_movement(delta):
 		else:
 			var radius: float = character.get_statistics().idle_point_radius
 			var random_location: Vector3 = get_random_location_from(spawn_position, radius)
-			var navigation_agent: NavigationAgent = character.get_navigation_agent()
 			
 			if not is_state(Enums.AIState.IDLE):
 				set_navigation_agent_target(random_location)
@@ -120,7 +130,6 @@ func move_agent(delta) -> void:
 		var floor_raycast: RayCast = character.get_floor_raycast()
 		
 		var move_speed: float = character.get_statistics().move_speed
-		var ground_acceleration: float = character.get_statistics().ground_acceleration
 		
 		if navigation_agent.is_target_reachable()\
 		and not navigation_agent.is_target_reached():
@@ -138,6 +147,7 @@ func move_agent(delta) -> void:
 			var velocity: Vector3 = (target_location - character_location).slide(floor_normal).normalized() * move_speed
 			
 			look_at_path(delta)
+			
 			navigation_agent.set_velocity(velocity)
 		else:
 			brake(delta)
@@ -186,7 +196,7 @@ func aim(delta) -> void:
 	var upper_part: Spatial = character.get_upper_part()
 	
 	upper_part.set_as_toplevel(true)
-	upper_part.transform = character.smooth_look_at(upper_part, Vector3.UP + target.global_transform.origin, turning_speed, delta)
+	upper_part.transform = character.smooth_look_at(upper_part, offset + target.global_transform.origin, turning_speed, delta)
 	upper_part.set_as_toplevel(false)
 
 
@@ -311,8 +321,6 @@ func update_last_seen_position():
 
 
 func get_random_location_from(initial_location: Vector3, radius: float) -> Vector3:
-	var navigation_agent: NavigationAgent = character.get_navigation_agent()
-	
 	Util.rng.randomize()
 	var random_location = initial_location + Vector3(Util.rng.randf_range(-radius, radius), character.global_transform.origin.y, Util.rng.randf_range(-radius, radius)) 
 	
@@ -359,11 +367,13 @@ func set_min_distance():
 func setup_all_timers():
 	var lost_target_time: float = character.get_statistics().lost_target_time
 	var wait_to_shoot_time: float = character.get_statistics().wait_to_shoot_time
+	var boot_up_time: float = character.get_statistics().boot_up_time
 	
 	
 	lost_target_timer = Util.setup_timer(lost_target_timer, self, lost_target_time, false, true)
 	wait_to_shoot_timer = Util.setup_timer(wait_to_shoot_timer, self, wait_to_shoot_time, false, true)
-
+	boot_up_timer = Util.setup_timer(boot_up_timer, self, boot_up_time, true, true)
+	
 
 func get_current_ai_state() -> int:
 	return runtime_data.current_ai_state
@@ -379,21 +389,22 @@ func _on_wait_to_shoot_timer_timeout():
 
 
 func _on_character_shot(_character):
-	if _character.is_in_group("player"):
-		if not target:
-			var distance: float = (self.character.translation - _character.translation).length()
-			var max_hear_distance: float = self.character.get_statistics().max_hear_distance
-			
-			if distance < max_hear_distance:
-				GameEvents.emit_signal("target_changed", _character, self.character)
-		else:
-			update_last_seen_position()
-			set_navigation_agent_target(last_seen_position, true)
+	if character.get_is_active():
+		if _character.is_in_group("resistance"):
+			if not target:
+				var distance: float = (self.character.translation - _character.translation).length()
+				var max_hear_distance: float = self.character.get_statistics().max_hear_distance
+				
+				if distance < max_hear_distance:
+					GameEvents.emit_signal("target_changed", _character, self.character)
+			else:
+				update_last_seen_position()
+				set_navigation_agent_target(last_seen_position, true)
 
 
 func _on_target_changed(_target, _character):
 	var new_target = null
-	
+		
 	if _character == character:
 		if _target:
 			if _target.get_is_alive():
@@ -401,9 +412,21 @@ func _on_target_changed(_target, _character):
 		
 		target = new_target
 		
-		path = []
 		update_last_seen_position()
 		set_navigation_agent_target(last_seen_position)
+
+
+func _on_controller_changed(new_controller, old_controller) -> void:
+	if old_controller == character:
+		boot_up_timer.start()
+	
+	if old_controller == target:
+		GameEvents.emit_signal("target_changed", new_controller, character)
+		
+	if new_controller.is_in_group("player"):
+		offset = Vector3(0, player_offset, 0)
+	elif new_controller.is_in_group("enemy"):
+		offset = Vector3(0, enemy_offset, 0)
 
 
 func _on_piece_ripped(_character, piece: DismountablePiece):
@@ -420,13 +443,15 @@ func _on_piece_ripped(_character, piece: DismountablePiece):
 
 func _on_died(_character):
 	if _character == target:
-		GameEvents.emit_signal("target_changed", null, self.character)
+		if target.is_in_group("player"):
+			GameEvents.emit_signal("target_changed", null, self.character)
 
 
 func _on_view_area_body_entered(body):
-	if not target:
-		if body.is_in_group("player"):
-			GameEvents.emit_signal("target_changed", body, character)
+	if character.get_is_active():
+		if not target:
+			if body.is_in_group("resistance"):
+				GameEvents.emit_signal("target_changed", body, character)
 
 
 func _on_min_distance_area_body_entered(body):

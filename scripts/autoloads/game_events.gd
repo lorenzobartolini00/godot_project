@@ -53,7 +53,7 @@ signal character_shot(character)
 # warning-ignore:unused_signal
 signal piece_ripped(character, piece)
 
-signal change_controller(new_character_controller)
+signal change_controller(new_character_controller, old_character_controller)
 
 # warning-ignore:unused_signal
 signal tab_selected(tab)
@@ -124,5 +124,5 @@ func emit_tab_selected(tab):
 func emit_spawn_enemy(spawner):
 	call_deferred("emit_signal", "spawn_enemy", spawner)
 
-func emit_change_controller(controller: Character):
-	call_deferred("emit_signal", "change_controller", controller)
+func emit_change_controller(new_controller: Character, old_controller: Character):
+	call_deferred("emit_signal", "change_controller", new_controller, old_controller)

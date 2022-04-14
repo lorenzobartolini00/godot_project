@@ -1,5 +1,7 @@
 extends Level
 
+class_name Level1
+
 #Obbiettivo del livello: distruggere tutti gli spawner
 onready var spawner_count: int = get_tree().get_nodes_in_group("Spawner").size()
 export(Resource) var description = description as Slide
@@ -24,5 +26,5 @@ func _on_died(character: Character):
 
 
 func check_victory():
-	if spawner_count == 0 and SpawnManager.total_enemies_in_scene == 0:
+	if spawner_count == 0:
 		win()

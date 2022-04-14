@@ -15,7 +15,6 @@ export(NodePath) onready var ai_audio_stream_player = get_node(ai_audio_stream_p
 export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
 export(Resource) onready var life_slot = life_slot as LifeSlot
 
-export(bool) onready var is_asleep
 export(bool) onready var is_able_to_shoot
 export(bool) onready var is_able_to_aim
 export(bool) onready var is_able_to_move
@@ -39,7 +38,7 @@ func choose_random_weapon():
 func bot_behaviour(delta):
 	.bot_behaviour(delta)
 	
-	if not get_is_asleep():
+	if get_is_active():
 		ai_manager.ai_movement(delta)
 		
 		if _runtime_data.current_ai_state == Enums.AIState.TARGET_AQUIRED:
@@ -54,7 +53,7 @@ func player_behaviour(delta):
 	.player_behaviour(delta)
 	
 	if Input.is_action_just_pressed("interact"):
-		GameEvents.emit_signal("change_controller", player_controller)
+		GameEvents.emit_signal("change_controller", player_controller, self)
 		player_controller = null
 
 
@@ -68,7 +67,7 @@ func _on_died(character) -> void:
 		spawn_explosion()
 		
 		if is_current_controller:
-			GameEvents.emit_change_controller(get_player_controller())
+			GameEvents.emit_change_controller(get_player_controller(), self)
 		
 		queue_free()
 
@@ -139,13 +138,5 @@ func get_is_able_to_move() -> bool:
 
 func set_is_able_to_move(_is_able_to_move: bool):
 	is_able_to_move = _is_able_to_move
-
-
-func get_is_asleep() -> bool:
-	return is_asleep
-
-
-func set_is_asleep(_is_asleep: bool):
-	is_asleep = _is_asleep
 
 
