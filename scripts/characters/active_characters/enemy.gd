@@ -13,6 +13,7 @@ export(NodePath) onready var ai_manager = get_node(ai_manager) as AIManager
 
 export(NodePath) onready var ai_audio_stream_player = get_node(ai_audio_stream_player) as AudioStreamPlayer3D
 export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
+export(Resource) onready var life_slot = life_slot as LifeSlot
 
 onready var navigation = get_parent() as Navigation
 
@@ -25,7 +26,7 @@ export(bool) onready var is_able_to_move
 
 
 func _ready():
-	choose_random_weapon()
+#	choose_random_weapon()
 	SpawnManager.total_enemies_in_scene += 1
 
 
@@ -138,4 +139,7 @@ func get_player_controller() -> Node:
 func set_player_controller(controller: Node) -> void:
 	player_controller = controller
 
+
+func get_life_slot() -> LifeSlot:
+	return life_slot
 

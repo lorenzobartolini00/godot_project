@@ -35,7 +35,7 @@ func _on_add_item_to_inventory(_character, _item: Item, _quantity: int):
 		
 		if _item is Stockable:
 			if _item.store_when_collected:
-				inventory.add_item(_item, _quantity)
+				inventory.add_item(_character, _item, _quantity)
 		
 		if _item is Usable:
 				_item.use(_character)
@@ -53,7 +53,7 @@ func initialize_inventory() -> void:
 	
 	for resource in resource_list:
 		if resource is Item:
-			inventory.add_item(resource, 0)
+			inventory.add_item(character, resource, 0)
 
 
 func scan_for_unlocked_items() -> void:

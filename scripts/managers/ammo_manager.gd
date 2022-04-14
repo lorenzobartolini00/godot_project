@@ -50,7 +50,7 @@ func update_ammo(action: String, _weapon: Weapon = null):
 					ammo_in_mag += ammo_in_stock
 					ammo_in_stock = 0
 			
-				inventory.set_item_quantity(_ammo, ammo_in_stock)
+				inventory.set_item_quantity(character, _ammo, ammo_in_stock)
 			else:
 				ammo_in_mag = mag_size
 		"max":
@@ -64,15 +64,3 @@ func update_ammo(action: String, _weapon: Weapon = null):
 	_weapon.ammo_in_mag = ammo_in_mag
 	
 	GameEvents.emit_signal("ammo_changed", _weapon, character)
-	
-	
-
-
-#func consume_ammo_in_stock(_quantity: int) -> void:
-#	if character.is_in_group("player"):
-#		var inventory: Inventory = character.get_inventory()
-#		var _ammo: Ammo = character.get_current_weapon().get_ammo()
-#		var _current_quantity: int = inventory.get_item_quantity(_ammo)
-#
-#		inventory.set_item_quantity(_ammo, _current_quantity - _quantity)
-	

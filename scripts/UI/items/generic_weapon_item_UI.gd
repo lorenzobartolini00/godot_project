@@ -10,10 +10,17 @@ export(NodePath) onready var ammo_avatar = get_node(ammo_avatar) as TextureRect
 func _update_UI(_weapon: Weapon) -> void:
 	var ammo: Ammo = _weapon.get_ammo()
 	if _weapon.get_ammo():
-		var _ammo_in_stock: int = inventory.get_item_quantity(ammo)
+		var inventory: Inventory 
+		var _ammo_in_stock: int = 0
+		var _remaining_ammo: String = "-"
+		
+		if character is Player:
+			inventory = character.get_inventory()
+			_ammo_in_stock = inventory.get_item_quantity(ammo)
+			
+			_remaining_ammo = String(_ammo_in_stock)
 		
 		var _ammo_in_mag: String = String(_weapon.ammo_in_mag)
-		var _remaining_ammo: String = String(_ammo_in_stock)
 		
 		var _new_description_text: String = _ammo_in_mag\
 			+ "/"\

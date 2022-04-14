@@ -10,17 +10,23 @@ func _ready():
 		print("failure")
 
 
-func setup(_item: Item, _inventory: Inventory):
+func setup(_item: Item, _character: Character):
 	if _item is LifeSlot:
-		self.inventory = _inventory
+		self.local_item = _item
+		self.character = _character
+	
+		texture_progress.texture_progress = _item.progress_bar_texture
+		texture_progress.texture_under = _item.under_progress_bar_texture
+		
+		_update_UI(_character.get_life(), _character)
 
 
 func _on_current_life_changed(_life: Life, character: Character):
 	_update_UI(_life, character)
 
 
-func _update_UI(_life: Life, character: Character):
-	if character.is_in_group("player"):
+func _update_UI(_life: Life, _character: Character):
+	if _character == character:
 		var _current_index: int = 0
 		for i in range(get_parent().get_children().size()):
 			
@@ -29,7 +35,14 @@ func _update_UI(_life: Life, character: Character):
 				_current_index = i
 				break
 		
-		var _life_quantity = self.inventory.get_item_quantity(_life)
+		var inventory: Inventory
+		var _life_quantity: int
+		
+		if character is Player:
+			inventory = character.get_inventory()
+			_life_quantity = inventory.get_item_quantity(_life)
+		elif _character is Enemy:
+			_life_quantity = _character.get_life_slot().max_quantity
 		
 		
 		

@@ -12,15 +12,88 @@ export(float) var shoot_time
 export(bool) var is_shoot_timer_timeout = true
 export(float) var max_distance:= 20
 export(float) var vertical_spawn_offset:= 0.35
+export(bool) var is_auto_rechargable
+export(float) onready var recharge_time = 0.5
+export(float) onready var relative_threshold = 0.0
 
+
+var recharge_timer: Timer
+var character
+var need_charge: bool = false
 
 #Da ridefinire nelle sottoclassi
 func shoot(character):
-	pass
+	if is_auto_rechargable:
+		recharge_timer.start()
+	
+	add_muzzle_flash(character)
 
 
 func is_fully_loaded() -> bool:
 	return ammo_in_mag == mag_size
+
+
+func connect_signal(_character):
+	if not GameEvents.is_connected("current_weapon_changed", self, "_on_current_weapon_changed") and not GameEvents.is_connected("ammo_changed", self, "_on_ammo_changed"):
+		character = _character
+		if GameEvents.connect("ammo_changed", self, "_on_ammo_changed") != OK:
+			print("failure")
+		if GameEvents.connect("current_weapon_changed", self, "_on_current_weapon_changed") != OK:
+			print("failure")
+
+
+func set_up_recharge_timer(_character) -> void:
+	if not recharge_timer:
+		recharge_timer = Timer.new()
+		recharge_timer.wait_time = recharge_time
+		recharge_timer.one_shot = false
+		recharge_timer.autostart = false
+		
+		if recharge_timer.connect("timeout", self, "on_recharge_timer_timeout") != OK:
+			print("failure")
+	
+		_character.add_child(recharge_timer)
+
+
+func _on_current_weapon_changed(_new_weapon: Weapon, _character):
+	if character == _character:
+		if _new_weapon == self:
+			if is_auto_rechargable:
+				self.character = _character
+				set_up_recharge_timer(_character)
+			
+				recharge_timer.start()
+
+
+func _on_ammo_changed(_weapon: Weapon, _character):
+	if character == _character:
+		if _weapon == self:
+			if self.ammo_in_mag == 0:
+				need_charge = true
+
+
+func is_charged() -> bool:
+	if need_charge:
+		var _ammo_in_mag: int = self.ammo_in_mag
+		var mag_size: int = self.mag_size
+		var threshold: int = mag_size * relative_threshold
+	
+		return _ammo_in_mag >= threshold
+	else:
+		return true
+
+
+func on_recharge_timer_timeout():
+	var _ammo: Ammo = self.get_ammo()
+	var mag_size: int = self.mag_size
+	
+	character.ammo_manager.update_ammo("recover", self)
+	
+	var _ammo_in_mag: int = self.ammo_in_mag
+	var threshold: int = mag_size * relative_threshold
+	
+	if self.ammo_in_mag > threshold:
+		need_charge = false
 
 
 func get_muzzle_position() -> Vector3:

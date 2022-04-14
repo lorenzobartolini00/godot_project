@@ -35,7 +35,7 @@ signal ammo_changed(weapon, character)
 signal show_weapon_list(weapon_list)
 
 # warning-ignore:unused_signal
-signal inventory_changed(inventory, item_changed)
+signal inventory_changed(character, inventory, item_changed)
 # warning-ignore:unused_signal
 signal found_new_item(new_item)
 
@@ -100,8 +100,8 @@ signal toggle_full_screen
 # warning-ignore:unused_signal
 signal win
 
-func emit_inventory_changed(inventory: Inventory, _item_changed: Dictionary) -> void:
-	call_deferred("emit_signal", "inventory_changed", inventory, _item_changed)
+func emit_inventory_changed(character, inventory: Inventory, _item_changed: Dictionary) -> void:
+	call_deferred("emit_signal", "inventory_changed",character, inventory, _item_changed)
 
 func emit_resume_game() -> void:
 	call_deferred("emit_signal", "resume_game")

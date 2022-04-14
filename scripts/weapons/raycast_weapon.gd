@@ -4,9 +4,8 @@ class_name RayCastWeapon
 
 
 func shoot(character) -> void:
+	.shoot(character)
 	var shooting_raycast = character.get_shooting_raycast() as RayCast
-	
-	add_muzzle_flash(character)
 	
 	if shooting_raycast:
 		var collided_area = character.get_shooting_raycast().get_collider()

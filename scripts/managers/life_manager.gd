@@ -72,7 +72,7 @@ func set_life(_value: int, to_max: bool) -> void:
 				_current_life = _max_life
 				_quantity = _max_quantity
 			
-			inventory.set_item_quantity(_life, _quantity)
+			inventory.set_item_quantity(character, _life, _quantity)
 		else:
 			_current_life = clamp(_current_life + _value, 0, _max_life)
 		

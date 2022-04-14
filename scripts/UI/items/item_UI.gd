@@ -3,17 +3,18 @@ extends MarginContainer
 class_name ItemUI
 
 var local_item: Item
-var inventory: Inventory
+var character: Character
 
 func _ready():
 	if GameEvents.connect("inventory_changed", self, "_on_inventory_changed") != OK:
 		print("failure")
 
 
-func setup(_item: Item, _inventory: Inventory):
+func setup(_item: Item, _character: Character):
 	self.local_item = _item
-	self.inventory = _inventory
+	self.character = _character
 
 
-func _on_inventory_changed(_inventory: Inventory, _item_changed: Dictionary):
-	pass
+func _on_inventory_changed(character: Character, _inventory: Inventory, _item_changed: Dictionary):
+	if character is Player:
+		pass

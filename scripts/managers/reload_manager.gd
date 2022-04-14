@@ -20,7 +20,7 @@ func can_reload() -> bool:
 	var _is_fully_loaded: bool = true
 	
 	_is_left_in_stock = _is_left_in_stock()
-	_is_weapon_auto_rechargeable = character.get_current_weapon() is Blaster
+	_is_weapon_auto_rechargeable = character.get_current_weapon().is_auto_rechargable
 	is_freewalk_state = character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK
 	_is_fully_loaded = character.get_current_weapon().is_fully_loaded()
 	

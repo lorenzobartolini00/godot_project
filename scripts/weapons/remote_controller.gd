@@ -1,9 +1,11 @@
-extends ProjectileWeapon
+extends DotWeapon
 
 class_name RemoteController
 
 
 func shoot(character):
+	.shoot(character)
+	
 	var shooting_raycast: RayCast = character.get_shooting_raycast()
 	var collider = shooting_raycast.get_collider()
 	var character_hit

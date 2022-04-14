@@ -28,7 +28,7 @@ func _physics_process(delta):
 func _on_collected(area: Collectable, _item: Item, _quantity: int, _character):
 	if area == self:
 		if _character.is_in_group("player"):
-			GameEvents.emit_signal("add_item_to_inventory",_character, _item, _quantity)
+			GameEvents.emit_signal("add_item_to_inventory", _character, _item, _quantity)
 		
 		queue_free()
 

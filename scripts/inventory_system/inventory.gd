@@ -18,7 +18,7 @@ func get_items() -> Array:
 	return _items
 
 
-func add_item(item: Item, quantity: int):
+func add_item(character, item: Item, quantity: int):
 	var _max_quantity = item.max_quantity if not item.is_unique else 1
 	var _is_new: bool = true
 	
@@ -63,7 +63,7 @@ func add_item(item: Item, quantity: int):
 	
 	
 	
-	GameEvents.emit_inventory_changed(self, _element_changed)
+	GameEvents.emit_inventory_changed(character, self, _element_changed)
 
 
 func get_item_quantity(_item: Item) -> int:
@@ -81,7 +81,7 @@ func get_item_quantity(_item: Item) -> int:
 	return 0
 
 
-func set_item_quantity(_item: Item, _quantity: int) -> void:
+func set_item_quantity(character, _item: Item, _quantity: int) -> void:
 	var _item_list: Array
 	var _tipology: int = _item.tipology
 	
@@ -99,7 +99,7 @@ func set_item_quantity(_item: Item, _quantity: int) -> void:
 					print("Found new item: %s" % _dictionary_item.item_reference.name)
 					_dictionary_item.status = Enums.ItemStatus.UNLOCKED
 	
-				GameEvents.emit_inventory_changed(self, _dictionary_item)
+				GameEvents.emit_inventory_changed(character, self, _dictionary_item)
 
 
 func get_dictionary_item(_item_name: String, _tipology: int) -> Dictionary:

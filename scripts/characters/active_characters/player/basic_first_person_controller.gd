@@ -15,6 +15,9 @@ export var _joy_sensitivity := 1.3
 func _ready():
 	if GameEvents.connect("change_controller", self, "_on_controller_changed") != OK:
 		print("failure")
+	
+	GameEvents.emit_signal("change_current_life", 0, true, self)
+	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
 
 func _on_controller_changed(new_controller) -> void:
