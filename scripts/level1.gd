@@ -6,7 +6,6 @@ class_name Level1
 onready var spawner_count: int = get_tree().get_nodes_in_group("Spawner").size()
 export(Resource) var description = description as Slide
 
-
 func _ready():
 	spawn_player()
 	

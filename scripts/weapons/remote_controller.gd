@@ -16,4 +16,14 @@ func shoot(character):
 		GameEvents.emit_change_controller(character_hit, character)
 		
 		character_hit.set_player_controller(character)
+
+
+#Override
+func get_target_type(aim_raycast: RayCast) -> int:
+	var collider = aim_raycast.get_collider()
+	
+	if collider:
+		if collider is Controllable:
+			return Enums.TargetTipology.CONTROLLABLE
 		
+	return Enums.TargetTipology.NO_TARGET

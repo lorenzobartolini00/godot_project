@@ -35,17 +35,9 @@ func smooth_look_at(object: Spatial, target_position: Vector3, speed: float, del
 
 
 func check_target():
-	var collider = aim_raycast.get_collider()
-	
-	if collider:
-		if collider is Shootable:
-			GameEvents.emit_signal("target_acquired", self, Enums.TargetTipology.SHOOTABLE)
-		elif collider is Controllable:
-			GameEvents.emit_signal("target_acquired", self, Enums.TargetTipology.CONTROLLABLE)
-		else:
-			GameEvents.emit_signal("target_acquired", self, Enums.TargetTipology.NO_TARGET)
-	else:
-		GameEvents.emit_signal("target_acquired", self, Enums.TargetTipology.NO_TARGET)
+	var target_type: int = self.get_current_weapon().get_target_type(aim_raycast)
+		
+	GameEvents.emit_signal("target_acquired", self, target_type)
 
 
 func set_vertical_velocity(delta):

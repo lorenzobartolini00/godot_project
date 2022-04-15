@@ -10,6 +10,8 @@ export(bool) onready var is_active
 export var _mouse_sensitivity := 0.1
 export var _joy_sensitivity := 1.3
 
+onready var boot_up_timer: Timer
+
 var is_current_controller: bool = false
 var is_jumping: bool = false
 
@@ -18,17 +20,26 @@ func _ready():
 	if GameEvents.connect("change_controller", self, "_on_controller_changed") != OK:
 		print("failure")
 	
+	setup_bootup_timer()
+	
 	GameEvents.emit_signal("change_current_life", 0, true, self)
 	GameEvents.emit_signal("change_current_weapon", get_current_weapon(), self)
 
 
 func _on_controller_changed(new_controller, _old_controller) -> void:
 	if new_controller == self:
+		
+		if not self.get_is_active():
+			boot_up_timer.start()
+		
 		is_current_controller = true
 		camera.current = true
 		
 		self.add_to_group("resistance")
-	else:
+	elif _old_controller == self:
+		if not self.get_is_active():
+			boot_up_timer.start()
+		
 		is_current_controller = false
 		camera.current = false
 			
@@ -37,12 +48,12 @@ func _on_controller_changed(new_controller, _old_controller) -> void:
 
 
 func _physics_process(delta):
-	if get_is_alive():
-		set_is_jumping(false)
-		
+	set_is_jumping(false)
+	
+	if get_is_alive() and boot_up_timer.is_stopped():
 		if is_current_controller:
 			player_behaviour(delta)
-		else:
+		elif get_is_active():
 			bot_behaviour(delta)
 
 
@@ -110,7 +121,24 @@ func jump(delta):
 		set_instant_velocity(new_velocity)
 		
 		set_is_jumping(true)
+
+
+func rotate_weapon(delta) -> void:
+	var shooting_raycast: RayCast = self.get_aim_raycast()
+	var collider = shooting_raycast.get_collider()
+	var target: Vector3
+
+	if collider is Shootable\
+	or collider is StaticBody\
+	or collider is Controllable:
+		#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
+		var weapon_position: Spatial = self.get_weapon_position()
+		target = shooting_raycast.get_collision_point()
+		var aim_speed: float = self.get_statistics().aim_speed
 		
+		weapon_position.set_as_toplevel(true)
+		weapon_position.transform = self.smooth_look_at(weapon_position, target, aim_speed, delta)
+		weapon_position.set_as_toplevel(false)
 
 
 func _input(event) -> void:
@@ -153,6 +181,11 @@ func joy_aim():
 	var current_camera_rotation = camera_pivot.rotation_degrees.x
 	current_camera_rotation += _joy_sensitivity*y_axis
 	camera_pivot.rotation_degrees.x = clamp(current_camera_rotation, -90, 90)
+
+
+func setup_bootup_timer() -> void:
+	var boot_up_time: float = self.get_statistics().boot_up_time
+	boot_up_timer = Util.setup_timer(boot_up_timer, self, boot_up_time, true, true)
 
 
 func get_is_active() -> bool:

@@ -17,7 +17,7 @@ func spawn_player() -> void:
 	
 	global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
 	
-	GameEvents.emit_signal("change_controller", player_instance, null)
+	GameEvents.emit_change_controller(player_instance, null)
 
 
 func win():

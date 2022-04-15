@@ -17,7 +17,7 @@ onready var last_seen_position: Vector3
 
 onready var wait_to_shoot_timer: Timer
 onready var lost_target_timer: Timer
-onready var boot_up_timer: Timer
+onready var idle_path_timer: Timer
 
 onready var close_character_list: Array = []
 
@@ -41,6 +41,8 @@ func _ready():
 		print("failure")
 	if wait_to_shoot_timer.connect("timeout", self, "_on_wait_to_shoot_timer_timeout") != OK:
 		print("failure")
+	if idle_path_timer.connect("timeout", self, "_on_idle_path_timer_timeout") != OK:
+		print("failure")
 	if GameEvents.connect("change_controller", self, "_on_controller_changed") != OK:
 		print("failure")
 	if GameEvents.connect("piece_ripped", self, "_on_piece_ripped") != OK:
@@ -55,7 +57,7 @@ func _ready():
 
 
 func ai_movement(delta):
-	if character.get_is_alive() and boot_up_timer.is_stopped():
+	if character.get_is_alive():
 		if target and is_instance_valid(target):
 #				if is_life_too_low():
 #					character.set_is_able_to_fight(false)
@@ -80,6 +82,8 @@ func ai_movement(delta):
 								#Shooting
 								brake(delta)
 						else:
+							change_state(Enums.AIState.AIMING)
+							
 							brake(delta)
 					else:
 						if not is_state(Enums.AIState.DODGING):
@@ -119,8 +123,9 @@ func ai_movement(delta):
 			if not is_state(Enums.AIState.IDLE):
 				set_navigation_agent_target(random_location)
 				change_state(Enums.AIState.IDLE)
+				
+				idle_path_timer.start()
 			else:
-				set_navigation_agent_target(random_location, false)
 				move_agent(delta)
 
 
@@ -367,25 +372,34 @@ func set_min_distance():
 func setup_all_timers():
 	var lost_target_time: float = character.get_statistics().lost_target_time
 	var wait_to_shoot_time: float = character.get_statistics().wait_to_shoot_time
-	var boot_up_time: float = character.get_statistics().boot_up_time
-	
+	var idle_path_time: float = character.get_statistics().wait_to_shoot_time
 	
 	lost_target_timer = Util.setup_timer(lost_target_timer, self, lost_target_time, false, true)
 	wait_to_shoot_timer = Util.setup_timer(wait_to_shoot_timer, self, wait_to_shoot_time, false, true)
-	boot_up_timer = Util.setup_timer(boot_up_timer, self, boot_up_time, true, true)
-	
+	idle_path_timer = Util.setup_timer(idle_path_timer, self, idle_path_time, false, true)
+
 
 func get_current_ai_state() -> int:
 	return runtime_data.current_ai_state
 
 
 func _on_target_timer_timeout():
-	runtime_data.current_ai_state = Enums.AIState.IDLE
+	runtime_data.current_ai_state = Enums.AIState.START
 	GameEvents.emit_signal("target_changed", null, character)
 
 
 func _on_wait_to_shoot_timer_timeout():
 	can_shoot = !can_shoot
+
+
+func _on_idle_path_timer_timeout():
+	if is_state(Enums.AIState.IDLE):
+		var radius: float = character.get_statistics().idle_point_radius
+		var random_location: Vector3 = get_random_location_from(spawn_position, radius)
+		
+		set_navigation_agent_target(random_location, false)
+		
+		idle_path_timer.start()
 
 
 func _on_character_shot(_character):
@@ -417,9 +431,6 @@ func _on_target_changed(_target, _character):
 
 
 func _on_controller_changed(new_controller, old_controller) -> void:
-	if old_controller == character:
-		boot_up_timer.start()
-	
 	if old_controller == target:
 		GameEvents.emit_signal("target_changed", new_controller, character)
 		

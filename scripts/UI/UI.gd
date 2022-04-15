@@ -18,6 +18,8 @@ func _on_controller_changed(new_character: Character, _old_character: Character)
 		GameEvents.emit_tab_selected(self)
 		
 		canvas_layer.visible = true
+		
+		
 	else:
 		self.set_focus(false)
 		canvas_layer.visible = false

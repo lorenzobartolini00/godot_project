@@ -35,11 +35,13 @@ func player_behaviour(delta):
 		
 		if Input.is_action_just_pressed("interact"):
 			check_interaction()
+		
+		rotate_weapon(delta)
 
 
 #Override
 func bot_behaviour(delta):
-	pass
+	set_instant_velocity(Vector3(0, self.velocity.y, 0))
 
 
 #Override

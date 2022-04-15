@@ -10,4 +10,5 @@ export(float) var ground_acceleration:= 15.0
 export(float) var air_acceleration:= 5.0
 export(float) var gravity:= -5.0
 export(float) var vertical_acceleration:= 5.0
+export(float) var boot_up_time:= 1.0
 

@@ -96,6 +96,16 @@ func on_recharge_timer_timeout():
 		need_charge = false
 
 
+func get_target_type(aim_raycast: RayCast) -> int:
+	var collider = aim_raycast.get_collider()
+	
+	if collider:
+		if collider is Shootable:
+			return Enums.TargetTipology.SHOOTABLE
+		
+	return Enums.TargetTipology.NO_TARGET
+
+
 func get_muzzle_position() -> Vector3:
 	var weapon_mesh: Mesh = self.get_mesh()
 	

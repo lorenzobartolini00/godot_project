@@ -13,6 +13,12 @@ export(NodePath) onready var ai_manager = get_node(ai_manager) as AIManager
 
 export(NodePath) onready var ai_audio_stream_player = get_node(ai_audio_stream_player) as AudioStreamPlayer3D
 export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
+
+export(NodePath) onready var aim_remote_transform_player = get_node(aim_remote_transform_player) as RemoteTransform
+export(NodePath) onready var aim_remote_transform_bot = get_node(aim_remote_transform_bot) as RemoteTransform
+
+export(NodePath) onready var particle_trace = get_node(particle_trace) as Particles
+
 export(Resource) onready var life_slot = life_slot as LifeSlot
 
 export(bool) onready var is_able_to_shoot
@@ -46,6 +52,11 @@ func bot_behaviour(delta):
 				
 		if reload_manager.need_reload() and reload_manager.can_reload():
 			reload_manager.reload()
+		
+		if get_is_able_to_aim():
+			rotate_weapon(delta)
+		
+		sonar_effect()
 
 
 #Override
@@ -55,6 +66,9 @@ func player_behaviour(delta):
 	if Input.is_action_just_pressed("interact"):
 		GameEvents.emit_signal("change_controller", player_controller, self)
 		player_controller = null
+	
+	if get_is_able_to_aim():
+			rotate_weapon(delta)
 
 
 #Override
@@ -70,6 +84,31 @@ func _on_died(character) -> void:
 			GameEvents.emit_change_controller(get_player_controller(), self)
 		
 		queue_free()
+
+
+func _on_controller_changed(new_controller, _old_controller) -> void:
+	._on_controller_changed(new_controller, _old_controller)
+	
+	var aim_raycast_path: String = aim_raycast.get_path()
+	var null_path: String = ""
+	
+	if new_controller == self:
+		aim_remote_transform_player.remote_path = aim_raycast_path
+		aim_remote_transform_bot.remote_path = null_path
+	elif _old_controller == self:
+		aim_remote_transform_player.remote_path = null_path
+		aim_remote_transform_bot.remote_path = aim_raycast_path
+
+
+func sonar_effect():
+	if self.velocity.length() > 1:
+		if not particle_trace.emitting:
+				
+			particle_trace.emitting = true
+		else:
+			self.sound_manager.play_on_character_stream_player("sonar")
+	else:
+		particle_trace.emitting = false
 
 
 func get_navigation() -> Navigation:
