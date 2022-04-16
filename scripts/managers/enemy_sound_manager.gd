@@ -32,7 +32,8 @@ func play_on_ai_stream_player():
 
 
 func _on_speak_timer_timeout():
-	play_on_ai_stream_player()
+	if not character.get_is_current_controller():
+		play_on_ai_stream_player()
 
 
 func get_ai_sound_name(current_ai_state: int) -> String:
