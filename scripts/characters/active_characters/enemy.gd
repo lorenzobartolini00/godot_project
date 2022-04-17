@@ -17,6 +17,8 @@ export(NodePath) onready var enemy_model = get_node(enemy_model) as Spatial
 export(NodePath) onready var aim_remote_transform_player = get_node(aim_remote_transform_player) as RemoteTransform
 export(NodePath) onready var aim_remote_transform_bot = get_node(aim_remote_transform_bot) as RemoteTransform
 
+export(Array, Vector3) onready var idle_points
+
 export(NodePath) onready var particle_trace = get_node(particle_trace) as Particles
 
 export(Resource) onready var life_slot = life_slot as LifeSlot
@@ -148,6 +150,14 @@ func get_player_controller() -> Node:
 
 func set_player_controller(controller: Node) -> void:
 	player_controller = controller
+
+
+func get_idle_points() -> Array:
+	return idle_points
+
+
+func set_idle_points(_idle_points: Array) -> void:
+	idle_points = _idle_points
 
 
 func get_life_slot() -> LifeSlot:

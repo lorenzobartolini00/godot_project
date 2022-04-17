@@ -24,6 +24,8 @@ onready var close_character_list: Array = []
 onready var can_shoot: bool = true
 onready var spawn_position: Vector3
 
+var idle_path_index: int = 0
+
 
 func _ready():
 	setup_all_timers() 
@@ -117,14 +119,13 @@ func ai_movement(delta):
 				else:
 					move_agent(delta)
 		else:
-			var radius: float = character.get_statistics().idle_point_radius
-			var random_location: Vector3 = get_random_location_from(spawn_position, radius)
-			
 			if not is_state(Enums.AIState.IDLE):
-				set_navigation_agent_target(random_location)
-				change_state(Enums.AIState.IDLE)
+				idle_path_index = 0
 				
-				idle_path_timer.start()
+				var idle_location: Vector3 = get_idle_location()
+				
+				set_navigation_agent_target(idle_location)
+				change_state(Enums.AIState.IDLE)
 			else:
 				move_agent(delta)
 
@@ -332,6 +333,21 @@ func get_random_location_from(initial_location: Vector3, radius: float) -> Vecto
 	return random_location
 
 
+func get_idle_location() -> Vector3:
+	var idle_points: Array = character.get_idle_points()
+	var next_location: Vector3
+	
+	if idle_path_index < idle_points.size():
+		next_location = idle_points[idle_path_index]
+	
+		var radius: float = character.get_statistics().idle_point_radius
+		var random_location: Vector3 = get_random_location_from(next_location, radius)
+	
+		return next_location
+	else:
+		return spawn_position
+
+
 func change_state(new_state: int) -> void:
 	var current_state: int = runtime_data.current_ai_state
 	
@@ -394,12 +410,9 @@ func _on_wait_to_shoot_timer_timeout():
 
 func _on_idle_path_timer_timeout():
 	if is_state(Enums.AIState.IDLE):
-		var radius: float = character.get_statistics().idle_point_radius
-		var random_location: Vector3 = get_random_location_from(spawn_position, radius)
+		var idle_location: Vector3 = get_idle_location()
 		
-		set_navigation_agent_target(random_location, false)
-		
-		idle_path_timer.start()
+		set_navigation_agent_target(idle_location, false)
 
 
 func _on_character_shot(_character):
@@ -480,3 +493,13 @@ func _on_min_distance_area_body_exited(body):
 
 func _on_NavigationAgent_velocity_computed(safe_velocity):
 	character.set_instant_velocity(safe_velocity)
+
+
+func _on_NavigationAgent_navigation_finished():
+	if is_state(Enums.AIState.IDLE):
+		var idle_points: Array = character.get_idle_points()
+		
+		idle_path_index += 1
+		idle_path_index %= idle_points.size()
+		
+		idle_path_timer.start()
