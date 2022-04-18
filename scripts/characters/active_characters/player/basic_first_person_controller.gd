@@ -124,21 +124,17 @@ func jump(delta):
 
 
 func rotate_weapon(delta) -> void:
-	var shooting_raycast: RayCast = self.get_aim_raycast()
-	var collider = shooting_raycast.get_collider()
+	var collider = aim_raycast.get_collider()
 	var target: Vector3
 
-	if collider is Shootable\
-	or collider is StaticBody\
-	or collider is Controllable:
-		#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
-		var weapon_position: Spatial = self.get_weapon_position()
-		target = shooting_raycast.get_collision_point()
-		var aim_speed: float = self.get_statistics().aim_speed
-		
-		weapon_position.set_as_toplevel(true)
-		weapon_position.transform = self.smooth_look_at(weapon_position, target, aim_speed, delta)
-		weapon_position.set_as_toplevel(false)
+	#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
+	var weapon_position: Spatial = self.get_weapon_position()
+	target = aim_raycast.get_collision_point()
+	var aim_speed: float = self.get_statistics().aim_speed
+	
+	weapon_position.set_as_toplevel(true)
+	weapon_position.transform = self.smooth_look_at(weapon_position, target, aim_speed, delta)
+	weapon_position.set_as_toplevel(false)
 
 
 func _input(event) -> void:

@@ -70,7 +70,7 @@ func player_behaviour(delta):
 		player_controller = null
 	
 	if get_is_able_to_aim():
-			rotate_weapon(delta)
+		rotate_weapon(delta)
 
 
 #Override
@@ -98,6 +98,8 @@ func _on_controller_changed(new_controller, _old_controller) -> void:
 	if new_controller == self:
 		aim_remote_transform_player.remote_path = aim_raycast_path
 		aim_remote_transform_bot.remote_path = null_path
+		
+		self.set_player_controller(_old_controller)
 	elif _old_controller == self:
 		aim_remote_transform_player.remote_path = null_path
 		aim_remote_transform_bot.remote_path = aim_raycast_path

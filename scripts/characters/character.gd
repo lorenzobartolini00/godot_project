@@ -23,6 +23,7 @@ var despawn_timer = Timer.new()
 
 
 func _ready():
+	
 	_runtime_data.setup_local_to_scene()
 	if GameEvents.connect("died", self, "_on_died") != OK:
 		print("failure")

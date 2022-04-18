@@ -11,7 +11,7 @@ var close_door_timer: Timer
 
 
 func _ready():
-	close_door_timer = Util.setup_timer(close_door_timer, self, close_door_time)
+	close_door_timer = Util.setup_timer(close_door_timer, self, close_door_time, false, true)
 	
 	call_deferred("setup_timers")
 
@@ -23,12 +23,12 @@ func door_behaviour():
 	
 	for collider in colliders:
 		if collider.is_in_group(group_name):
-			if not close_door_timer.is_stopped():
-				if not is_open:
-					GameEvents.emit_signal("unlock_door", self)
+			if not is_open:
+				GameEvents.emit_signal("unlock_door", self)
 				
-				close_door_timer.stop()
-				access_granted = true
+			close_door_timer.stop()
+			access_granted = true
+			
 			break
 	
 	if not access_granted:

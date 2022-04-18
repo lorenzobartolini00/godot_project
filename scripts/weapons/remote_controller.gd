@@ -14,8 +14,6 @@ func shoot(character):
 		character_hit = collider.get_character()
 		
 		GameEvents.emit_change_controller(character_hit, character)
-		
-		character_hit.set_player_controller(character)
 
 
 #Override

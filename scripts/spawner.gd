@@ -3,7 +3,8 @@ extends PassiveCharacter
 class_name Spawner
 
 
-export(bool) onready var is_active
+export(bool) var is_active:= true
+export(bool) var is_timer_active:= true
 
 export(NodePath) onready var prevent_spawn_area = get_node(prevent_spawn_area) as Area
 export(NodePath) onready var spawn_parent = get_node(spawn_parent) as Node
@@ -29,12 +30,14 @@ func _ready():
 		print("failure")
 	
 	spawn_timer.wait_time = self.get_statistics().spawn_time
-	spawn_timer.start()
+	
+	if is_timer_active:
+		spawn_timer.start()
 	
 	set_prevent_spawn_area()
 
 
-func spawn() -> void:
+func spawn() -> Enemy:
 	if get_is_active():
 		if is_spawn_area_free() and not spawned_enemy:
 			var enemy_reference: PackedScene = self.get_statistics().enemy_reference
@@ -49,7 +52,10 @@ func spawn() -> void:
 		
 			spawn_timer.stop()
 		else:
-			spawn_timer.start()
+			if is_timer_active:
+				spawn_timer.start()
+	
+	return spawned_enemy
 
 
 func set_prevent_spawn_area() -> void:
@@ -69,7 +75,8 @@ func _on_died(character) -> void:
 	elif character == spawned_enemy:
 		spawned_enemy = null
 		
-		spawn_timer.start()
+		if is_timer_active:
+			spawn_timer.start()
 
 
 func is_spawn_area_free() -> bool:
