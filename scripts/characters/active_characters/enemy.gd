@@ -75,10 +75,11 @@ func player_behaviour(delta):
 
 #Override
 func _on_died(character) -> void:
+	._on_died(character)
+	
 	if character == self:
 		character.set_is_alive(false)
 		
-		set_damage_area_off()
 		dismount()
 		spawn_explosion()
 		

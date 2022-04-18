@@ -31,6 +31,9 @@ func _ready():
 func _on_died(character) -> void:
 	if character == self:
 		print(name + " died")
+		
+		character.set_is_alive(false)
+		set_damage_area_off()
 
 
 func set_damage_area_off() -> void:

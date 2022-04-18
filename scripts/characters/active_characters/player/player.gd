@@ -46,11 +46,7 @@ func bot_behaviour(delta):
 
 #Override
 func _on_died(character) -> void:
-	if character == self:
-		character.set_is_alive(false)
-		print(name + " died")
-		
-		set_damage_area_off()
+	._on_died(character)
 
 
 func set_inventory(_inventory: Inventory) -> void:

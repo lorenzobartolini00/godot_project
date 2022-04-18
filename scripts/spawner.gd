@@ -60,9 +60,9 @@ func set_prevent_spawn_area() -> void:
 
 
 func _on_died(character) -> void:
+	._on_died(character)
+	
 	if character == self:
-		self.set_is_alive(false)
-		self.set_damage_area_off()
 		self.set_is_active(false)
 		
 		spawn_explosion()

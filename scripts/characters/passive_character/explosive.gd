@@ -12,10 +12,9 @@ func _ready():
 
 #Override
 func _on_died(character) -> void:
+	._on_died(character)
+	
 	if character == self:
-		print(self.name + " died")
-		
-		set_damage_area_off()
 		spawn_explosion()
 		dismount()
 		
