@@ -55,7 +55,7 @@ signal piece_ripped(character, piece)
 
 signal change_controller(new_character_controller, old_character_controller)
 
-signal unlock_door(door, is_unlocked)
+signal lock_door(door, is_locked)
 signal open_door(door, is_opened)
 
 # warning-ignore:unused_signal
@@ -129,3 +129,6 @@ func emit_spawn_enemy(spawner):
 
 func emit_change_controller(new_controller: Character, old_controller: Character):
 	call_deferred("emit_signal", "change_controller", new_controller, old_controller)
+
+func emit_lock_door(door: Door, is_locked: bool):
+	call_deferred("emit_signal", "lock_door", door, is_locked)

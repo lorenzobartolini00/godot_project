@@ -29,8 +29,9 @@ func _ready():
 
 func _on_door_opened(door: Door, is_opened: bool):
 	if door == enter_door:
-		for enemy in enemy_list:
-			enemy.set_is_active(true)
+		if is_opened:
+			for enemy in enemy_list:
+				enemy.set_is_active(true)
 
 
 func _on_died(character: Character):
@@ -43,4 +44,4 @@ func _on_died(character: Character):
 
 func check_stage_clear():
 	if enemy_count == 0:
-		GameEvents.emit_signal("unlock_door", locked_door)
+		GameEvents.emit_signal("lock_door", locked_door, false)

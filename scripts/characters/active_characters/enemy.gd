@@ -59,6 +59,8 @@ func bot_behaviour(delta):
 			rotate_weapon(delta)
 		
 		sonar_effect()
+	else:
+		set_instant_velocity(Vector3(0, self.velocity.y, 0))
 
 
 #Override

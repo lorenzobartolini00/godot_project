@@ -4,21 +4,32 @@ class_name Door
 
 export(NodePath) onready var open_area = get_node(open_area) as Area
 export(NodePath) onready var animation_tree = get_node(animation_tree) as AnimationTree
+export(NodePath) onready var locker_led = get_node(locker_led) as MeshInstance
+
+export(Array, Color) onready var color_list
 
 export(bool) onready var is_locked setget set_is_locked, get_is_locked
 export(bool) onready var keep_opened setget set_keep_opened, get_keep_opened
 export(bool) onready var open_when_unlocked setget set_open_when_unlocked, get_open_when_unlocked
+export(float) var lock_door_time:= 1.0
 
 var is_open: bool setget set_is_open, get_is_open
 
+var lock_door_timer: Timer
+
 
 func _ready():
-	if GameEvents.connect("unlock_door", self, "_on_door_unlocked") != OK:
+	if GameEvents.connect("lock_door", self, "_on_door_locked") != OK:
 		print("failure")
 	if GameEvents.connect("open_door", self, "_on_door_opened") != OK:
 		print("failure")
 	
+	lock_door_timer = Util.setup_timer(lock_door_timer, self, lock_door_time, false, true)
+	
+	call_deferred("setup_timers")
+	
 	is_open = not is_locked and open_when_unlocked
+	GameEvents.emit_lock_door(self, is_locked)
 
 
 func _physics_process(_delta):
@@ -40,7 +51,7 @@ func door_behaviour():
 				GameEvents.emit_signal("open_door", self, false)
 
 
-func _on_door_unlocked(door, _is_locked: bool = false):
+func _on_door_locked(door, _is_locked: bool):
 	if door == self :
 		is_locked = _is_locked
 		
@@ -49,11 +60,34 @@ func _on_door_unlocked(door, _is_locked: bool = false):
 				GameEvents.emit_signal("open_door", self, true)
 		else:
 			GameEvents.emit_signal("open_door", self, false)
+		
+		change_led_color()
+
+
+func on_close_door_timer_timeout():
+	GameEvents.emit_signal("lock_door", self, true)
+
+
+func change_led_color():
+	var led_material: Material = locker_led.get("material/0")
+	var new_color: Color
+	
+	if is_locked:
+		new_color = color_list[Enums.DoorState.LOCKED]
+	else:
+		new_color = color_list[Enums.DoorState.UNLOCKED]
+
+	led_material.emission = new_color
+
+
+func setup_timers():
+	if lock_door_timer.connect("timeout", self, "on_close_door_timer_timeout") != OK:
+		print("failure")
 
 
 func _on_door_opened(door, _is_open: bool):
 	if door == self:
-		is_open = _is_open or keep_opened
+		is_open = (_is_open or keep_opened) and not is_locked
 
 
 func set_is_open(_is_open: bool) -> void:

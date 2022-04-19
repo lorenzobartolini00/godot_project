@@ -354,6 +354,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/interfaces/shootable.gd"
 }, {
+"base": "Shootable",
+"class": "ShootableDoorTarget",
+"language": "GDScript",
+"path": "res://scripts/interfaces/shootable_target.gd"
+}, {
 "base": "Resource",
 "class": "Slide",
 "language": "GDScript",
@@ -509,6 +514,7 @@ _global_script_class_icons={
 "ShootDoor": "",
 "ShootManager": "",
 "Shootable": "",
+"ShootableDoorTarget": "",
 "Slide": "",
 "SlidingRope": "",
 "SoundManager": "",

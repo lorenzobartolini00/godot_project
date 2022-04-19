@@ -53,7 +53,7 @@ func _physics_process(delta):
 	if get_is_alive() and boot_up_timer.is_stopped():
 		if is_current_controller:
 			player_behaviour(delta)
-		elif get_is_active():
+		else:
 			bot_behaviour(delta)
 
 
