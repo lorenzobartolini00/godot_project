@@ -26,7 +26,7 @@ func _on_interact(character: Character, interactable_object):
 			else:
 				GameEvents.emit_signal("warning", "Can't spawn right now...")
 		else:
-			GameEvents.emit_signal("warning", "Out of order")
+			GameEvents.emit_signal("warning", "Cooling down...")
 
 
 func setup_timers():

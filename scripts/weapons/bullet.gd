@@ -4,12 +4,12 @@ class_name Bullet
 
 export(NodePath) onready var mesh_instance = get_node(mesh_instance) as MeshInstance
 export(NodePath) onready var despawn_timer = get_node(despawn_timer) as Timer
-#export(PackedScene) onready var explosion_reference
 
 var _weapon
 var _character
 
 var target_point: Vector3
+
 
 func initialize(start_position: Vector3, character):
 	_weapon = character.get_current_weapon()
@@ -25,7 +25,6 @@ func initialize(start_position: Vector3, character):
 
 func _physics_process(_delta):
 	if _weapon:
-		
 		var direction: Vector3 = -transform.basis.z.normalized()
 		linear_velocity = direction * _weapon.get_ammo().bullet_speed
 
@@ -37,20 +36,12 @@ func setup_despawn_timer() -> void:
 	
 	despawn_timer.start()
 
-
-func get_character() -> Character:
-	return _character
-
-
-func _on_DespawnTimer_timeout():
+func _on_Bullet_body_entered(body):
+	spawn_explosion()
 	queue_free()
 
 
-func _on_CollisionArea_area_entered(area):
-	if area is Shootable:
-		GameEvents.emit_signal("hit", area, _weapon.damage)
-	
-	spawn_explosion()
+func _on_DespawnTimer_timeout():
 	queue_free()
 
 
@@ -70,7 +61,9 @@ func spawn_explosion() -> void:
 	Util.set_node_despawnable(explosion, 8, true)
 
 
-func _on_CollisionArea_body_entered(_body):
-	spawn_explosion()
-	
-	queue_free()
+func get_character() -> Character:
+	return _character
+
+
+func get_weapon() -> Weapon:
+	return _weapon

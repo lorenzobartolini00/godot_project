@@ -11,6 +11,7 @@ export(NodePath) onready var attachment = get_node(attachment) as RigidBody
 export(NodePath) onready var node_to_move
 export(Array, NodePath) onready var remote_transform_to_turn_off
 export(NodePath) onready var linked_piece
+export(Shape) onready var shape_reference
 
 export(Enums.PieceTipology) onready var piece_tipology
 export(bool) onready var use_replace_mesh_reference
@@ -75,6 +76,7 @@ func generate_piece(priority: int, target: Node) -> RigidBody:
 	
 	rigid_body.add_child(mesh_instance)
 	rigid_body.add_child(collision_shape)
+	
 	collision_shape.make_convex_from_brothers()
 	
 	local_rigidbody = rigid_body

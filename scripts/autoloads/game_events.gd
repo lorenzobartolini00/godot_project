@@ -56,6 +56,7 @@ signal piece_ripped(character, piece)
 signal change_controller(new_character_controller, old_character_controller)
 
 signal unlock_door(door, is_unlocked)
+signal open_door(door, is_opened)
 
 # warning-ignore:unused_signal
 signal tab_selected(tab)

@@ -19,6 +19,9 @@ func _ready():
 	
 	if GameEvents.connect("hit", self, "_on_hit") != OK:
 		print("failure")
+	
+	if self.connect("body_entered", self, "_on_body_entered") != OK:
+		print("failure")
 
 
 func _on_hit(area_hit: Shootable, damage: int) -> void:
@@ -35,3 +38,11 @@ func _on_set_damage_area(_character, is_disabled: bool):
 			collision_shape.set_deferred("disabled", is_disabled)
 		else:
 			print("no collision shape found")
+
+
+func _on_body_entered(body):
+	if body is Bullet:
+		var weapon: Weapon = body.get_weapon()
+		var damage: int = weapon.damage
+		
+		GameEvents.emit_signal("hit", self, damage)

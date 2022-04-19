@@ -15,8 +15,10 @@ var is_open: bool setget set_is_open, get_is_open
 func _ready():
 	if GameEvents.connect("unlock_door", self, "_on_door_unlocked") != OK:
 		print("failure")
+	if GameEvents.connect("open_door", self, "_on_door_opened") != OK:
+		print("failure")
 	
-	is_open = not is_locked
+	is_open = not is_locked and open_when_unlocked
 
 
 func _physics_process(_delta):
@@ -31,9 +33,11 @@ func door_behaviour():
 		var colliders = open_area.get_overlapping_bodies()
 		
 		if colliders.size() > 0:
-			open()
+			if not is_open:
+				GameEvents.emit_signal("open_door", self, true)
 		else:
-			close()
+			if is_open and not keep_opened:
+				GameEvents.emit_signal("open_door", self, false)
 
 
 func _on_door_unlocked(door, _is_locked: bool = false):
@@ -42,19 +46,14 @@ func _on_door_unlocked(door, _is_locked: bool = false):
 		
 		if not is_locked:
 			if open_when_unlocked:
-				open()
+				GameEvents.emit_signal("open_door", self, true)
 		else:
-			close()
+			GameEvents.emit_signal("open_door", self, false)
 
 
-func open():
-	if not is_open:
-		is_open = true
-
-
-func close():
-	if not keep_opened:
-		is_open = false
+func _on_door_opened(door, _is_open: bool):
+	if door == self:
+		is_open = _is_open or keep_opened
 
 
 func set_is_open(_is_open: bool) -> void:

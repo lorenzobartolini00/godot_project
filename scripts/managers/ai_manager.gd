@@ -261,7 +261,8 @@ func is_weapon_sight_free() -> bool:
 	var weapon_collider = character.get_weapon_line_of_sight_raycast().get_collider()
 	
 	if weapon_collider:
-		if weapon_collider == target:
+		if weapon_collider == target\
+		or weapon_collider is Bullet:
 			return true
 	else:
 		return true

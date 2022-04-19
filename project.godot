@@ -235,9 +235,14 @@ _global_script_classes=[ {
 "path": "res://scripts/levels/level.gd"
 }, {
 "base": "Level",
+"class": "Level0",
+"language": "GDScript",
+"path": "res://scripts/level0.gd"
+}, {
+"base": "Level",
 "class": "Level1",
 "language": "GDScript",
-"path": "res://scripts/level1.gd"
+"path": "res://scripts/levels/level1.gd"
 }, {
 "base": "Usable",
 "class": "Life",
@@ -480,6 +485,7 @@ _global_script_class_icons={
 "Item": "",
 "ItemUI": "",
 "Level": "",
+"Level0": "",
 "Level1": "",
 "Life": "",
 "LifeHUD": "",

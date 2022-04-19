@@ -1,6 +1,6 @@
 extends Level
 
-class_name Level1
+class_name Level0
 
 #Obbiettivo del livello: trovare uscita
 onready var spawner_count: int = get_tree().get_nodes_in_group("Spawner").size()
