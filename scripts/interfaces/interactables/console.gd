@@ -15,18 +15,21 @@ func _ready():
 
 func _on_interact(character: Character, interactable_object):
 	if interactable_object == self:
-		if not is_used:
-			var spawned_enemy: Enemy = spawner.spawn()
-			
-			if spawned_enemy:
-				set_is_used(true)
-				interact_timer.start()
+		if is_active:
+			if not is_used:
+				var spawned_enemy: Enemy = spawner.spawn()
 				
-				GameEvents.emit_change_controller(spawned_enemy, character)
+				if spawned_enemy:
+					set_is_used(true)
+					interact_timer.start()
+					
+					GameEvents.emit_change_controller(spawned_enemy, character)
+				else:
+					GameEvents.emit_signal("warning", "Can't spawn right now...")
 			else:
-				GameEvents.emit_signal("warning", "Can't spawn right now...")
+				GameEvents.emit_signal("warning", "Cooling down...")
 		else:
-			GameEvents.emit_signal("warning", "Cooling down...")
+			GameEvents.emit_signal("warning", "Out of order")
 
 
 func setup_timers():
