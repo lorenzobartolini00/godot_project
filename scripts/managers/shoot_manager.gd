@@ -46,7 +46,7 @@ func shoot(_delta) -> void:
 		
 		_play_weapon_sound()
 		
-		if character.is_in_group("player"):
+		if character.is_in_group("resistance"):
 			GameEvents.emit_signal("character_shot", character)
 		
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.SHOOTING

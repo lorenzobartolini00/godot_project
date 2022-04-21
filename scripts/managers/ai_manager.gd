@@ -445,8 +445,9 @@ func _on_target_changed(_target, _character):
 
 
 func _on_controller_changed(new_controller, old_controller) -> void:
-	if old_controller == target:
-		GameEvents.emit_signal("target_changed", new_controller, character)
+	if old_controller:
+		if old_controller == target:
+			GameEvents.emit_signal("target_changed", new_controller, character)
 		
 	if new_controller.is_in_group("player"):
 		offset = Vector3(0, player_offset, 0)
