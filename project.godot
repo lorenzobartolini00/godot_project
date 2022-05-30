@@ -334,6 +334,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/runtime_data.gd"
 }, {
+"base": "Spatial",
+"class": "Scanner",
+"language": "GDScript",
+"path": "res://scripts/doors/scanner.gd"
+}, {
 "base": "Door",
 "class": "ScannerDoor",
 "language": "GDScript",
@@ -510,6 +515,7 @@ _global_script_class_icons={
 "ReloadManager": "",
 "RemoteController": "",
 "RuntimeData": "",
+"Scanner": "",
 "ScannerDoor": "",
 "ShootDoor": "",
 "ShootManager": "",

@@ -132,6 +132,7 @@ func ai_movement(delta):
 
 func move_agent(delta) -> void:
 	if character.get_is_able_to_move():
+		
 		var navigation_agent: NavigationAgent = character.get_navigation_agent()
 		var floor_raycast: RayCast = character.get_floor_raycast()
 		
