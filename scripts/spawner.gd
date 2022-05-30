@@ -10,6 +10,7 @@ export(NodePath) onready var prevent_spawn_area = get_node(prevent_spawn_area) a
 export(NodePath) onready var spawn_parent = get_node(spawn_parent) as Node
 export(NodePath) onready var spawn_timer = get_node(spawn_timer) as Timer
 export(NodePath) onready var spawn_position = get_node(spawn_position) as Position3D
+export(NodePath) onready var spawner_animation_player = get_node(spawner_animation_player) as AnimationPlayer
 
 export(Dictionary) var enemy_properties = {
 	"is_alive" : true,
@@ -51,6 +52,8 @@ func spawn() -> Enemy:
 			set_properties()
 		
 			spawn_timer.stop()
+			
+			spawner_animation_player.play("spawn")
 		else:
 			if is_timer_active:
 				spawn_timer.start()
