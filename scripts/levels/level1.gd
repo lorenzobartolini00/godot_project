@@ -65,6 +65,7 @@ func _on_died(character: Character):
 			var door_to_unlock: Door = exit_door_list[stage_index]
 			GameEvents.emit_signal("lock_door", door_to_unlock, false)
 			
+			change_music("relax")
 			
 			if stage_index < enemy_list.size():
 				stage_index += 1
@@ -87,6 +88,8 @@ func get_node_from_path_list(list: Array) -> Array:
 
 
 func activate_enemies(_enemy_list: Array):
+	change_music("fight")
+	
 	for enemy in _enemy_list:
 		enemy.set_is_active(true)
 
@@ -107,3 +110,6 @@ func update_enemy_count():
 func _on_WinArea_body_entered(body):
 	if body.is_in_group("resistance"):
 		win()
+
+
+
