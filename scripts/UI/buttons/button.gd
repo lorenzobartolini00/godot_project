@@ -40,9 +40,9 @@ func _on_button_pressed(button):
 			Enums.ButtonTipology.COMAND_LIST:
 				GameEvents.emit_signal("change_tab_to", "comand_list")
 			Enums.ButtonTipology.AUDIO_SETTINGS:
-				GameEvents.emit_signal("change_tab_to", "play_settings")
-			Enums.ButtonTipology.PLAY_SETTINGS:
 				GameEvents.emit_signal("change_tab_to", "audio_settings")
+			Enums.ButtonTipology.PLAY_SETTINGS:
+				GameEvents.emit_signal("change_tab_to", "play_settings")
 			Enums.ButtonTipology.BACK:
 				GameEvents.emit_signal("back")
 			Enums.ButtonTipology.ADVANCE_SLIDE:
