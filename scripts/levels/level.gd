@@ -27,11 +27,11 @@ func spawn_player() -> void:
 	
 	Util.add_node_as_child(player_instance, player_parent, spawn_location)
 	
+	player_instance.rotation = player_spawn_position.rotation
+	
 	global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
 	
 	GameEvents.emit_change_controller(player_instance, null)
-	
-	change_music("relax")
 
 
 func play_music():

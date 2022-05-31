@@ -32,45 +32,55 @@ func _ready():
 	
 	spawn_player()
 	
+	change_music("relax")
+	
 	global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
 
 
 func _on_door_opened(_door: Door, _is_opened: bool):
-	activate_enemies_on_door_unlocked(enemy_list[stage_index], enter_door_list[stage_index], _door, _is_opened)
-	
-	if _door == exit_door_list[2]:
+	if _door == exit_door_list[1]:
 		GameEvents.emit_signal("lock_door", final_area_door, false)
 	
 	if _door == turn_off_console_door:
 		if _is_opened:
 			console.set_is_active(false)
-
-
-func activate_enemies_on_door_unlocked(_enemy_list: Array, door: Door, opened_door: Door, _is_opened: bool) -> void:
-	if door == opened_door:
-		if _is_opened:
-			activate_enemies(_enemy_list)
+	
+	var current_enter_door = get_current_enter_door()
+	
+	if current_enter_door:
+		if current_enter_door == _door and _is_opened:
+			var current_enemy_list = get_current_enemy_list()
+			
+			#Controllo che la dimensione della lista sia maggiore di 0 perchè nel caso in cui
+			#lo stage_index sia arrivato al valore massimo, il metodo get_current_enemy_list() restituisce un array vuoto
+			if current_enemy_list.size() > 0:
+				activate_enemies(current_enemy_list)
 
 
 func _on_died(character: Character):
-	var _enemy_list: Array
-	var _door: Door
+	var current_enemy_list: Array = get_current_enemy_list()
 	
-	if enemy_list.size() > 0:
-		_enemy_list = enemy_list[stage_index]
-	
-		check_enemy_count(character, _enemy_list)
+	#Controllo che la dimensione della lista sia maggiore di 0 perchè nel caso in cui
+	#lo stage_index sia arrivato al valore massimo, il metodo get_current_enemy_list() restituisce un array vuoto
+	if current_enemy_list.size() > 0:
+		if current_enemy_list.has(character):
+			enemy_count -= 1
 		
 		if is_stage_clear():
-			var door_to_unlock: Door = exit_door_list[stage_index]
-			GameEvents.emit_signal("lock_door", door_to_unlock, false)
-			
-			change_music("relax")
-			
-			if stage_index < enemy_list.size():
-				stage_index += 1
-				
-				update_enemy_count()
+			next_stage()
+
+
+func next_stage():
+	var door_to_unlock: Door = get_current_exit_door()
+	
+	if door_to_unlock:
+		GameEvents.emit_signal("lock_door", door_to_unlock, false)
+		
+	change_music("relax")
+		
+	stage_index += 1
+		
+	update_enemy_count()
 
 
 func is_stage_clear():
@@ -94,15 +104,31 @@ func activate_enemies(_enemy_list: Array):
 		enemy.set_is_active(true)
 
 
-func check_enemy_count(died_character: Character, _enemy_list: Array):
-	for enemy in _enemy_list:
-		if enemy == died_character:
-			enemy_count -= 1
+func get_current_enter_door() -> Door:
+	if stage_index < enter_door_list.size():
+		return enter_door_list[stage_index]
+	else:
+		return null
+
+func get_current_exit_door() -> Door:
+	if stage_index < exit_door_list.size():
+		return exit_door_list[stage_index]
+	else:
+		return null
+
+
+func get_current_enemy_list() -> Array:
+	if stage_index < enemy_list.size():
+		return enemy_list[stage_index]
+	else:
+		return []
 
 
 func update_enemy_count():
-	if stage_index < enemy_list.size():
-		enemy_count = enemy_list[stage_index].size()
+	var current_enemy_list: Array = get_current_enemy_list()
+	
+	if current_enemy_list.size() > 0:
+		enemy_count = current_enemy_list.size()
 	else:
 		enemy_count = 0
 

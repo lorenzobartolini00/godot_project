@@ -77,7 +77,7 @@ func player_behaviour(delta):
 
 #Definisce la logica da utilizzare quando il character 
 #è un bot
-func bot_behaviour(delta):
+func bot_behaviour(_delta):
 	pass
 
 
@@ -113,7 +113,7 @@ func movement(delta) -> void:
 	set_velocity(new_velocity, current_acceleration, delta)
 
 
-func jump(delta):
+func jump(_delta):
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		var jump_speed: float = self.get_statistics().jump_speed
 		var new_velocity: Vector3 = Vector3(0, jump_speed, 0)
@@ -126,15 +126,16 @@ func jump(delta):
 func rotate_weapon(delta) -> void:
 	var collider = aim_raycast.get_collider()
 	var target: Vector3
-
-	#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
-	var weapon_position: Spatial = self.get_weapon_position()
-	target = aim_raycast.get_collision_point()
-	var aim_speed: float = self.get_statistics().aim_speed
 	
-	weapon_position.set_as_toplevel(true)
-	weapon_position.transform = self.smooth_look_at(weapon_position, target, aim_speed, delta)
-	weapon_position.set_as_toplevel(false)
+	if not collider is Bullet:
+		#Orienta la direzione dell'arma verso il punto in cui collide lo shooting_raycast
+		var weapon_position: Spatial = self.get_weapon_position()
+		target = aim_raycast.get_collision_point()
+		var aim_speed: float = self.get_statistics().aim_speed
+		
+		weapon_position.set_as_toplevel(true)
+		weapon_position.transform = self.smooth_look_at(weapon_position, target, aim_speed, delta)
+		weapon_position.set_as_toplevel(false)
 
 
 func _input(event) -> void:

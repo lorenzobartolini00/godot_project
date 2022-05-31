@@ -119,15 +119,15 @@ func ai_movement(delta):
 				else:
 					move_agent(delta)
 		else:
-			if not is_state(Enums.AIState.IDLE):
-				idle_path_index = 0
-				
+			if is_state(Enums.AIState.START):
 				var idle_location: Vector3 = get_idle_location()
 				
 				set_navigation_agent_target(idle_location)
 				change_state(Enums.AIState.IDLE)
-			else:
+			
+			if(is_state(Enums.AIState.IDLE)):
 				move_agent(delta)
+			
 
 
 func move_agent(delta) -> void:
@@ -239,7 +239,11 @@ func brake(delta) -> void:
 
 
 func has_reached_last_seen_position() -> bool:
-	var distance: Vector3 = last_seen_position - character.translation
+	return has_reached(last_seen_position)
+
+
+func has_reached(position: Vector3) -> bool:
+	var distance: Vector3 = position - character.translation
 	distance.y = 0
 	var horizontal_distance = distance.length()
 	
@@ -339,15 +343,12 @@ func get_idle_location() -> Vector3:
 	var idle_points: Array = character.get_idle_points()
 	var next_location: Vector3
 	
-	if idle_path_index < idle_points.size():
-		next_location = idle_points[idle_path_index]
+	if not idle_path_index < idle_points.size():
+		idle_path_index = 0
 	
-		var radius: float = character.get_statistics().idle_point_radius
-		var random_location: Vector3 = get_random_location_from(next_location, radius)
+	next_location = idle_points[idle_path_index]
 	
-		return next_location
-	else:
-		return spawn_position
+	return next_location
 
 
 func change_state(new_state: int) -> void:
@@ -414,7 +415,7 @@ func _on_idle_path_timer_timeout():
 	if is_state(Enums.AIState.IDLE):
 		var idle_location: Vector3 = get_idle_location()
 		
-		set_navigation_agent_target(idle_location, false)
+		set_navigation_agent_target(idle_location)
 
 
 func _on_character_shot(_character):
@@ -500,9 +501,6 @@ func _on_NavigationAgent_velocity_computed(safe_velocity):
 
 func _on_NavigationAgent_navigation_finished():
 	if is_state(Enums.AIState.IDLE):
-		var idle_points: Array = character.get_idle_points()
-		
 		idle_path_index += 1
-		idle_path_index %= idle_points.size()
 		
 		idle_path_timer.start()
