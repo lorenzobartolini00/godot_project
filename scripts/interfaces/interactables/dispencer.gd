@@ -17,8 +17,10 @@ func _process(delta):
 
 
 func _on_interact(character: Character, interactable_object):
-	if not is_used:
-		if interactable_object == self:
+	if interactable_object == self:
+		play_interaction_sound()
+		
+		if not is_used:
 			GameEvents.emit_signal("add_item_to_inventory", character, item, quantity)
 			
 			animation_player.play("open")

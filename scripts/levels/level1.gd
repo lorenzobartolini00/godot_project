@@ -7,6 +7,8 @@ export(NodePath) onready var final_area_door = get_node(final_area_door) as Door
 export(Array, NodePath) onready var enter_door_list
 export(Array, NodePath) var exit_door_list
 export(NodePath) onready var console = get_node(console) as Console
+export(NodePath) onready var switch = get_node(switch) as Switch
+export(NodePath) onready var win_timer = get_node(win_timer) as Timer
 
 export(Array, Array, NodePath) var enemy_list
 
@@ -29,6 +31,8 @@ func _ready():
 		print("failure")
 	if GameEvents.connect("died", self, "_on_died") != OK:
 		print("failure")
+	if switch.connect("switch_pressed", self, "_on_switch_pressed") != OK:
+		print("failure")
 	
 	spawn_player()
 	
@@ -40,6 +44,9 @@ func _ready():
 func _on_door_opened(_door: Door, _is_opened: bool):
 	if _door == exit_door_list[1]:
 		GameEvents.emit_signal("lock_door", final_area_door, false)
+	
+	if _door == exit_door_list[2]:
+		stop_music()
 	
 	if _door == turn_off_console_door:
 		if _is_opened:
@@ -76,7 +83,7 @@ func next_stage():
 	if door_to_unlock:
 		GameEvents.emit_signal("lock_door", door_to_unlock, false)
 		
-	change_music("relax")
+		change_music("relax")
 		
 	stage_index += 1
 		
@@ -133,9 +140,12 @@ func update_enemy_count():
 		enemy_count = 0
 
 
-func _on_WinArea_body_entered(body):
-	if body.is_in_group("resistance"):
-		win()
+func _on_switch_pressed(_switch: Switch):
+	if _switch == switch:
+		win_timer.start()
 
 
 
+
+func _on_WinTimer_timeout():
+	win()
