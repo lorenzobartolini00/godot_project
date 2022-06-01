@@ -44,7 +44,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/weapons/area_weapon.gd"
 }, {
-"base": "Tab",
+"base": "InteractionTab",
 "class": "AudioSettings",
 "language": "GDScript",
 "path": "res://scripts/UI/tabs/audio_settings.gd"

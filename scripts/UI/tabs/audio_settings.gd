@@ -1,4 +1,4 @@
-extends Tab
+extends InteractionTab
 
 class_name AudioSettings
 
@@ -7,7 +7,6 @@ export(NodePath) onready var master_slider = get_node(master_slider) as SliderEl
 export(NodePath) onready var music_slider = get_node(music_slider) as SliderElement
 export(NodePath) onready var effects_slider = get_node(effects_slider) as SliderElement
 
-export(NodePath)onready var name_label = get_node_or_null(name_label) as Label
 
 
 func _ready():

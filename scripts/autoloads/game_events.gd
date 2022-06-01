@@ -23,6 +23,8 @@ signal change_current_life(additional_amount, to_max)
 
 # warning-ignore:unused_signal
 signal warning(text)
+# warning-ignore:unused_signal
+signal show_hint(character, text)
 
 # warning-ignore:unused_signal
 signal current_life_changed(new_life, character)

@@ -14,7 +14,9 @@ var mouse_entered: bool = false
 
 
 func _ready():
-	get_node("ColorRect").mouse_filter = Control.MOUSE_FILTER_PASS
+	get_node("HBoxContainer2/ColorRect").mouse_filter = Control.MOUSE_FILTER_PASS
+	get_node("HBoxContainer2/ColorRect2").mouse_filter = Control.MOUSE_FILTER_PASS
+	get_node("HBoxContainer2/ColorRect3").mouse_filter = Control.MOUSE_FILTER_PASS
 	display_name_label.text = display_name
 	
 	if GameEvents.connect("button_pressed", self, "_on_button_pressed") != OK:
@@ -43,6 +45,8 @@ func _on_button_pressed(button):
 				GameEvents.emit_signal("change_tab_to", "audio_settings")
 			Enums.ButtonTipology.PLAY_SETTINGS:
 				GameEvents.emit_signal("change_tab_to", "play_settings")
+			Enums.ButtonTipology.CREDITS:
+				GameEvents.emit_signal("change_tab_to", "credits")
 			Enums.ButtonTipology.BACK:
 				GameEvents.emit_signal("back")
 			Enums.ButtonTipology.ADVANCE_SLIDE:

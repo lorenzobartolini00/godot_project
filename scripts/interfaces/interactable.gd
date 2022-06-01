@@ -4,6 +4,7 @@ class_name Interactable
 
 var is_used: bool setget set_is_used, get_is_used
 var is_active: bool = true setget set_is_active, get_is_active
+export(String) onready var interaction_text
 export(bool) onready var is_sound_on
 export(NodePath) onready var audio_stream_player = get_node_or_null(audio_stream_player) as AudioStreamPlayer3D
 export(NodePath) onready var interact_audio_stream_player = get_node_or_null(interact_audio_stream_player) as AudioStreamPlayer3D
@@ -59,3 +60,7 @@ func set_is_active(_is_active: bool) -> void:
 
 func get_is_active() -> bool:
 	return is_active
+
+
+func get_interaction_text() -> String:
+	return interaction_text

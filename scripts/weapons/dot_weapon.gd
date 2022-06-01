@@ -10,7 +10,7 @@ export(int) var ammo_recover
 export(float) var reload_time
 export(float) var shoot_time
 export(bool) var is_shoot_timer_timeout = true
-export(float) var max_distance:= 20
+export(float) var max_distance:= 20.0
 export(float) var vertical_spawn_offset:= 0.35
 export(bool) var is_auto_rechargable
 export(float) var recharge_time = 0.5
@@ -22,11 +22,11 @@ var character
 var need_charge: bool = false
 
 #Da ridefinire nelle sottoclassi
-func shoot(character):
+func shoot(_character):
 	if is_auto_rechargable:
 		recharge_timer.start()
 	
-	add_muzzle_flash(character)
+	add_muzzle_flash(_character)
 
 
 func is_fully_loaded() -> bool:
@@ -125,8 +125,8 @@ func add_muzzle_flash(character) -> void:
 	muzzle.name = "MuzzleFlash"
 
 
-func delete_muzzle(character) -> void:
-	var weapon_position: Spatial = character.get_weapon_position()
+func delete_muzzle(_character) -> void:
+	var weapon_position: Spatial = _character.get_weapon_position()
 	var muzzle: Spatial
 
 	var children: Array = weapon_position.get_children()

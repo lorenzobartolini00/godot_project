@@ -33,8 +33,10 @@ func player_behaviour(delta):
 		if Input.is_action_just_pressed("change_weapon"):
 			weapon_manager.shift_current_weapon(1)
 		
+		check_interaction()
+		
 		if Input.is_action_just_pressed("interact"):
-			check_interaction()
+			interact()
 		
 		rotate_weapon(delta)
 
@@ -72,6 +74,17 @@ func _on_CollectingArea_area_entered(area):
 
 
 func check_interaction():
+	var collider = interaction_raycast.get_collider()
+	
+	if collider is Interactable:
+		var interaction_text = collider.get_interaction_text()
+		
+		GameEvents.emit_signal("show_hint", self, interaction_text)
+	else:
+		GameEvents.emit_signal("show_hint", self, "")
+
+
+func interact():
 	var collider = interaction_raycast.get_collider()
 	
 	if collider is Interactable:

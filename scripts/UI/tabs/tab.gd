@@ -30,6 +30,10 @@ export(Array, Dictionary) onready var tab_reference_list = [
 	{
 		option_tab_name = "audio_settings",
 		option_tab_path = "res://nodes/UI/option_tabs/audio_settings.tscn"
+	},
+	{
+		option_tab_name = "credits",
+		option_tab_path = "res://nodes/UI/option_tabs/credits_UI.tscn"
 	}
 	]
 	
