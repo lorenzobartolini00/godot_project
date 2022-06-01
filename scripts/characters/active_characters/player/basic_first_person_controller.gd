@@ -55,6 +55,8 @@ func _physics_process(delta):
 			player_behaviour(delta)
 		else:
 			bot_behaviour(delta)
+	else:
+		set_instant_velocity(Vector3(0, self.velocity.y, 0))
 
 
 #Definisce la logica da utilizzare quando il character 
@@ -73,6 +75,7 @@ func player_behaviour(delta):
 	
 	movement(delta)
 	joy_aim()
+		
 
 
 #Definisce la logica da utilizzare quando il character 

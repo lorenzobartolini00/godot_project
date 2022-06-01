@@ -83,9 +83,12 @@ func _on_died(character) -> void:
 		spawn_explosion()
 		
 		if is_current_controller:
-			GameEvents.emit_change_controller(get_player_controller(), self)
-		
-		queue_free()
+			enemy_model.visible = false
+			get_node("UpperPart").visible = false
+			
+			get_node("DeathTimer").start()
+		else:
+			queue_free()
 
 
 func _on_controller_changed(new_controller, _old_controller) -> void:
@@ -191,3 +194,8 @@ func set_is_able_to_move(_is_able_to_move: bool):
 	is_able_to_move = _is_able_to_move
 
 
+func _on_DeathTimer_timeout():
+	if is_current_controller:
+		GameEvents.emit_change_controller(get_player_controller(), self)
+		
+		queue_free()
