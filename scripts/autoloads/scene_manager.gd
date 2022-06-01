@@ -6,7 +6,7 @@ export(String) onready var level_list_path = "res://scenes/levels/"
 export(int) onready var current_level_index = 0
 
 
-export(String) onready var title_screen = "res://scenes/title_screen.tscn"
+export(String) onready var title_screen = "res://scenes/background/title_screen.tscn"
 export(String) onready var win_screen = "res://scenes/win_screen.tscn"
 
 

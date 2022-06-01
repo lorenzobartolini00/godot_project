@@ -19,8 +19,6 @@ export(NodePath) onready var aim_remote_transform_bot = get_node(aim_remote_tran
 
 export(Array, Vector3) onready var idle_points
 
-export(NodePath) onready var particle_trace = get_node(particle_trace) as Particles
-
 export(Resource) onready var life_slot = life_slot as LifeSlot
 
 export(bool) onready var is_able_to_shoot
@@ -58,7 +56,6 @@ func bot_behaviour(delta):
 		if get_is_able_to_aim():
 			rotate_weapon(delta)
 		
-		sonar_effect()
 	else:
 		set_instant_velocity(Vector3(0, self.velocity.y, 0))
 
@@ -107,15 +104,15 @@ func _on_controller_changed(new_controller, _old_controller) -> void:
 		aim_remote_transform_bot.remote_path = aim_raycast_path
 
 
-func sonar_effect():
-	if self.velocity.length() > 1:
-		if not particle_trace.emitting:
-				
-			particle_trace.emitting = true
-		else:
-			self.sound_manager.play_on_character_stream_player("sonar")
-	else:
-		particle_trace.emitting = false
+#func sonar_effect():
+#	if self.velocity.length() > 1:
+#		if not particle_trace.emitting:
+#
+#			particle_trace.emitting = true
+#		else:
+#			self.sound_manager.play_on_character_stream_player("sonar")
+#	else:
+#		particle_trace.emitting = false
 
 
 func get_navigation() -> Navigation:

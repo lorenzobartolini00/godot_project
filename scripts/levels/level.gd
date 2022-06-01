@@ -9,9 +9,11 @@ export(NodePath) onready var soundtrack_audio_stream_player = get_node(soundtrac
 export(NodePath) onready var soundtrack_animation_player = get_node(soundtrack_animation_player) as AnimationPlayer
 export(Dictionary) var sound_track = {
 	"fight" : preload("res://assets/my_assets/sounds/soundtrack/robo-cop-synthwave-100bpm-117s-12714.mp3"),
-	"relax" : preload("res://assets/my_assets/sounds/soundtrack/just-a-click-away-sci-fi-background-music-109864.mp3")
+	"relax" : preload("res://assets/my_assets/sounds/soundtrack/just-a-click-away-sci-fi-background-music-109864.mp3"),
+	"title" : preload("res://assets/my_assets/sounds/soundtrack/high-voltage-background-action-music-for-pc-games-9593.mp3")
 }
 export(PackedScene) onready var player_reference
+export(bool) onready var is_level_active
 
 var current_soundtrack: AudioStream
 
@@ -40,14 +42,17 @@ func play_music():
 	soundtrack_animation_player.play("fade_in")
 
 
-func change_music(name: String, on_loop: bool = true):
+func change_music(name: String, on_loop: bool = true, immediate: bool = false):
 	current_soundtrack = sound_track.get(name)
 	current_soundtrack.loop = on_loop
 	
 	if(soundtrack_audio_stream_player.stream):
 		soundtrack_audio_stream_player.stream.loop = false
 	
-	soundtrack_animation_player.play("fade_out")
+	if not immediate:
+		soundtrack_animation_player.play("fade_out")
+	else:
+		play_music()
 
 
 func stop_music():

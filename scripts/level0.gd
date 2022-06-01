@@ -9,4 +9,5 @@ export(Resource) var description = description as Slide
 func _ready():
 	spawn_player()
 	
-	global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
+	if is_level_active:
+		global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY

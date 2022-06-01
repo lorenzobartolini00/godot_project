@@ -11,12 +11,12 @@ func _ready():
 	if GameEvents.connect("back", self, "_on_back") != OK:
 		print("failure")
 	
-	GameEvents.emit_signal("resume_game")
+	GameEvents.emit_resume_game()
 
 
 func _input(_event):
 	if Input.is_action_just_pressed("pause") \
-	and global_runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG \
+	and global_runtime_data.current_gameplay_state != Enums.GamePlayState.TITLE \
 	and global_runtime_data.current_gameplay_state != Enums.GamePlayState.DIED\
 	and is_scene_pausable():
 		toggle_pause()
@@ -47,7 +47,7 @@ func _on_game_paused() -> void:
 
 
 func _on_game_resumed() -> void:
-	if is_scene_pausable():
+	if is_scene_pausable() and global_runtime_data.current_gameplay_state != Enums.GamePlayState.TITLE:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 		global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY

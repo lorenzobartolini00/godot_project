@@ -1,4 +1,4 @@
-extends Tab
+extends InteractionTab
 
 export(Array, Resource)onready var message_array
 
@@ -20,7 +20,7 @@ func _ready():
 
 
 func free_queue():
-	if queue.size() > 0 and runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG:
+	if queue.size() > 0 and global_runtime_data.current_gameplay_state != Enums.GamePlayState.IN_DIALOG:
 		var message: Dictionary = queue.pop_back()
 		
 		show_splash_message(message.text, message.slide)
@@ -63,7 +63,7 @@ func show_splash_message(_header_text: String, _slides: Slide) -> void:
 	GameEvents.emit_signal("dialogue_initiated", _slides)
 	
 	self.visible = true
-	runtime_data.current_gameplay_state = Enums.GamePlayState.IN_DIALOG
+	global_runtime_data.current_gameplay_state = Enums.GamePlayState.IN_DIALOG
 	
 	GameEvents.emit_signal("tab_selected", self)
 	

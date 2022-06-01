@@ -15,6 +15,7 @@ func _ready() -> void:
 	GameEvents.emit_signal("add_item_to_inventory", self, get_current_weapon(), 1)
 	GameEvents.emit_signal("add_item_to_inventory", self, get_current_weapon().get_ammo(), 0)
 	
+	
 	#Da sostituire quando verrà implementato il salvataggio
 	self.get_inventory().set_item_quantity(self, _life_slot, 1)
 

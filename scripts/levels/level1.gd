@@ -34,11 +34,16 @@ func _ready():
 	if switch.connect("switch_pressed", self, "_on_switch_pressed") != OK:
 		print("failure")
 	
-	spawn_player()
+	if is_level_active:
+		spawn_player()
 	
-	change_music("relax")
-	
-	global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
+		global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
+		
+		change_music("relax", true, true)
+	else:
+		global_runtime_data.current_gameplay_state = Enums.GamePlayState.TITLE
+		
+		change_music("title", true, true)
 
 
 func _on_door_opened(_door: Door, _is_opened: bool):
@@ -104,8 +109,9 @@ func get_node_from_path_list(list: Array) -> Array:
 	return _list_path
 
 
-func activate_enemies(_enemy_list: Array):
-	change_music("fight")
+func activate_enemies(_enemy_list: Array, change_music: bool = true):
+	if change_music:
+		change_music("fight")
 	
 	for enemy in _enemy_list:
 		enemy.set_is_active(true)
