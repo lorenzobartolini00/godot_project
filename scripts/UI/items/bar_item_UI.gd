@@ -22,4 +22,9 @@ func _update_UI(_weapon: Weapon) -> void:
 		
 		self.progress_bar.value = _ammo_in_mag
 		self.progress_bar.max_value = mag_size
+		
+		if _weapon.is_charged():
+			progress_bar.tint_progress = _weapon.ammo.bar_color
+		else:
+			progress_bar.tint_progress = _weapon.ammo.overheat_bar_color
 	

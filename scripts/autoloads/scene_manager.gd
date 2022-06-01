@@ -33,6 +33,8 @@ func _on_play(level_index: int):
 	if level_index < level_list.size():
 		var main_scene = level_list[level_index]
 		
+		current_level_index = level_index
+		
 		if get_tree().change_scene(main_scene) != OK:
 			print("unable to change scene")
 	else:

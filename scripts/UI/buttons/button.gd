@@ -37,6 +37,8 @@ func _on_button_pressed(button):
 		match tipology:
 			Enums.ButtonTipology.PLAY:
 				GameEvents.emit_signal("play", SceneManager.current_level_index)
+			Enums.ButtonTipology.ADVANCE_LEVEL:
+				GameEvents.emit_signal("play", SceneManager.current_level_index+1)
 			Enums.ButtonTipology.OPTIONS:
 				GameEvents.emit_signal("change_tab_to", "options")
 			Enums.ButtonTipology.COMAND_LIST:
