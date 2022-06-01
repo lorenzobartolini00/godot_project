@@ -35,7 +35,7 @@ func _on_controller_changed(new_controller, _old_controller) -> void:
 		is_current_controller = true
 		camera.current = true
 		
-		self.add_to_group("resistance")
+		self.add_to_group("trigger")
 	elif _old_controller == self:
 		if not self.get_is_active():
 			boot_up_timer.start()
@@ -43,8 +43,8 @@ func _on_controller_changed(new_controller, _old_controller) -> void:
 		is_current_controller = false
 		camera.current = false
 			
-		if self.is_in_group("resistance"):
-			self.remove_from_group("resistance")
+		if self.is_in_group("trigger"):
+			self.remove_from_group("trigger")
 
 
 func _physics_process(delta):

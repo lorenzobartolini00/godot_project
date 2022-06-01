@@ -420,13 +420,17 @@ func _on_idle_path_timer_timeout():
 
 func _on_character_shot(_character):
 	if character.get_is_active():
-		if _character.is_in_group("resistance"):
+		if _character.is_in_group("trigger") or _character.is_in_group("resistance"):
 			if not target:
 				var distance: float = (self.character.translation - _character.translation).length()
 				var max_hear_distance: float = self.character.get_statistics().max_hear_distance
 				
 				if distance < max_hear_distance:
 					GameEvents.emit_signal("target_changed", _character, self.character)
+					
+					if _character.is_in_group("trigger"):
+						_character.add_to_group("resistance")
+						_character.remove_from_group("trigger")
 			else:
 				update_last_seen_position()
 				set_navigation_agent_target(last_seen_position, true)

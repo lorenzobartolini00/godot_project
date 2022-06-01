@@ -4,6 +4,7 @@ class_name Bullet
 
 export(NodePath) onready var mesh_instance = get_node(mesh_instance) as MeshInstance
 export(NodePath) onready var despawn_timer = get_node(despawn_timer) as Timer
+export(NodePath) onready var explosion_area = get_node(explosion_area) as Area
 
 var _weapon
 var _character
@@ -17,6 +18,8 @@ func initialize(start_position: Vector3, character):
 	
 	mesh_instance.mesh = _weapon.get_ammo().get_bullet_mesh()
 	self.transform.origin = start_position
+	
+	setup_explosion_area(_weapon.explosion_radius)
 	
 	setup_despawn_timer()
 	
@@ -36,13 +39,31 @@ func setup_despawn_timer() -> void:
 	
 	despawn_timer.start()
 
-func _on_Bullet_body_entered(body):
+
+func setup_explosion_area(radius: float):
+	var collision_shape: CollisionShape = explosion_area.get_child(0)
+	var shape: SphereShape = collision_shape.shape
+	
+	shape.radius = radius
+
+
+func _on_Bullet_body_entered(_body):
+	explode()
+	
 	spawn_explosion()
 	queue_free()
 
 
 func _on_DespawnTimer_timeout():
 	queue_free()
+
+
+func explode():
+	var colliders = explosion_area.get_overlapping_areas()
+	
+	for area in colliders:
+		if area is Shootable:
+			GameEvents.emit_signal("hit", area, _weapon.damage/2)
 
 
 func spawn_explosion() -> void:

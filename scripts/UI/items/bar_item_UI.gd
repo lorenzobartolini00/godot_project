@@ -11,8 +11,7 @@ func setup(_item: Item, _character: Character):
 	if _item is Weapon:
 		var _ammo: BarAmmo = _item.get_ammo()
 	
-		progress_bar.texture_progress = _ammo.progress_bar_texture
-		progress_bar.texture_under = _ammo.under_bar_texture
+		progress_bar.tint_progress = _ammo.bar_color
 
 
 func _update_UI(_weapon: Weapon) -> void:

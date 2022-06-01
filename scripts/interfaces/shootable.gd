@@ -41,7 +41,7 @@ func _on_set_damage_area(_character, is_disabled: bool):
 
 
 func _on_body_entered(body):
-	if body is Bullet:
+	if body.is_in_group("bullet"):
 		var weapon: Weapon = body.get_weapon()
 		var damage: int = weapon.damage
 		
