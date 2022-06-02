@@ -14,6 +14,8 @@ export(Vector3) onready var offset_from_joint
 
 onready var sliding_character: ActiveCharacter
 
+onready var is_used: bool = false
+
 
 func _ready():
 	if GameEvents.connect("activate_slider", self, "_on_activate_slider") != OK:
@@ -30,7 +32,7 @@ func _ready():
 func _physics_process(_delta):
 	if has_slider_reached_end() and sliding_character:
 		GameEvents.emit_signal("activate_slider", self, sliding_character, false)
-	elif not sliding_character:
+	elif not sliding_character and not is_used:
 		var collider_list: Array = enter_area.get_overlapping_bodies()
 		for collider in collider_list:
 			if collider is Player:
@@ -87,8 +89,9 @@ func set_target_to_slider(node: Node):
 
 
 func _on_EnterSlider_body_entered(body):
-	if body is Player:
-		GameEvents.emit_signal("activate_slider",self, body, true)
+	#if body is Player:
+		#GameEvents.emit_signal("activate_slider",self, body, true)
+	pass
 
 
 func _on_activate_slider(sliding_rope, character: Character, active: bool):
@@ -101,11 +104,17 @@ func _on_activate_slider(sliding_rope, character: Character, active: bool):
 			
 			slider.linear_velocity = character.velocity
 			character.velocity = Vector3(0,0,0)
+			
+			is_used = true
 		elif sliding_character == character:
 			sliding_character.velocity = slider.linear_velocity
 			set_target_to_slider(null)
 			
-			sliding_character = null
+			call_deferred("set_null_sliding_character")
+
+
+func set_null_sliding_character():
+	sliding_character = null
 
 
 func _on_stop_sliding(character: ActiveCharacter):

@@ -5,7 +5,8 @@ class_name ProjectileWeapon
 
 export(PackedScene) var bullet_scene = preload("res://nodes/bullet.tscn")
 export(PackedScene) var explosion_reference = preload ("res://nodes/visual_effects/explosion.tscn")
-export(float) var explosion_radius := 5.0 
+export(PackedScene) var trail_reference = preload ("res://nodes/visual_effects/blaster_trail.tscn")
+export(float) var explosion_radius := 5.0
 
 
 func shoot(character) -> void:
@@ -27,6 +28,4 @@ func get_bullet_spawn_position() -> Vector3:
 	var bullet_dimension: Vector3 = Vector3(0,0, bullet_aabb.size.z)
 	
 	return muzzle_position - bullet_dimension/2
-
-
 

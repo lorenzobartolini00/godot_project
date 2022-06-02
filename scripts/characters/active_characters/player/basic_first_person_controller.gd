@@ -36,6 +36,9 @@ func _on_controller_changed(new_controller, _old_controller) -> void:
 		camera.current = true
 		
 		self.add_to_group("trigger")
+		
+		if self.is_in_group("player"):
+			self.is_invulnerable = false
 	elif _old_controller == self:
 		if not self.get_is_active():
 			boot_up_timer.start()
@@ -45,6 +48,9 @@ func _on_controller_changed(new_controller, _old_controller) -> void:
 			
 		if self.is_in_group("trigger"):
 			self.remove_from_group("trigger")
+		
+		if self.is_in_group("player"):
+			self.is_invulnerable = true
 
 
 func _physics_process(delta):
@@ -166,7 +172,7 @@ func aim(event: InputEvent) -> void:
 	
 		var current_camera_rotation = camera_pivot.rotation_degrees.x
 		current_camera_rotation -= y_motion
-		camera_pivot.rotation_degrees.x = clamp(current_camera_rotation, -90, 90)
+		camera_pivot.rotation_degrees.x = clamp(current_camera_rotation, -45, 45)
 
 
 func joy_aim():
@@ -180,7 +186,7 @@ func joy_aim():
 	
 	var current_camera_rotation = camera_pivot.rotation_degrees.x
 	current_camera_rotation += _joy_sensitivity*y_axis
-	camera_pivot.rotation_degrees.x = clamp(current_camera_rotation, -90, 90)
+	camera_pivot.rotation_degrees.x = clamp(current_camera_rotation, -45, 45)
 
 
 func setup_bootup_timer() -> void:
