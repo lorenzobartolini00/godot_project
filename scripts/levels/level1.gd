@@ -53,9 +53,9 @@ func _on_door_opened(_door: Door, _is_opened: bool):
 	if _door == exit_door_list[2] and _is_opened:
 		stop_music()
 	
-	if _door == turn_off_console_door:
-		if _is_opened:
-			console.set_is_active(false)
+#	if _door == turn_off_console_door:
+#		if _is_opened:
+#			console.set_is_active(false)
 	
 	var current_enter_door = get_current_enter_door()
 	

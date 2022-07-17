@@ -72,6 +72,9 @@ func _on_shoot_timer_timeout() ->void:
 		character.get_current_weapon().delete_muzzle(character)
 		
 		character.get_runtime_data().current_gameplay_state = Enums.GamePlayState.FREEWALK
+		
+		if character.reload_manager.need_reload():
+			character.reload_manager.reload()
 
 
 func is_shoot_timer_timeout() -> bool:

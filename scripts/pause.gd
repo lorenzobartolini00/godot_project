@@ -10,6 +10,8 @@ func _ready():
 		print("failure")
 	if GameEvents.connect("back", self, "_on_back") != OK:
 		print("failure")
+	if GameEvents.connect("play", self, "_on_play") != OK:
+		print("failure")
 	
 	GameEvents.emit_resume_game()
 
@@ -34,6 +36,10 @@ func toggle_pause() -> void:
 			GameEvents.emit_signal("change_tab_to", "pause")
 
 
+func _on_play(index: int):
+	GameEvents.emit_resume_game()
+
+
 func _on_back():
 	if TabManager.is_current_tab_root()\
 	and is_scene_pausable()\
@@ -47,10 +53,14 @@ func _on_game_paused() -> void:
 
 
 func _on_game_resumed() -> void:
-	if is_scene_pausable() and global_runtime_data.current_gameplay_state != Enums.GamePlayState.TITLE:
+	if is_scene_pausable() and\
+	global_runtime_data.current_gameplay_state != Enums.GamePlayState.TITLE and\
+	global_runtime_data.current_gameplay_state != Enums.GamePlayState.WIN:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 		global_runtime_data.current_gameplay_state = Enums.GamePlayState.PLAY
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	get_tree().paused = false
 

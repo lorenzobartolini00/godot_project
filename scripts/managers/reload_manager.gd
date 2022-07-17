@@ -36,8 +36,9 @@ func need_reload():
 
 
 func reload() -> void:
+	var _current_weapon:Weapon = character.get_current_weapon()
+	
 	if can_reload():
-		var _current_weapon = character.get_current_weapon()
 		if _current_weapon:
 			play_reload_sound()
 			
@@ -48,7 +49,7 @@ func reload() -> void:
 	else:
 		if character.get_runtime_data().current_gameplay_state == Enums.GamePlayState.FREEWALK:
 			if character.is_in_group("player"):
-				if not _is_left_in_stock():
+				if not _is_left_in_stock() and not _current_weapon.is_auto_rechargable:
 					GameEvents.emit_signal("warning", "Can't reload")
 			 
 

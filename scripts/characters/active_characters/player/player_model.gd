@@ -16,6 +16,8 @@ func _ready():
 		print("failure")
 	if GameEvents.connect("stop_sliding", self, "_on_stop_sliding") != OK:
 		print("failure")
+	if GameEvents.connect("change_controller", self, "_on_controller_changed") != OK:
+		print("failure")
 	if GameEvents.connect("interact", self, "_on_interact") != OK:
 		print("failure")
 	for mesh in meshes:
@@ -78,12 +80,25 @@ func rotate_mesh(mesh: MeshInstance, xz_velocity: Vector3, reverse_factor: int, 
 #	label.text = String("look at: " + str(look_at_target) + " velocity: " + str(xz_velocity) + " front: " + str(mesh.global_transform.origin))
 
 
+func show_mesh(visible: bool = true):
+	get_node("bot_rig/Skeleton/Torso").visible = visible
+	get_node("bot_rig/Skeleton/Head").visible = visible
+
+
 func _on_activate_slider(_slider: SlidingRope, _character: Character, active: bool):
 	if character == _character:
 		if active:
 			animation_tree.set("parameters/sliding/blend_amount", 1)
 		else:
 			animation_tree.set("parameters/sliding/blend_amount", 0)
+
+
+func _on_controller_changed(new_controller: Character, old_controller: Character):
+	if new_controller == character:
+		show_mesh(false)
+	
+	if old_controller == character:
+		show_mesh()
 
 
 func _on_stop_sliding(_character: Character):

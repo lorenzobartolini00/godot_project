@@ -62,6 +62,8 @@ func stop_music():
 func win():
 	print("win!")
 	GameEvents.emit_signal("win")
+	
+	global_runtime_data.current_gameplay_state = Enums.GamePlayState.WIN
 
 
 func _on_animation_finished(anim_name: String):
