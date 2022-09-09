@@ -64,9 +64,6 @@ func setup_explosion_area(radius: float):
 
 func _on_Bullet_body_entered(_body):
 	explode()
-	
-	spawn_explosion()
-	queue_free()
 
 
 func _on_DespawnTimer_timeout():
@@ -79,11 +76,25 @@ func _on_bullet_ready(_bullet):
 
 
 func explode():
+	spawn_explosion()
+	
 	var colliders = explosion_area.get_overlapping_areas()
 	
 	for area in colliders:
 		if area is Shootable:
-			GameEvents.emit_signal("hit", area, _weapon.damage/2)
+			var damage: int = _weapon.damage
+			
+			var distance: float = self.global_transform.origin.distance_to(area.global_transform.origin)
+			if distance > 0.01:
+				damage = round(damage/ distance)
+				
+			var _damage: int = clamp(damage, 0 , _weapon.damage)
+			
+			GameEvents.emit_signal("hit", area, _damage)
+	
+	
+	queue_free()
+
 
 func add_trail():
 	var trail_reference = _weapon.trail_reference
@@ -107,8 +118,6 @@ func spawn_explosion() -> void:
 	Util.play_random_sound_from_name(sound_name, sound_list, audio_stream_player, false, false)
 	
 	Util.set_node_despawnable(explosion, 8, true)
-
-
 
 
 func get_character() -> Character:

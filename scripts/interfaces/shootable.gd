@@ -46,3 +46,6 @@ func _on_body_entered(body):
 		var damage: int = weapon.damage
 		
 		GameEvents.emit_signal("hit", self, damage)
+		
+		if body.has_method("explode"):
+			body.explode()
