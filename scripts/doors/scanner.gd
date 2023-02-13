@@ -14,12 +14,14 @@ func _ready():
 		print("failure")
 
 
+#Callback invocata quando un personaggio entra nell'area di scansione
 func _on_open_area_body_entered(body):
 	if not door.get_is_open():
-		animation_tree.set("parameters/scan/active", true);
+		animation_tree.set("parameters/scanning_process/conditions/scanning", true);
 
 
+#Callback invocata quando la porta viene sbloccata o bloccata.
 func _on_door_locked(_door: Door, is_locked: bool):
 	if _door == door:
-		var amount = 1 if is_locked else -1
-		animation_tree.set("parameters/acceptance/add_amount", amount);
+		animation_tree.set("parameters/scanning_process/conditions/accepted", not is_locked);
+		animation_tree.set("parameters/scanning_process/conditions/rejected", is_locked);
